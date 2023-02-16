@@ -60,6 +60,7 @@
 					href={`/clubs/${club.id}`}
 					{active}
 					sidebarOpen={open}
+					shadowActive
 				>
 					<Avatar src={club.photo} size="20px"/>
 				</NavigationLink>

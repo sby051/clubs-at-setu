@@ -104,8 +104,14 @@
 
         <span class="separator-v"/>
 
-        <div class="flex flex-col gap-0.5 p-8 w-full">
+        <div class="relative flex flex-col gap-0.5 p-8 w-full">
             <h2 class="text text-xl font-semibold mb-6">Announcements</h2>
+            {#if !isMember}
+                <div class="absolute top-0 left-0 w-full h-full flex-center-column gap-2 bg-offwhite bg-opacity-10 backdrop-blur-md z-20">
+                    <Icon name="warning" customSize="6rem" color="gray-400" />
+                    <span class="text text-md text-gray-500">You must be a member to view announcements.</span>
+                </div>
+            {/if}
             {#if club.announcements.length > 0}
                 {#each club.announcements as announcement}
                     <div class="flex flex-col gap-2 p-4 hover:bg-gray-200 border-1 border-gray-300 rounded-md transition">
