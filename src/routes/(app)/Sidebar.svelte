@@ -5,6 +5,7 @@
 	import { getDocuments } from "@fb/fsdb";
 	import user from "@stores/user";
 	import type { Club } from "@types";
+	import Avatar from "./Avatar.svelte";
 
 	let createDrawerOpen = false;
 	let open = false;
@@ -56,11 +57,12 @@
 				{@const active = $page.url.pathname.startsWith(`/clubs/${club.id}`)}
 				<NavigationLink
 					title={club.name}
-					icon="group"
 					href={`/clubs/${club.id}`}
 					{active}
 					sidebarOpen={open}
-				/>
+				>
+					<Avatar src={club.photo} size="20px"/>
+				</NavigationLink>
 			{/each}
 		</section>
 	{:else}

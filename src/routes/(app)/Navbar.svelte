@@ -23,13 +23,15 @@
 		{#each pathSegments as segment, i}
 			<span class="h-7 w-0.5 rotate-12 bg-gray-400" />
 			<a
-				class="text rounded-md px-2 py-1 font-semibold capitalize transition hover:shadow-md active:bg-gray-200 "
+				class="text rounded-md items-center gap-2 flex px-2 py-1 font-semibold capitalize transition hover:shadow-md active:bg-gray-200 "
 				class:font-bold={i === pathSegments.length - 1}
 				class:text-gray-500={i !== pathSegments.length - 1}
 				href={`/${pathSegments.slice(0, i + 1).join("/")}`}
 			>
 				{#if pathSegments[0] === "clubs" && i === 1}
-					{$page.data.club.name}
+					{@const club = $page.data.club}
+					<Avatar src={club.photo} size="20px"/>
+					{club.name}
 				{:else}
 					{segment}
 				{/if}

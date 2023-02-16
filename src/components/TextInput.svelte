@@ -21,10 +21,13 @@
 
 <div class="flex w-full flex-col gap-1.5">
 	{#if label}
-		<label for={id} class="text-sm font-medium text-gray-700">
+		<label for={id} class="flex items-center text-sm font-medium text-gray-700">
 			{label}
 			{#if required}
 				<span class="text-red-500">*</span>
+			{/if}
+			{#if limit}
+				<span class="ml-auto text-gray-500 text-xs font-light">({value.length}/{limit})</span>
 			{/if}
 		</label>
 	{/if}

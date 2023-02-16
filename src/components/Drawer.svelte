@@ -8,6 +8,7 @@
 
 	export let open = false;
 	export let title: string | undefined = undefined;
+	export let width = "1/4";
 
 	const handleClose = () => {
 		open = false;
@@ -17,7 +18,7 @@
 
 <Backdrop bind:open>
 	<aside
-		class="absolute top-0 right-0 z-50 flex h-full w-1/4 flex-col gap-3 bg-offwhite p-5 shadow-xl"
+		class="absolute top-0 right-0 z-50 flex h-full w-{width} flex-col gap-3 bg-offwhite p-5 shadow-xl"
 		transition:fly={{ x: 500, duration: 200 }}
 		use:clickoutside
 		on:clickoutside={handleClose}

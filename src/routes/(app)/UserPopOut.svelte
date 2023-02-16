@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Icon, IconButton } from "@components";
+	import { Button, Drawer, Icon, IconButton, TextInput } from "@components";
 	import user from "@stores/user";
 	import { deleteAccount, logout } from "@fb/auth";
 	import { fade, slide } from "svelte/transition";
@@ -22,6 +22,16 @@
 			fn: () => goto("/clubs"),
 		}
 	];
+
+	let createDrawerOpen = false;
+
+	if ($user?.admin) {
+		QUICK_ACTIONS.push({
+			icon: "add",
+			title: "Create club",
+			fn: () => createDrawerOpen = true
+		});
+	}
 
 	const ACCOUNT_SETTINGS: QuickAction[] = [
 		{
@@ -87,12 +97,26 @@
 		e.currentTarget.scrollBy({ left: e.deltaY, behavior: "smooth" });
 	};
 
-	const CAROUSEL_GUTTER_CLASSES = "absolute z-50 top-0 h-full w-6";
+	const CAROUSEL_GUTTER_CLASSES = "absolute z-20 top-0 h-full w-6";
 
 	let showMore = false;
 
 	const ACCOUNT_SETTING_LIMIT = 4;
 </script>
+
+<Drawer width="1/2" bind:open={createDrawerOpen} title="Create club">
+	<TextInput label="Name" placeholder="Club name" />
+	<TextInput limit={255} label="Description" placeholder="Club description" />
+	<TextInput label="Categories" placeholder="Athletics etc.." />
+
+	<svelte:fragment slot="footerButtons">
+		<Button iconOutlined fillWidth style="outlined:normal">Cancel</Button>
+		<Button fillWidth style="primary">
+			<Icon name="group_add" size="lg" />
+			Create club
+		</Button>
+	</svelte:fragment>
+</Drawer>
 
 <div
 	transition:fade={{ duration: 100 }}

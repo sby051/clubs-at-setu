@@ -2,7 +2,7 @@
 	import { Icon } from ".";
 
 	export let title: string;
-	export let icon: string;
+	export let icon: string | undefined = undefined;
 	export let href: string | undefined = undefined;
 	export let active = false;
 	export let sidebarOpen = false;
@@ -21,7 +21,11 @@
 	class:text-white={active}
 	class:shadow-md={active}
 >
-	<Icon name={icon} size="xl" outlined={!active} />
+	{#if $$slots.default}
+		<slot/>
+	{:else}
+		<Icon name={icon} size="xl" outlined={!active} />
+	{/if}
 	{#if sidebarOpen}
 		<p class="text text-overflow capitalize" class:font-medium={active}>
 			{title}
