@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { backInOut } from "svelte/easing";
-	import { circle } from "sveltils/transitions";
+	import { fade } from "svelte/transition";
 
 	export let blur: boolean = false;
 
@@ -18,5 +18,6 @@
 		class:backdrop-blur-sm={blur}
 		class="fixed top-0 left-0 z-40 h-screen w-screen bg-black"
 		style="opacity: {opacity}"
+		transition:fade
 	/>
 {/if}

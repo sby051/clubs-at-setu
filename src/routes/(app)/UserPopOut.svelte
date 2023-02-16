@@ -1,10 +1,11 @@
 <script lang="ts">
 	import { Icon, IconButton } from "@components";
 	import user from "@stores/user";
-	import { logout } from "@fb/auth";
+	import { deleteAccount, logout } from "@fb/auth";
 	import { fade, slide } from "svelte/transition";
 	import Avatar from "./Avatar.svelte";
 	import { goto } from "$app/navigation";
+	import { confirm } from "@features/confirm";
 
 	type QuickAction = {
 		icon: string;
@@ -31,13 +32,17 @@
 		{
 			icon: "password",
 			title: "Change password",
-			fn: () => {},
+			fn: () => goto("/change-password"),
 		},
 		{
 			icon: "logout",
 			title: "Log out",
 			hoverColor: "red-200",
-			fn: logout,
+			fn: async () => {
+				if(await confirm("Are you sure you want to log out?", { icon: "logout"})) {
+					await logout();
+				}
+			}
 		},
 		{
 			icon: "database",
@@ -48,7 +53,32 @@
 			icon: "delete",
 			title: "Delete account",
 			hoverColor: "red-300",
-			fn: () => {},
+			fn: async () => {
+				const confirmed = await confirm("Delete account", {
+					icon: "delete",
+					message: "Are you sure you want to delete your account? This action cannot be undone.",
+					buttons: {
+						cancel: {
+							text: "Nevermind",
+							style: "outlined:normal",
+						},
+						confirm: {
+							text: "Delete",
+							icon: "delete",
+							style: "danger",
+						},
+					}
+				});
+
+				if (!confirmed) return;
+
+				const deleted = await deleteAccount();
+
+				if (deleted) {
+					alert("Account successfully deleted.")
+					await goto("/");
+				}
+			},
 		}
 	];
 

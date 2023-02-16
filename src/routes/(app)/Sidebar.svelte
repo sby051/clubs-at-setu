@@ -41,7 +41,8 @@
 
 	<section class={SECTION_CLASSES} aria-label="Page links">
 		{#each links as link}
-			<NavigationLink {...link} active={$page.url.pathname === link.href} sidebarOpen={open} />
+			{@const active = $page.url.pathname.split("/")[1] === link.href.split("/")[1]}
+			<NavigationLink {...link} {active} sidebarOpen={open} />
 		{/each}
 	</section>
 
@@ -54,11 +55,12 @@
 			{/if}
 
 			{#each clubs as club}
+				{@const active = $page.url.pathname.startsWith(`/clubs/${club.id}`)}
 				<NavigationLink
 					title={club.name}
 					icon="group"
 					href={`/clubs/${club.id}`}
-					active={$page.url.pathname === `/clubs/${club.id}`}
+					{active}
 					sidebarOpen={open}
 				/>
 			{/each}

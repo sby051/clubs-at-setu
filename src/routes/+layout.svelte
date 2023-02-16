@@ -6,6 +6,7 @@
 	import { HourglassLoader } from "@components";
 	import { fade } from "svelte/transition";
 	import { navigating } from "$app/stores";
+	import { Confirm } from "@features/confirm";
 	
 	$: inGlobalLoadState = !browser || $authed === null;
 </script>
@@ -13,6 +14,8 @@
 <svelte:head>
 	<title>{$windowTitle ? `${$windowTitle} / ` : ""}Clubs @ SETU</title>
 </svelte:head>
+
+<Confirm />
 
 {#if $navigating}
 	<div class="fixed top-0 left-0 h-1 w-screen animate-pulse bg-sky-400 duration-75" />

@@ -1,11 +1,12 @@
 <script lang="ts">
 	import { goto } from "$app/navigation";
+	import { page } from "$app/stores";
 	import { Button, Icon } from "@components";
 	import { authed } from "@stores/user";
 	import { onMount } from "svelte";
 
     onMount(() => {
-        if($authed) goto("/");
+        if($authed && $page.url.pathname !== "/change-password") goto("/");
     });
 </script>
 
