@@ -1,0 +1,19 @@
+{
+	"tabWidth": 4,
+	"useTabs": true,
+	"semi": true,
+	"svelteSortOrder": "options-scripts-markup-styles",
+	"svelteStrictMode": false,
+	"svelteAllowShorthand": true,
+	"svelteIndentScriptAndStyle": true,
+	"plugins": ["prettier-plugin-svelte", "prettier-plugin-tailwindcss"],
+	"pluginSearchDirs": false,
+	"arrowParens": "always",
+	"bracketSpacing": true,
+	"endOfLine": "lf",
+	"htmlWhitespaceSensitivity": "css",
+	"insertPragma": false,
+	"printWidth": 120,
+	"proseWrap": "preserve",
+	"quoteProps": "as-needed"
+}

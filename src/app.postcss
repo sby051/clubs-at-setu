@@ -1,0 +1,99 @@
+@import url("https://rsms.me/inter/inter.css");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+	.separator-h {
+		@apply h-[1px] w-full bg-gray-300;
+	}
+
+	.separator-v {
+		@apply h-full border-l-[1px] border-gray-300;
+	}
+
+	.border-1 {
+		@apply border-[1px];
+	}
+
+	.flex-center {
+		@apply flex items-center justify-center;
+	}
+
+	.flex-center-column {
+		@apply flex flex-col items-center justify-center;
+	}
+
+	.scroll-y {
+		@apply overflow-y-auto overflow-x-hidden;
+	}
+
+	.scroll-x {
+		@apply overflow-x-auto overflow-y-hidden;
+	}
+
+	.text-overflow {
+		@apply overflow-hidden text-ellipsis whitespace-nowrap;
+	}
+}
+
+@layer components {
+	.raised-card {
+		@apply flex flex-col gap-4 rounded-lg border-[1px] border-gray-300 bg-white p-10 shadow-lg;
+	}
+
+	a.link {
+		@apply relative text-xs font-medium text-violet-400 hover:text-violet-500 active:text-violet-300;
+	}
+
+	a.link::after {
+		content: "";
+		position: absolute;
+		right: 50%;
+		transform: translateX(50%);
+		bottom: -2px;
+		width: 0;
+		height: 1px;
+		content: "";
+		display: block;
+		background: #8b5cf6;
+		transition: 0.2s cubic-bezier(0.4, 0, 0.8, 1.3);
+	}
+
+	a.link:hover::after {
+		width: 100%;
+	}
+
+	input.outlined-input {
+		@apply w-full rounded-md border-[1px] border-gray-300 px-3 py-2 text-sm text-gray-700 focus:border-transparent focus:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-violet-400 disabled:text-gray-400;
+	}
+}
+
+* {
+	scroll-behavior: smooth;
+	/* outline: 1px solid blue; */
+}
+
+span,
+img {
+	user-select: none;
+}
+
+* {
+	scrollbar-width: thin;
+	scrollbar-color: var(--secondary) var(--primary);
+}
+
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+    @apply w-1;
+}
+
+*::-webkit-scrollbar-track {
+	@apply bg-gray-100 rounded-md;
+}
+
+*::-webkit-scrollbar-thumb {
+	@apply bg-gray-300 rounded-md border-2 border-gray-100;
+}

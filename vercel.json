@@ -1,0 +1,9 @@
+{
+    "git": {
+        "deploymentEnabled": {
+            "development": false,
+            "production": true
+        }
+    },
+    "cleanUrls": true
+}
