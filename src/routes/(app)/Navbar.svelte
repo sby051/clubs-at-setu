@@ -3,6 +3,7 @@
 	import Avatar from "./Avatar.svelte";
 	import { page } from "$app/stores";
 	import user from "@stores/user";
+	import logo from "@assets/logo.png";
 	import { clickoutside } from "sveltils/actions";
 
 	let name = "";
@@ -16,7 +17,7 @@
 <nav class="flex w-full items-center justify-between border-t-[1px] border-gray-300 p-3" aria-label="Navbar">
 	<section class="flex items-center gap-2" aria-label="Breadcrumbs">
 		<a href="/">
-			<img src="/src/assets/logo.png" alt="logo" class="w-9" />
+			<img src={logo} alt="logo" class="w-9" />
 		</a>
 
 		{#each pathSegments as segment, i}
