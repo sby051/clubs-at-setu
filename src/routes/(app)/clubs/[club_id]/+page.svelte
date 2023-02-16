@@ -1,10 +1,11 @@
 <script lang="ts">
-	import { Button, Icon, Tag } from "@components";
+	import { Button, Icon, IconButton, Tag } from "@components";
     import type { PageData } from "./$types";
     import user from "@stores/user";
 	import { ChatRoom } from "@features/chat";
 	import { getDocument, updateDocument } from "@fb/fsdb";
 	import Avatar from "@routes/(app)/Avatar.svelte";
+    import { growShrink } from "sveltils/transitions";
 
     export let data: PageData;
     
@@ -33,13 +34,19 @@
         })
     }
 
+    let membersVisible = true;
+    let chatVisible = true;
+
+    const showHideMembers = () => membersVisible = !membersVisible;
+    const showHideChat = () => chatVisible = !chatVisible;
+
     $: isMember = $user.clubs.includes(club.id);
     $: isManager = club.managers.includes($user.id) || $user.admin;
 </script>
 
 <div class="flex flex-col h-full w-full">
 
-    <div class={`flex gap-12 p-12 items-center bg-opacity-10 bg-[url(${club.photo})] bg-cover bg-center`}>
+    <div class={`flex gap-8 p-10 items-center bg-opacity-10 bg-[url(${club.photo})] bg-cover bg-center`}>
         <img src={club.photo} class="w-64 aspect-video rounded-lg shadow-md" />
         <div class="flex flex-col gap-4 w-full">
             <div class="flex gap-1 items-center w-full">
@@ -80,30 +87,6 @@
     <span class="separator-h"/>
 
     <div class="flex h-full gap-1 overflow-hidden">    
-        <div class="flex flex-col h-full gap-0.5 p-8 w-64 flex-shrink-0 overflow-hidden">
-            <h2 class="text text-xl font-semibold mb-6">Members</h2>
-            {#if club.members.length > 0}
-                {#each club.members as member}
-                    {#await getDocument("users", member) then user}
-                        <div class="transition w-full flex items-center rounded-md hover:bg-gray-300 p-2 gap-2">
-                            <Avatar src={user.photo} size="28px"/>
-                            <span class="text text-gray-600 font-medium">{user.firstName} {user.lastName}</span>
-                        </div>
-                    {:catch}
-                        <div class="flex flex-col gap-2 p-4 border-1 border-gray-300 rounded-md">
-                            <p class="text text-sm text-gray-500">Error loading user.</p>
-                        </div>
-                    {/await}
-                {/each}
-            {:else}
-                <div class="flex flex-col gap-2 p-4 border-1 border-gray-300 rounded-md">
-                    <p class="text text-sm text-gray-500">No members yet.</p>
-                </div>
-            {/if}
-        </div>
-
-        <span class="separator-v"/>
-
         <div class="relative flex flex-col gap-0.5 p-8 w-full">
             <h2 class="text text-xl font-semibold mb-6">Announcements</h2>
             {#if !isMember}
@@ -132,10 +115,52 @@
         <span class="separator-v"/>
 
         {#if isMember}
-            <div class="flex flex-col gap-6 w-fit">
-                <h2 class="text text-xl font-semibold p-8">Chat</h2>
-                <ChatRoom id={club.id} members={club.members} moderators={club.managers}/>
+            {#if chatVisible}
+                <div transition:growShrink|local={{duration: 50}} class="flex flex-col gap-6 h-full w-[30rem] flex-shrink-0">
+                    <div class="px-8 pt-8 flex w-full justify-between items-center gap-2">
+                        <h2 class="text text-xl font-semibold">Chat</h2>
+                        <IconButton icon="last_page" size="lg" on:click={showHideChat}/>
+                    </div>
+                    <ChatRoom id={club.id} members={club.members} moderators={club.managers}/>
+                </div>
+            {:else}
+                <span class="py-8 px-1">
+                    <IconButton icon="first_page" size="lg" on:click={showHideChat}/>
+                </span>
+            {/if}
+
+            <span class="separator-v"/>
+        {/if}
+
+        {#if membersVisible}
+            <div transition:growShrink|local={{duration: 50}} class="flex flex-col h-full gap-0.5 p-8 w-64 flex-shrink-0 overflow-hidden">
+                <div class="flex gap-2 justify-between mb-6 items-center">
+                    <h2 class="text text-xl font-semibold">Members</h2>
+                    <IconButton icon="last_page" size="lg" on:click={showHideMembers}/>
+                </div>
+                {#if club.members.length > 0}
+                    {#each club.members as member}
+                        {#await getDocument("users", member) then user}
+                            <div class="transition w-full flex items-center rounded-md hover:bg-gray-300 p-2 gap-2">
+                                <Avatar src={user.photo} size="28px"/>
+                                <span class="text text-gray-600 font-medium">{user.firstName} {user.lastName}</span>
+                            </div>
+                        {:catch}
+                            <div class="flex flex-col gap-2 p-4 border-1 border-gray-300 rounded-md">
+                                <p class="text text-sm text-gray-500">Error loading user.</p>
+                            </div>
+                        {/await}
+                    {/each}
+                {:else}
+                    <div class="flex flex-col gap-2 p-4 border-1 border-gray-300 rounded-md">
+                        <p class="text text-sm text-gray-500">No members yet.</p>
+                    </div>
+                {/if}
             </div>
+        {:else}
+            <span class="py-8 px-1">
+                <IconButton icon="first_page" size="lg" on:click={showHideMembers}/>
+            </span>
         {/if}
     </div>
 </div>

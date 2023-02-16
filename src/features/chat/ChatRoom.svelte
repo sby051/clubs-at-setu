@@ -11,7 +11,6 @@
 
 	export let id: ID;
 	export let members: ID[];
-	export let width = "full";
 	export let height = "full";
 	export let moderators: ID[] = [];
 
@@ -82,11 +81,11 @@
 	});
 </script>
 
-<div class="w-[35rem] h-{height} relative flex flex-col pb-5" aria-label="Chat room {id}">
+<div class="h-full flex flex-col pb-5" aria-label="Chat room {id}">
 	<div
 		aria-label="Chat messages"
 		bind:this={messagesEl}
-		class="relative flex h-full flex-col scroll-y justify-end gap-0.5 py-5"
+		class="relative flex h-full justify-end flex-col scroll-y gap-0.5 py-5"
 	>
 		{#if chatIsEmpty}
 			<div class="absolute w-full h-full grid place-items-center">
@@ -111,7 +110,7 @@
 		{/if}
 	</div>
 
-	<div class="flex w-full flex-col gap-2 px-5">
+	<div class="flex w-full flex-col gap-2 px-5" aria-label="Chat input">
 		{#if replyId}
 			{@const replyMessage = chatRoom.messages.filter((message) => message.id === replyId)[0]}
 			<div class="flex w-full items-center gap-2 rounded-md bg-blue-200 p-2">

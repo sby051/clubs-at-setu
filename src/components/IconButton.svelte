@@ -18,7 +18,7 @@
 	on:keydown
 	type="button"
 	class:p-0={ghost}
-	class="flex w-fit flex-shrink-0 items-center justify-center gap-1 rounded-full p-2 transition hover:bg-neutral-100 active:translate-y-[1px] active:bg-neutral-50 {className}"
+	class="flex w-fit h-fit marker:flex-shrink-0 items-center justify-center gap-1 rounded-full p-2 transition hover:bg-neutral-100 active:translate-y-[1px] active:bg-neutral-50 {className}"
 >
 	<Icon name={icon} {size} {outlined} />
 </svelte:element>
