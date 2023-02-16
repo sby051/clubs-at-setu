@@ -1,7 +1,7 @@
 import type { User } from "@types";
 import { auth } from ".";
 import { createDocument, deleteDocument, getCollection } from "./fsdb";
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { createUserWithEmailAndPassword, reauthenticateWithCredential, signInWithEmailAndPassword, signOut, updatePassword } from "firebase/auth";
 import { getDocument } from "./fsdb";
 
 export const signUp = async (user: User): Promise<boolean> => {
@@ -45,3 +45,25 @@ export const isEmailUsed = async (email: string): Promise<boolean> => {
 	const users = await getCollection<User>("users");
 	return users.some((user) => user.email === email);
 };
+
+export const changePassword = async (password: string): Promise<boolean> => {
+	try {
+		await updatePassword(auth.currentUser, password);
+		return true;
+	} catch (e) {
+		return false;
+	}
+}
+
+export const reauthenticate = async (password: string): Promise<boolean> => {
+	try {
+		await reauthenticateWithCredential(auth.currentUser, {
+			email: auth.currentUser?.email,
+			password
+		});
+		return true;
+	} catch (e) {
+		console.log(e);
+		return false;
+	}
+}

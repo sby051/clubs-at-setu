@@ -5,8 +5,12 @@
 	import { authed } from "@stores/user";
 	import { onMount } from "svelte";
 
+    const ALLOWED_WITHOUT_AUTH = [
+        "/reset-password",
+    ]
+
     onMount(() => {
-        if($authed && $page.url.pathname !== "/change-password") goto("/");
+        if(!$authed || !ALLOWED_WITHOUT_AUTH.includes($page.url.pathname)) goto("/");
     });
 </script>
 

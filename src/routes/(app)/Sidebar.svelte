@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page } from "$app/stores";
-	import { NavigationLink } from "@components";
+	import { Icon, NavigationLink } from "@components";
 	import type { NavigationLink as NavigationLinkType } from "@types";
 	import { getDocuments } from "@fb/fsdb";
 	import user from "@stores/user";
@@ -28,8 +28,6 @@
 <div
 	on:dblclick={toggleOpen}
 	class="transition-width flex h-full w-16 flex-col gap-2 border-r-[1px] border-gray-300 py-2 duration-75"
-	on:mouseenter={() => open = true}
-	on:mouseleave={() => open = false}
 	class:w-52={open}
 	aria-label="Sidebar"
 >
@@ -48,8 +46,8 @@
 
 	<span class="separator-h" />
 
-	<section class={SECTION_CLASSES} aria-label="Club links">
-		{#if clubs.length > 0}
+	{#if clubs.length > 0}
+		<section class={SECTION_CLASSES} aria-label="Club links">
 			{#if open}
 				<span class="text-gray-500 text-xs p-1 font-medium text-overflow">My clubs</span>
 			{/if}
@@ -64,8 +62,13 @@
 					sidebarOpen={open}
 				/>
 			{/each}
-		{:else}
-			<span class="text-gray-500 text-xs p-1 font-medium text-overflow">You are not in any clubs</span>
+		</section>
+	{:else}
+		{#if open}
+			<div class="h-full flex-center-column gap-1">
+				<Icon name="group_remove" customSize="2.5rem" color="gray-400" />
+				<span class="text-gray-500 text-xs p-1 font-medium text-overflow">You are not in any clubs</span>
+			</div>
 		{/if}
-	</section>
+	{/if}
 </div>

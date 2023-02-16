@@ -1,4 +1,4 @@
-import { uploadBytes, ref, getDownloadURL } from "firebase/storage";
+import { uploadBytes, ref, getDownloadURL, deleteObject } from "firebase/storage";
 import { storage } from ".";
 
 export const uploadFile = async (path: string, file: File): Promise<string | null> => {
@@ -10,6 +10,15 @@ export const uploadFile = async (path: string, file: File): Promise<string | nul
 	} catch (e) {
 		console.error("Error uploading file:", e);
 		return null;
+	}
+};
+
+export const deleteFile = async (path: string): Promise<void> => {
+	const storageRef = ref(storage, path);
+	try {
+		await deleteObject(storageRef);
+	} catch (e) {
+		console.error("Error deleting file:", e);
 	}
 };
 
