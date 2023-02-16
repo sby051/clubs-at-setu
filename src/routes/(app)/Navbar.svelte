@@ -14,7 +14,7 @@
 	const toggleUserMenu = () => (userMenuOpen = !userMenuOpen);
 </script>
 
-<nav class="flex w-full items-center justify-between border-t-[1px] border-gray-300 p-3" aria-label="Navbar">
+<nav class="flex w-full items-center justify-between border-b-[1px] lg:border-t-[1px] border-gray-300 p-3" aria-label="Navbar">
 	<section class="flex items-center gap-2" aria-label="Breadcrumbs">
 		<a href="/">
 			<img src={logo} alt="logo" class="w-9" />
@@ -40,7 +40,7 @@
 	<section class="relative" aria-label="User area">
 		<Avatar src={$user?.photo} on:click={toggleUserMenu} />
 		{#if userMenuOpen}
-			<div class="absolute right-0 bottom-[120%]" use:clickoutside on:clickoutside={toggleUserMenu}>
+			<div class="absolute right-0 bottom-[120%]" use:clickoutside on:clickoutside={() => userMenuOpen = false}>
 				<UserPopOut on:click={toggleUserMenu} />
 			</div>
 		{/if}

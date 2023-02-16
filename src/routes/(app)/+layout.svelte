@@ -8,16 +8,37 @@
 	$: if ($authed === false) {
 		window.location.href = "/login";
 	}
+
+	let width: number;
+
+	$: mobile = width < 768;
+
 </script>
 
+<svelte:window bind:innerWidth={width} />
+
 <div class="flex h-full flex-col bg-offwhite">
-	<div class="flex h-full overflow-hidden">
-		<Sidebar/>
+	{#if mobile}
+		<Navbar />
+	{/if}
+
+	<div class="flex flex-col lg:flex-row h-full overflow-hidden">
+		{#if !mobile}
+			<Sidebar/>
+		{/if}
 
 		<main class="w-full h-full overflow-hidden">
 			<slot />
 		</main>
+
+		{#if mobile}
+			<div class="fixed bottom-0 left-0 w-screen">
+				<Sidebar/>
+			</div>
+		{/if}
 	</div>
 
-	<Navbar />
+	{#if !mobile}
+		<Navbar />
+	{/if}
 </div>

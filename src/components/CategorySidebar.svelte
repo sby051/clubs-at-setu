@@ -11,7 +11,7 @@
     let searchVisible = false;
 </script>
 
-<div class="flex flex-col gap-0.5 w-64 flex-shrink-0 p-6 scroll-y h-full border-r-[1px] border-gray-300">
+<div class="flex flex-col gap-0.5 lg:w-64 flex-shrink-0 p-6 scroll-y h-full border-r-[1px] border-gray-300">
     <div class="flex w-full justify-between items-center mb-4">
         <span class="text text-2xl font-bold">{title}</span>
         {#if searchBar}
