@@ -48,11 +48,11 @@
 
 	const FORM_GROUP_SECTION = "flex flex-col sm:flex-row w-full gap-2";
 
-	const handleBack = () => {
+	const handleBack = (): void => {
 		if (currentStage > 0) currentStage--;
 	};
 
-	const handleSubmit = async () => {
+	const handleSubmit = async (): Promise<void> => {
 		switch(currentStage) {
 			case STAGES.DETAILS:
 				if(await isEmailUsed(data.email)) {
@@ -92,7 +92,7 @@
 		data = data;
 	}
 
-	const handlePicked = async (e: CustomEvent<{ url: string, file: File }>) => {
+	const handlePicked = async (e: CustomEvent<{ url: string, file: File }>): Promise<void> => {
 		const { file } = e.detail;
 		const path = `photos/${data.studentId}.${file.type.split("/")[1]}`;
 		loading = true;

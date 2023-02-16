@@ -18,9 +18,7 @@ export const signUp = async (user: User): Promise<boolean> => {
 	return true;
 };
 
-export const logout = async (): Promise<void> => {
-	await signOut(auth);
-};
+export const logout = async (): Promise<void> => await signOut(auth);
 
 export const login = async (email: string, password: string): Promise<boolean> => {
 	try {

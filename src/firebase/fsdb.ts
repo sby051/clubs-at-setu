@@ -1,6 +1,5 @@
-import { fsdb } from "@fb";
-import type { ID } from "@types";
-import type { User } from "firebase/auth";
+import { fsdb } from ".";
+import type { ID, User } from "@types";
 import { doc, getDoc, getDocs, setDoc, collection as cltn, updateDoc, deleteDoc } from "firebase/firestore";
 
 export const getDocument = async <ExpectedDocument>(collection: string, docId: ID): Promise<ExpectedDocument | null> => {
