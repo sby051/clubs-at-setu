@@ -5,14 +5,6 @@ import { createUserWithEmailAndPassword, reauthenticateWithCredential, signInWit
 import { getDocument } from "./fsdb";
 
 export const signUp = async (user: User): Promise<boolean> => {
-
-	// we want to trim all strings in the user object
-	for (const key in user) {
-		if (typeof user[key] === "string") {
-			user[key] = user[key].trim();
-		}
-	}
-
 	const userCredential = await createUserWithEmailAndPassword(auth, user.email, user.password);
 
 	const { uid } = userCredential.user;

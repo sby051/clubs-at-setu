@@ -42,6 +42,8 @@
 	"dependencies": {
 		"firebase": "^9.16.0",
 		"material-symbols": "^0.4.3",
+		"svelte-emoji-selector": "^1.0.1",
+		"svelte-time": "^0.7.1",
 		"sveltils": "^0.2.0",
 		"vercel": "^28.14.1"
 	}

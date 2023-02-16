@@ -38,10 +38,10 @@
 	const SIZES = {
 		xs: "px-3 py-2 text-2xs font-semibold",
 		sm: "px-3 py-2 text-xs font-semibold",
-		base: "px-4 py-3 text-sm",
-		md: "px-4 py-4 text-base",
-		lg: "px-5 py-4 text-md",
-		xl: "px-6 py-4 text-lg",
+		base: "px-5 py-2.5 text-sm",
+		md: "px-5 py-4 text-base",
+		lg: "px-6 py-4 text-md",
+		xl: "px-8 py-4 text-lg",
 	};
 
 	const TAG = href ? "a" : "button";
@@ -56,7 +56,7 @@
 	role="button"
 	class:w-full={fillWidth}
 	disabled={loading}
-	class="flex flex-grow-0 cursor-pointer select-none items-center justify-center gap-1 whitespace-nowrap rounded-md font-medium transition duration-100 hover:bg-opacity-90 active:bg-opacity-80 disabled:bg-opacity-50 {STYLES[
+	class="flex flex-grow-0 cursor-pointer select-none items-center justify-center gap-1.5 whitespace-nowrap rounded-md font-medium transition duration-100 hover:bg-opacity-90 active:bg-opacity-80 disabled:bg-opacity-50 {STYLES[
 		style
 	]} {SIZES[size]} {className}"
 >

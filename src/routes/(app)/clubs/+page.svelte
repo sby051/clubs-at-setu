@@ -73,6 +73,8 @@
 
     export let data: PageData;
 
+    $: sortedClubs = data.clubs.sort((a, b) => a.name.localeCompare(b.name));
+
     let searchQuery = "";
 </script>
 
@@ -80,7 +82,7 @@
     <CategorySidebar title="Clubs" categories={CATEGORIES} bind:currentCategory searchBar bind:searchQuery/>
 
     <div class="flex flex-wrap p-12 gap-4 scroll-y">
-        {#each data.clubs as club}
+        {#each sortedClubs as club}
             {#if currentCategory === 0 || club.categories.includes(CATEGORIES[currentCategory].title)}
                 {#if searchQuery === "" || (club.name + club.description).toLowerCase().includes(searchQuery.toLowerCase())}
                     <ClubCard club={club}/>

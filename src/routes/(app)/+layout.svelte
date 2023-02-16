@@ -2,6 +2,7 @@
 	import Sidebar from "./Sidebar.svelte";
 	import Navbar from "./Navbar.svelte";
 	import user, { authed } from "@stores/user";
+	import { page } from "$app/stores";
 
 	let loading = true;
 
@@ -27,9 +28,11 @@
 			<Sidebar/>
 		{/if}
 
-		<main class="w-full h-full overflow-hidden">
-			<slot />
-		</main>
+		{#key $page}
+			<main class="w-full h-full overflow-hidden">
+				<slot />
+			</main>
+		{/key}
 
 		{#if mobile}
 			<div class="fixed bottom-0 left-0 w-screen">

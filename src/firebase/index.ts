@@ -11,6 +11,7 @@ const FIREBASE_CONFIG = {
 	projectId: env.FIREBASE_PROJECT_ID,
 	storageBucket: env.FIREBASE_STORAGE_BUCKET,
 	messagingSenderId: env.FIREBASE_MESSAGING_SENDER_ID,
+	databaseURL: env.FIREBASE_DATABASE_URL,
 	appId: env.FIREBASE_APP_ID,
 };
 

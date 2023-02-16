@@ -2,56 +2,71 @@
 	import { Button, Icon, Tag } from "@components";
     import type { PageData } from "./$types";
     import user from "@stores/user";
+	import { ChatRoom } from "@features/chat";
+	import { getDocument, updateDocument } from "@fb/fsdb";
+	import Avatar from "@routes/(app)/Avatar.svelte";
 
     export let data: PageData;
+    
     const { club } = data;
 
-    const handleJoin = () => {
-        if(isInClub) return;
+    const handleJoin = async () => {
+        if(isMember) return;
         $user = {
             ...$user,
             clubs: [...$user.clubs, club.id]
         }
+        await updateDocument("clubs", club.id, {
+            members: [...club.members, $user.id]
+        })
     }
 
-    const handleLeave = () => {
-        if(!isInClub) return;
+    const handleLeave = async () => {
+        if(!isMember) return;
         $user = {
             ...$user,
             clubs: $user.clubs.filter(id => id !== club.id)
         }
+
+        await updateDocument("clubs", club.id, {
+            members: club.members.filter(id => id !== $user.id)
+        })
     }
 
-    $: isInClub = $user.clubs.includes(club.id);
+    $: isMember = $user.clubs.includes(club.id);
     $: isManager = club.managers.includes($user.id) || $user.admin;
 </script>
 
-<div class="flex flex-col scroll-y w-full">
+<div class="flex flex-col h-full w-full">
+
     <div class={`flex gap-12 p-12 items-center bg-opacity-10 bg-[url(${club.photo})] bg-cover bg-center`}>
         <img src={club.photo} class="w-64 aspect-video rounded-lg shadow-md" />
-        <div class="flex flex-col gap-4">
-            <div class="flex gap-3 items-center">
-                <h1 class="text-5xl font-extrabold">{club.name}</h1>
-                {#if isManager}
-                    <Button style="outlined:primary" size="sm">
-                        <Icon name="edit" />
-                        Edit club
-                    </Button>
-                {:else}
-                    {#if !isInClub}
-                        <Button style="primary" className="rounded-full" size="sm" on:click={handleJoin}>
-                            <Icon name="add" />
-                            Join Club
-                        </Button>
-                    {:else}
-                        <Button style="outlined:danger" className="rounded-full" size="sm" on:click={handleLeave}>
-                            <Icon name="close" />
-                            Leave club
+        <div class="flex flex-col gap-4 w-full">
+            <div class="flex gap-1 items-center w-full">
+                <h1 class="text-4xl font-extrabold w-full text-overflow">{club.name}</h1>
+                <div class="w-full justify-end items-center flex gap-1">
+                    {#if isManager}
+                        <Button style="outlined:primary">
+                            <Icon name="edit" />
+                            Edit
                         </Button>
                     {/if}
-                {/if}
+                    {#if !isMember}
+                        <Button style="primary" className="rounded-full" on:click={handleJoin}>
+                            <Icon name="group_add" />
+                            Join
+                        </Button>
+                    {:else}
+                        <Button style="danger" className="rounded-full" on:click={handleLeave}>
+                            <Icon name="group_remove" />
+                            Leave
+                        </Button>
+                    {/if}
+                </div>
             </div>
+
             <p class="text-gray-500">{club.description}</p>
+            
             <div class="flex gap-1 items-center">
                 {#each club.categories as category}
                     <Tag outlined>
@@ -64,27 +79,57 @@
 
     <span class="separator-h"/>
 
-    <div class="flex h-full gap-1">
-        <div class="flex flex-col gap-6 p-12">
-            <h2 class="text text-2xl font-bold">Announcements</h2>
-            {#each club.announcements as announcement}
-                <div class="flex flex-col gap-2 p-4 hover:bg-gray-200 border-1 border-gray-300 rounded-md transition">
-                    <div class="flex gap-2 items-center justify-between">
-                        <h3 class="text text-lg font-semibold text-gray-800">{announcement.title}</h3>
-                        <span class="text text-xs font-medium text-gray-500">{new Date(announcement.date * 1000).toLocaleDateString()}</span>
-                    </div>
-                    <p class="text text-sm text-gray-500">{announcement.content}</p>
+    <div class="flex h-full gap-1 overflow-hidden">    
+        <div class="flex flex-col h-full gap-0.5 p-8 w-64 flex-shrink-0 overflow-hidden">
+            <h2 class="text text-xl font-semibold mb-6">Members</h2>
+            {#if club.members.length > 0}
+                {#each club.members as member}
+                    {#await getDocument("users", member) then user}
+                        <div class="transition w-full flex items-center rounded-md hover:bg-gray-300 p-2 gap-2">
+                            <Avatar src={user.photo} size="28px"/>
+                            <span class="text text-gray-600 font-medium">{user.firstName} {user.lastName}</span>
+                        </div>
+                    {:catch}
+                        <div class="flex flex-col gap-2 p-4 border-1 border-gray-300 rounded-md">
+                            <p class="text text-sm text-gray-500">Error loading user.</p>
+                        </div>
+                    {/await}
+                {/each}
+            {:else}
+                <div class="flex flex-col gap-2 p-4 border-1 border-gray-300 rounded-md">
+                    <p class="text text-sm text-gray-500">No members yet.</p>
                 </div>
-            {/each}
+            {/if}
         </div>
-    
+
         <span class="separator-v"/>
-    
-        <article class="prose w-full p-12">
-            <h2>Information</h2>
-            <p>Club ID: {club.id}</p>
-            <p>Club Owner: {club.managers}</p>
-            <p>Club Members: {club.members.length}</p>
-        </article>
+
+        <div class="flex flex-col gap-0.5 p-8 w-full">
+            <h2 class="text text-xl font-semibold mb-6">Announcements</h2>
+            {#if club.announcements.length > 0}
+                {#each club.announcements as announcement}
+                    <div class="flex flex-col gap-2 p-4 hover:bg-gray-200 border-1 border-gray-300 rounded-md transition">
+                        <div class="flex gap-2 items-center justify-between">
+                            <h3 class="text text-lg font-semibold text-gray-800">{announcement.title}</h3>
+                            <span class="text text-xs font-medium text-gray-500">{new Date(announcement.date * 1000).toLocaleDateString()}</span>
+                        </div>
+                        <p class="text text-sm text-gray-500">{announcement.content}</p>
+                    </div>
+                {/each}
+            {:else}
+                <div class="flex flex-col gap-2 p-4 border-1 border-gray-300 rounded-md">
+                    <p class="text text-sm text-gray-500">No announcements yet.</p>
+                </div>
+            {/if}
+        </div>
+
+        <span class="separator-v"/>
+
+        {#if isMember}
+            <div class="flex flex-col gap-6 w-fit">
+                <h2 class="text text-xl font-semibold p-8">Chat</h2>
+                <ChatRoom id={club.id} members={club.members} moderators={club.managers}/>
+            </div>
+        {/if}
     </div>
 </div>
