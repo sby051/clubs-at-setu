@@ -6,6 +6,9 @@
 	import { getDocument, updateDocument } from "@fb/fsdb";
 	import Avatar from "@routes/(app)/Avatar.svelte";
     import { growShrink } from "sveltils/transitions";
+    import { confirm } from "@features/confirm";
+    import { invalidate } from "$app/navigation";
+	import { page } from "$app/stores";
 
     export let data: PageData;
     
@@ -20,10 +23,15 @@
         await updateDocument("clubs", club.id, {
             members: [...club.members, $user.id]
         })
+
+        await invalidate($page.url.pathname);
     }
 
     const handleLeave = async () => {
-        if(!isMember) return;
+        const confirmed = await confirm("Are you sure you want to leave this club?")
+
+        if(!isMember || !confirmed) return;
+
         $user = {
             ...$user,
             clubs: $user.clubs.filter(id => id !== club.id)
@@ -32,6 +40,8 @@
         await updateDocument("clubs", club.id, {
             members: club.members.filter(id => id !== $user.id)
         })
+
+        await invalidate($page.url.pathname);
     }
 
     let membersVisible = true;
