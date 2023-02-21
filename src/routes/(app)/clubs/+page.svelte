@@ -4,6 +4,13 @@
     import type { Category } from "@types";
     import ClubCard from "./ClubCard.svelte";
 
+    export let data: PageData;
+
+    let currentCategory = 0;
+    let searchQuery = "";
+
+    const clubs = Object.values(data.clubs);
+
     const CATEGORIES: Category[] = [
         {
             title: "all",
@@ -65,20 +72,13 @@
             title: "technology",
             icon: "computer",
         }
-    ].sort((a, b) => a.title.localeCompare(b.title));
+    ];
 
-    CATEGORIES.unshift(CATEGORIES.splice(CATEGORIES.findIndex(category => category.title === "all"), 1)[0]);
+    $: sortedClubs = clubs.sort((a, b) => a.name.localeCompare(b.name));
 
-    let currentCategory = 0;
-
-    export let data: PageData;
-
-    $: sortedClubs = data.clubs.sort((a, b) => a.name.localeCompare(b.name));
-
-    let searchQuery = "";
 </script>
 
-<div class="flex h-full">   
+<main class="flex h-full" aria-label="Clubs"> 
     <div class="sticky top-0 h-full">
         <CategorySidebar title="Clubs" categories={CATEGORIES} bind:currentCategory searchBar bind:searchQuery/>
     </div>
@@ -92,4 +92,4 @@
             {/if}
         {/each}
     </div>
-</div>
+</main>

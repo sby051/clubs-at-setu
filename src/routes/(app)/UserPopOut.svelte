@@ -3,7 +3,7 @@
 	import user from "@stores/user";
 	import { deleteAccount, logout } from "@fb/auth";
 	import { fade, slide } from "svelte/transition";
-	import Avatar from "./Avatar.svelte";
+	import { Avatar } from "@components";
 	import { goto } from "$app/navigation";
 	import { confirm } from "@features/confirm";
 
@@ -110,7 +110,7 @@
 	<TextInput label="Categories" placeholder="Athletics etc.." />
 
 	<svelte:fragment slot="footerButtons">
-		<Button iconOutlined fillWidth style="outlined:normal">Cancel</Button>
+		<Button fillWidth style="outlined:normal">Cancel</Button>
 		<Button fillWidth style="primary">
 			<Icon name="group_add" size="lg" />
 			Create club
@@ -120,7 +120,7 @@
 
 <div
 	transition:fade={{ duration: 100 }}
-	class="relative flex w-96 flex-col gap-4 overflow-hidden rounded-md border-[1px] border-gray-300 bg-offwhite py-6 shadow-md transition"
+	class="relative z-50 flex w-96 flex-col gap-4 overflow-hidden rounded-md border-[1px] border-gray-300 bg-offwhite py-6 shadow-md transition"
 >
 	<div class="flex flex-col items-center justify-center gap-3 py-4">
 		<Avatar size="100px" src={$user?.photo} />

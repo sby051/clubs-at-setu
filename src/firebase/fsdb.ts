@@ -1,4 +1,5 @@
 import { fsdb } from ".";
+import type { FirestoreCollection } from "./types";
 import type { ID, User } from "@types";
 import { doc, getDoc, getDocs, setDoc, collection as cltn, updateDoc, deleteDoc } from "firebase/firestore";
 
@@ -12,9 +13,12 @@ export const getDocuments = async <ExpectedDocument>(collection: string, docIds:
 	return docs.filter((doc) => doc !== null) as ExpectedDocument[];
 };
 
-export const getCollection = async <ExpectedDocument>(collection: string): Promise<ExpectedDocument[]> => {
+export const getCollection = async <ExpectedDocument>(collection: string): Promise<FirestoreCollection<ExpectedDocument>> => {
 	const querySnapshot = await getDocs(cltn(fsdb, collection));
-	return querySnapshot.docs.map((doc) => doc.data() as ExpectedDocument);
+	return querySnapshot.docs.reduce((acc, doc) => {
+		acc[doc.id] = doc.data() as ExpectedDocument;
+		return acc;
+	}, {} as FirestoreCollection<ExpectedDocument>);
 };
 
 export const createDocument = async (collection: string, docId: ID, data: unknown): Promise<boolean> => {

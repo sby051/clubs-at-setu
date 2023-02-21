@@ -1,13 +1,15 @@
 <script lang="ts">
 	import { Button, Icon, IconButton, Tag } from "@components";
     import type { PageData } from "./$types";
+    import Time from "svelte-time";
     import user from "@stores/user";
 	import { getDocument, updateDocument } from "@fb/fsdb";
-	import Avatar from "@routes/(app)/Avatar.svelte";
+	import { Avatar } from "@components";
     import { confirm } from "@features/confirm";
     import { invalidateAll } from "$app/navigation";
-	import { slide } from "svelte/transition";
+	import { fade, slide } from "svelte/transition";
 	import type { Announcement } from "@types";
+	import { ChatRoom } from "@features/chat";
 
     export let data: PageData;
     
@@ -18,20 +20,20 @@
         content: "",
     }
 
-    const handleJoin = async () => {
+    const joinClub = async () => {
         if(isMember) return;
         $user = {
             ...$user,
-            clubs: [...$user.clubs, club.id]
+            clubs: [...$user?.clubs, club.id]
         }
         await updateDocument("clubs", club.id, {
-            members: [...club.members, $user.id]
+            members: [...club.members, $user?.id]
         })
 
         await invalidateAll();
     }
 
-    const handleLeave = async () => {
+    const leaveClub = async () => {
         const confirmed = await confirm("Are you sure you want to leave this club?", {
             message: "You will not be refunded any fees you have paid for this club.",
             icon: "warning",
@@ -45,60 +47,58 @@
         }
 
         await updateDocument("clubs", club.id, {
-            members: club.members.filter(id => id !== $user.id)
+            members: club.members.filter(id => id !== $user?.id)
         })
 
         await invalidateAll();
     }
 
-    const handleAnnouncement = async () => {
+    const createAnnouncement = async () => {
         if(!announcement.title) return;
 
         const fullAnnouncement: Announcement = {
             ...announcement,
             date: Date.now(),
-            author: $user.id,
+            author: $user?.id,
             readBy: [],
         }
 
-        posting = true;
+        postingAnnouncement = true;
         await updateDocument("clubs", club.id, {
             announcements: [
                 ...club.announcements,
                 fullAnnouncement
             ]
         })
-        posting = false;
+        postingAnnouncement = false;
         announcement.title = "";
         announcement.content = "";
+        
         await invalidateAll();
     }
 
-    const handleRead = async (announcement: Announcement) => {
-        if(announcement.readBy.includes($user.id)) return;
+    const deleteAnnouncement = async () => {
+        const confirmed = await confirm("Are you sure you want to delete this announcement?", {
+            message: "This action cannot be undone.",
+            icon: "warning",
+        })
+
+        if(!confirmed) return;
 
         await updateDocument("clubs", club.id, {
-            announcements: club.announcements.map(a => {
-                if(a.date === announcement.date) {
-                    return {
-                        ...a,
-                        readBy: [...a.readBy, $user.id]
-                    }
-                }
-                return a;
-            })
+            announcements: club.announcements.filter(a => a.title !== announcement.title)
         })
 
         await invalidateAll();
     }
 
-    let posting = false;
+    let postingAnnouncement = false;
 
     $: isMember = $user.clubs.includes(club.id);
-    $: isManager = club.managers.includes($user.id) || $user?.admin;
+    $: isManager = club.managers.includes($user?.id) || $user?.admin;
 </script>
 
-<div class="flex border-b-[1px] border-b-gray-300 gap-8 p-10 items-center" aria-label="Club header">
+<header class="flex border-b-[1px] border-b-gray-300 gap-8 p-10 items-center" aria-label="Club header">
     <img alt={club.name} src={club.photo} class="w-64 aspect-video rounded-lg shadow-md" />
     <div class="flex flex-col gap-4 w-full">
         <div class="flex gap-1 items-center w-full">
@@ -111,12 +111,12 @@
                     </Button>
                 {/if}
                 {#if !isMember}
-                    <Button style="primary" className="rounded-full" on:click={handleJoin}>
+                    <Button style="primary" className="rounded-full" on:click={joinClub}>
                         <Icon name="group_add" />
                         Join for {!!club.fee ? "Free" : `€${club.fee}/year`}
                     </Button>
                 {:else}
-                    <Button style="danger" className="rounded-full" on:click={handleLeave}>
+                    <Button style="danger" className="rounded-full" on:click={leaveClub}>
                         <Icon name="group_remove" />
                         Leave
                     </Button>
@@ -142,10 +142,10 @@
             {/each}
         </div>
     </div>
-</div>
+</header>
 
-<div class="flex">
-    <div class="relative flex flex-col gap-4 p-8 w-full border-r-[1px] border-r-gray-300" aria-label="Announcements"> 
+<main class="flex h-full" aria-label="{club.name} Club">
+    <section class="relative flex flex-col gap-4 p-8 w-full border-r-[1px] border-r-gray-300" aria-label="Announcements"> 
         <span class="text text-xl font-semibold">Announcements</span>
 
         {#if !isMember}
@@ -155,8 +155,8 @@
             </div>
         {:else}
             {#if isManager}
-                <form on:submit|preventDefault={handleAnnouncement} class="transition flex flex-col gap-3 w-full px-4 py-3 border-1 border-gray-300 rounded-md hover:bg-white focus-within:bg-white">
-                    {#if posting}   
+                <form on:submit|preventDefault={createAnnouncement} class="transition flex flex-col gap-3 w-full px-4 py-3 border-1 border-gray-300 rounded-md hover:bg-white focus-within:bg-white">
+                    {#if postingAnnouncement}   
                         Posting...
                     {:else}
                         <div class="flex gap-2 w-full items-center">
@@ -169,9 +169,9 @@
                         {#if announcement.title}
                             <div class="w-full flex flex-col gap-3" transition:slide>
                                 <textarea maxlength="256" bind:value={announcement.content} class="h-64 resize-none focus:outline-none bg-transparent w-full" placeholder="Say something to your club.."></textarea>
-                                <Button style="primary" className="w-fit ml-auto" type="submit">
+                                <Button style="primary" size="sm" className="w-fit ml-auto" type="submit">
                                     <Icon name="send"/>
-                                    Make announcement
+                                    Send
                                 </Button>
                             </div>
                         {/if}   
@@ -179,27 +179,35 @@
                 </form>
             {/if}
 
-            <ul class="flex flex-col gap-2 pb-8">
+            <ul class="flex flex-col gap-1">
                 {#if club.announcements.length > 0}
                     {#each club.announcements as announcement}
-                        {@const read = announcement.readBy.includes($user.id)}
                         {#await getDocument("users", announcement.author)}
-                            <li class="h-16 w-full rounded-md animate-pulse bg-gray-300"></li>
-                        {:then user}
-                            <li class:bg-violet-100={!read} class="flex flex-col gap-2 p-4 hover:bg-white border-1 border-gray-300 rounded-md transition">
-                                <span class="flex gap-2 items-center">
-                                    <Avatar src={user.photo} size="32px" />
-                                    <div class="flex flex-col">
-                                        <span class="text text-sm font-medium text-gray-800">{user.firstName} {user.lastName}</span>
-                                        <span class="text text-xs font-medium text-gray-500">{user.studentId}</span>
-                                    </div>
-                                    <span class="text ml-auto text-xs font-medium text-gray-500">{new Date(announcement.date * 1000).toLocaleDateString()}</span>
-                                </span>
-                                <span class="text text-lg font-semibold text-gray-800">{announcement.title}</span>
-                                <span class="text text-sm text-gray-500">{announcement.content}</span>
-                            </li>
-                        {:catch}
-                            Error loading announcement author
+                            <li class="h-8 w-full rounded-md animate-pulse bg-gray-200"></li>
+                        {:then author}
+                            {#each [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15] as i}
+                                <li class="group relative flex flex-col gap-2 p-4 hover:bg-white border-1 border-gray-300 rounded-md transition">
+                                    <span class="flex gap-2 items-center">
+                                        <Avatar src={author.photo} size="32px" />
+                                        <div class="flex flex-col ">
+                                            <span class="text text-sm font-medium text-gray-800">{author.firstName} {author.lastName}</span>
+                                            <span class="text text-xs font-medium text-gray-500">{author.studentId}</span>
+                                        </div>
+                                        <Icon name="admin_panel_settings" customSize="1.25rem" color="gray-600" />
+                                        <span class="text text-xs ml-auto">
+                                            <Time relative={Date.now() < announcement.date + 1000 * 60 * 60 * 3 } timestamp={announcement.date} format="dddd D, MMMM YYYY @ h:mm:a" />
+                                        </span>
+                                    </span>
+                                    <span class="text text-lg font-semibold text-gray-800">{announcement.title}</span>
+                                    <span class="text text-sm text-gray-500">{announcement.content}</span>
+                                    {#if isManager}
+                                        <span class="flex transition invisible group-hover:visible absolute p-0.5 -right-2 -top-2 bg-gray-200 border-1 z-20 border-gray-300 shadow-md rounded-full items-center">
+                                            <IconButton icon="edit" title="Feature coming soon.." disabled/>
+                                            <IconButton icon="delete" title="Delete announcement"/>
+                                        </span>
+                                    {/if}
+                                </li>
+                            {/each}
                         {/await}
                     {/each}
                 {:else}
@@ -209,20 +217,30 @@
                 {/if}
             </ul>
         {/if}
-    </div>
+    </section>
 
-    <div class="sticky top-0 h-full flex flex-col gap-4 p-8 min-w-[15rem]">
+    <!-- <section class="sticky flex flex-col gap-4 top-0 h-full p-8 min-w-[30rem] border-r-[1px] border-r-gray-300">
+        <span class="text text-xl font-semibold">Chat</span>
+
+        <ChatRoom id={club.id} members={club.members}/>
+    </section> -->
+
+    <section class="sticky flex flex-col gap-4 top-0 h-full p-8 min-w-[15rem]">
         <span class="text text-xl font-semibold">Members</span>
 
         <ul class="flex flex-col gap-1 pb-8">
             {#if club.members.length > 0}
                 {#each club.members as member}
+                    {@const manager = club.managers.includes(member)}
                     {#await getDocument("users", member)}
                         <li class="h-8 w-full bg-gray-200 rounded-md animate-pulse"></li>
                     {:then user}
                         <li class="flex gap-2 p-2 items-center hover:bg-gray-200 rounded-md transition">
                             <Avatar src={user.photo} size="28px" />
                             <span class="text-overflow text text-sm font-medium text-gray-800">{user.firstName} {user.lastName}</span>
+                            {#if !manager}
+                                <Icon className="ml-auto" name="admin_panel_settings" customSize="1.25rem" color="gray-600" />
+                            {/if}
                         </li>
                     {/await}
                 {/each}
@@ -232,5 +250,5 @@
                 </li>
             {/if}
         </ul>
-    </div>
-</div>
+    </section>
+</main>

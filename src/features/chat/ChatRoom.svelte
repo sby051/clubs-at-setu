@@ -11,7 +11,6 @@
 
 	export let id: ID;
 	export let members: ID[];
-	export let moderators: ID[] = [];
 
 	let chatRoom: Chat.Room = {
 		id,
@@ -80,9 +79,9 @@
 	});
 </script>
 
-<div bind:this={messagesEl} class="flex mb-6 relative flex-col" aria-label="Chat room {id}">
+<div bind:this={messagesEl} class="h-full" aria-label="Chat room {id}">
 	{#if chatIsEmpty}
-			<Icon name="forum" className="opacity-10" customSize="11rem" />
+		<Icon name="forum" className="opacity-10" customSize="11rem" />
 	{:else}
 		<div class="h-full scroll-y flex flex-col gap-0.5 py-5">
 			{#each chatRoom.messages as message}
@@ -92,14 +91,14 @@
 					on:delete={handleDeleteMessage}
 					on:edit={handleEditMessage}
 				/>
-		{/each}
+			{/each}
 		</div>
 	{/if}
 
-	<div class="w-full flex flex-col gap-2 px-5" aria-label="Chat input">
+	<div aria-label="Chat input">
 		{#if replyId}
 			{@const replyMessage = chatRoom.messages.filter((message) => message.id === replyId)[0]}
-			<div class="flex w-full items-center gap-2 rounded-md bg-blue-200 p-2">
+			<div class="flex w-full mb-2 items-center gap-2 rounded-md bg-blue-200 p-2">
 				<Icon name="reply" color="text-gray-500" size="lg" />
 				<span class="text w-full overflow-hidden text-ellipsis whitespace-nowrap text-xs text-gray-500">
 					<b>{replyMessage.authorName}</b>: {replyMessage.content}

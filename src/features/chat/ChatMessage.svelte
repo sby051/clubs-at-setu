@@ -54,7 +54,7 @@ on:keyup={(e) => {
 }}/>
 
 <div
-	class="relative flex w-full flex-col py-1 px-7 [&:not(.gap-1)]:hover:bg-gray-200"
+	class="rounded-md relative flex w-full flex-col py-1 px-7 [&:not(.gap-1)]:hover:bg-gray-200"
 	on:mouseenter={() => (hovering = true)}
 	on:mouseleave={() => (hovering = false)}
 	class:gap-1={editing}

@@ -11,3 +11,4 @@ export { default as ImagePicker } from "./ImagePicker.svelte";
 export { default as NavigationLink } from "./NavigationLink.svelte";
 export { default as Tag } from "./Tag.svelte";
 export { default as CategorySidebar } from "./CategorySidebar.svelte";
+export { default as Avatar } from "./Avatar.svelte";

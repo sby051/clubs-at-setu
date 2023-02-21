@@ -1,6 +1,6 @@
 <script lang="ts">
     import type { Category } from "@types";
-    import { IconButton, NavigationLink, TextInput } from "@components";
+    import { Icon, IconButton, NavigationLink, TextInput } from "@components";
 
     export let categories: Category[];
     export let title: string;
@@ -19,7 +19,11 @@
         {/if}
     </div>
     {#if searchVisible}
-        <TextInput placeholder="Search.." className="mb-4" bind:value={searchQuery}/>
+        <TextInput placeholder="Search.." className="mb-4" bind:value={searchQuery}>
+            <svelte:fragment slot="start">
+                <Icon name="search" />
+            </svelte:fragment>
+        </TextInput>
     {/if}
     {#each categories as category, i}
         <NavigationLink {...category} active={i === currentCategory} sidebarOpen on:click={() => currentCategory = i}/>

@@ -18,7 +18,7 @@
 <Confirm />
 
 {#if $navigating}
-	<div class="fixed top-0 left-0 h-1 w-screen animate-pulse bg-sky-400 duration-75" />
+	<progress class="fixed top-0 left-0 h-1 w-screen animate-pulse bg-sky-400 duration-75" />
 {/if}
 
 {#if inGlobalLoadState}
@@ -36,7 +36,5 @@
 {/if}
 
 <style lang="postcss">
-	:global(body) {
-		@apply bg-offwhite;
-	}
+	:global(body) { @apply bg-offwhite }
 </style>
