@@ -120,7 +120,7 @@
 
 <div
 	transition:fade={{ duration: 100 }}
-	class="relative z-50 flex w-96 flex-col gap-4 overflow-hidden rounded-md border-[1px] border-gray-300 bg-offwhite py-6 shadow-md transition"
+	class="relative z-20 flex w-96 flex-col gap-4 overflow-hidden rounded-md border-[1px] border-gray-300 bg-offwhite py-6 shadow-md transition"
 >
 	<div class="flex flex-col items-center justify-center gap-3 py-4">
 		<Avatar size="100px" src={$user?.photo} />
