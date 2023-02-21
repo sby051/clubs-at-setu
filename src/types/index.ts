@@ -47,6 +47,7 @@ type ClubCategory = "academic" | "arts" | "athletics" | "community" | "culture" 
 export type Announcement = {
 	title: string;
 	author: ID;
+	readBy: ID[];
 	content: string;
 	date: EpochTimeStamp;
 };

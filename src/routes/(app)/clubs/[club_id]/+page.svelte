@@ -58,6 +58,7 @@
             ...announcement,
             date: Date.now(),
             author: $user.id,
+            readBy: [],
         }
 
         posting = true;
@@ -70,6 +71,24 @@
         posting = false;
         announcement.title = "";
         announcement.content = "";
+        await invalidateAll();
+    }
+
+    const handleRead = async (announcement: Announcement) => {
+        if(announcement.readBy.includes($user.id)) return;
+
+        await updateDocument("clubs", club.id, {
+            announcements: club.announcements.map(a => {
+                if(a.date === announcement.date) {
+                    return {
+                        ...a,
+                        readBy: [...a.readBy, $user.id]
+                    }
+                }
+                return a;
+            })
+        })
+
         await invalidateAll();
     }
 
@@ -163,10 +182,11 @@
             <ul class="flex flex-col gap-2 pb-8">
                 {#if club.announcements.length > 0}
                     {#each club.announcements as announcement}
+                        {@const read = announcement.readBy.includes($user.id)}
                         {#await getDocument("users", announcement.author)}
                             <li class="h-16 w-full rounded-md animate-pulse bg-gray-300"></li>
                         {:then user}
-                            <li class="flex flex-col gap-2 p-4 hover:bg-white border-1 border-gray-300 rounded-md transition">
+                            <li class:bg-violet-100={!read} class="flex flex-col gap-2 p-4 hover:bg-white border-1 border-gray-300 rounded-md transition">
                                 <span class="flex gap-2 items-center">
                                     <Avatar src={user.photo} size="32px" />
                                     <div class="flex flex-col">
