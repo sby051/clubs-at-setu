@@ -164,7 +164,7 @@
 		{/if}
 	</div>
 
-	<span class="separator-h" />
+	<!-- <span class="separator-h" />
 
 	<span class="text px-6 text-sm font-semibold">Quick Actions</span>
 
@@ -185,5 +185,5 @@
 			{/each}
 		</div>
 		<div class="{CAROUSEL_GUTTER_CLASSES} right-0 bg-gradient-to-l from-offwhite to-transparent" />
-	</div>
+	</div> -->
 </div>

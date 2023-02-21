@@ -6,7 +6,6 @@
 	import logo from "@assets/logo.png";
 	import { clickoutside } from "sveltils/actions";
 
-	let name = "";
 	let userMenuOpen = false;
 
 	$: pathSegments = $page.url.pathname.split("/").filter((segment) => segment !== "");
@@ -14,7 +13,7 @@
 	const toggleUserMenu = () => (userMenuOpen = !userMenuOpen);
 </script>
 
-<nav class="flex w-full items-center justify-between border-b-[1px] border-gray-300 px-3 py-[9px]" aria-label="Navbar">
+<nav style="grid-area: navbar" class="absolute top-0 left-0 bg-offwhite flex w-full items-center justify-between border-b-[1px] border-gray-300 px-4 h-[3.81rem]" aria-label="Navbar">
 	<section class="flex items-center gap-2" aria-label="Breadcrumbs">
 		<a href="/">
 			<img src={logo} alt="logo" class="w-9" />

@@ -4,19 +4,17 @@
 	import { authed } from "@stores/user";
 	import { page } from "$app/stores";
 
-	$: if ($authed === false) {
-		window.location.href = "/login";
-	}
+	$: if ($authed === false) window.location.href = "/login";
 
 </script>
 
-<div class="flex h-full flex-col bg-offwhite">
-	<div class="flex flex-col lg:flex-row w-full h-full overflow-hidden">
-		<Sidebar/>
-
+<div class="flex h-screen w-screen overflow-hidden">
+	<Sidebar/>
+	
+	<div class="flex flex-col relative w-full">
+		<Navbar />
 		{#key $page}
-			<main class="flex flex-col h-full w-full">
-				<Navbar />
+			<main class="min-h-full relative mt-16 pb-16 scroll-y">
 				<slot />
 			</main>
 		{/key}

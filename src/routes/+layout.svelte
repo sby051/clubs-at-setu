@@ -30,7 +30,13 @@
 		<span class="text text-sm font-medium">Getting things ready..</span>
 	</div>
 {:else}
-	<div in:fade={{ delay: 400 }} class="h-screen w-screen overflow-y-auto overflow-x-hidden" aria-label="Site wrapper">
+	<div in:fade={{ delay: 400 }} aria-label="App viewport">
 		<slot />
 	</div>
 {/if}
+
+<style lang="postcss">
+	:global(body) {
+		@apply bg-offwhite;
+	}
+</style>

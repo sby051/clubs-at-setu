@@ -32,9 +32,8 @@
 <div class="flex h-full">
 	<CategorySidebar title="Admin" categories={CATEGORIES} bind:currentCategory />
 
-	<div class="flex flex-col gap-0.5 w-full scroll-y p-8">
+	<div class="flex flex-col w-full scroll-y p-8">
 		{#if currentCategory === 0}
-			<h2 class="text text-xl font-semibold mb-6">Users</h2>
 			{#if data.users.length > 0}
 				{#each data.users as user}
 					<UserRow {user} />

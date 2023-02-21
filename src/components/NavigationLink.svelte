@@ -29,8 +29,8 @@
 		<Icon name={icon} size="xl" outlined={!active} />
 	{/if}
 	{#if sidebarOpen}
-		<p class="text text-overflow capitalize" class:font-medium={active}>
+		<span class="text text-overflow capitalize" class:font-medium={active}>
 			{title}
-		</p>
+		</span>
 	{/if}
 </svelte:element>

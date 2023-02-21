@@ -11,7 +11,6 @@
 
 	export let id: ID;
 	export let members: ID[];
-	export let height = "full";
 	export let moderators: ID[] = [];
 
 	let chatRoom: Chat.Room = {
@@ -81,43 +80,30 @@
 	});
 </script>
 
-<div class="h-full flex flex-col pb-5" aria-label="Chat room {id}">
-	<div
-		aria-label="Chat messages"
-		bind:this={messagesEl}
-		class="relative flex h-full justify-end flex-col scroll-y gap-0.5 py-5"
-	>
-		{#if chatIsEmpty}
-			<div class="absolute w-full h-full grid place-items-center">
-				<Icon name="forum" className="opacity-10" customSize="11rem" />
-			</div>
-			<div class="flex flex-col gap-1 px-5">
-				<h2 class="text-lg text-gray-800 font-semibold">Look at that, an empty chat!</h2>
-				<h5 class="text text-gray-400">Why not start the conversation?</h5>
-			</div>
-		{:else}
+<div bind:this={messagesEl} class="flex mb-6 relative flex-col" aria-label="Chat room {id}">
+	{#if chatIsEmpty}
+			<Icon name="forum" className="opacity-10" customSize="11rem" />
+	{:else}
+		<div class="h-full scroll-y flex flex-col gap-0.5 py-5">
 			{#each chatRoom.messages as message}
-				{@const hasModifyPerms = message.authorId == AUTHOR_ID || $user.admin || moderators.includes($user.id)}
 				<ChatMessage
-					{chatRoom}
 					{message}
-					{hasModifyPerms}
 					on:reply={handleReplyToMessage}
 					on:delete={handleDeleteMessage}
 					on:edit={handleEditMessage}
 				/>
-			{/each}
-		{/if}
-	</div>
+		{/each}
+		</div>
+	{/if}
 
-	<div class="flex w-full flex-col gap-2 px-5" aria-label="Chat input">
+	<div class="w-full flex flex-col gap-2 px-5" aria-label="Chat input">
 		{#if replyId}
 			{@const replyMessage = chatRoom.messages.filter((message) => message.id === replyId)[0]}
 			<div class="flex w-full items-center gap-2 rounded-md bg-blue-200 p-2">
 				<Icon name="reply" color="text-gray-500" size="lg" />
-				<p class="text w-full overflow-hidden text-ellipsis whitespace-nowrap text-xs text-gray-500">
+				<span class="text w-full overflow-hidden text-ellipsis whitespace-nowrap text-xs text-gray-500">
 					<b>{replyMessage.authorName}</b>: {replyMessage.content}
-				</p>
+				</span>
 				<button class="text ml-auto font-medium" on:click={() => handleReplyToMessage()}>
 					<Icon name="close" color="text-gray-500" size="lg" />
 				</button>

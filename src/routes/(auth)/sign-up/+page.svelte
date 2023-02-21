@@ -111,12 +111,12 @@
 
 <span class="text text-2xl font-bold">Sign up</span>
 
-<form class="max-w-lg flex flex-col gap-5 min-w-96 max-h-[80%] h-fit raised-card relative overflow-x-hidden overflow-y-auto" on:submit|preventDefault={handleSubmit}>
+<form class="max-w-lg flex flex-col gap-5 min-w-96 max-h-[80%] h-fit raised-card relative overflow-x-hidden overflow-y-auto" on:submit|preventDefault={handleSubmit} use:enter on:enter={handleSubmit}>
 	{#if loading}
 		<div transition:blur class="absolute w-full h-full top-0 left-0 flex-center-column gap-2 z-50 bg-gray-200 bg-opacity-5 backdrop-blur-lg">
-			<p class="text text-sm text-gray-500 text-center">
+			<span class="text text-sm text-gray-500 text-center">
 				Doing important things...
-			</p>
+			</span>
 		</div>
 	{/if}
 
@@ -170,19 +170,19 @@
 		<PasswordInput usePattern bind:value={data.password} />
 	{:else if currentStage === STAGES.CONFIRM}
 		<span class="text text-xl font-medium">Confirm your details</span>
-		<p class="mt-2 text text-sm text-gray-500">
+		<span class="mt-2 text text-sm text-gray-500">
 			An email will be sent to your student email address to confirm your details.
 			Please check your email and click the link to confirm your details.
-		</p>
+		</span>
 	{:else if currentStage === STAGES.MEDICAL}
 		<div class="block">
 			<span class="text text-xl font-medium">Medical information</span>
-			<p class="mt-2 text text-sm text-gray-500">
+			<span class="mt-2 text text-sm text-gray-500">
 				Due to the nature of joining a club, we require some medical information.
 				This information is used to contact your doctor and next of kin in case of an emergency.
 				All data is stored securely and is not shared with any third parties.
 				To learn more about how we use your data, please read our <a href="/privacy-policy" class="link text-sm">privacy policy</a>.
-			</p>
+			</span>
 		</div>
 
 		<section class="flex gap-4 w-full h-72">
@@ -251,9 +251,9 @@
 		<div class="flex-center-column h-full gap-2" in:scale>
 			<Icon name="check_circle" customSize="8rem" color="green-500" />
 			<span class="text text-xl font-medium">You're all set!</span>
-			<p class="text text-sm text-gray-500 text-center w-96">
+			<span class="text text-sm text-gray-500 text-center w-96">
 				You've successfully created your account. You can now use Clubs @ SETU!
-			</p>
+			</span>
 		</div>
 	{/if}
 

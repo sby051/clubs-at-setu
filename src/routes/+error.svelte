@@ -13,7 +13,7 @@
 	};
 </script>
 
-<div class="grid place-items-center h-full">
+<div class="grid place-items-center h-screen">
 	<div
 		transition:blur={{ duration: 1200, easing: backInOut }}
 		class="w-1/8 flex flex-col items-center justify-center gap-4 rounded-lg border-[1px] border-gray-300 bg-white p-24 transition"

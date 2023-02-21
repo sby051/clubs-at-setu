@@ -16,6 +16,6 @@
 	{/if}
 	<input {autofocus} pattern={usePattern ? REGEXES.PASSWORD.source : null} class="outlined-input" {placeholder} type="password" bind:value {id} />
 	{#if usePattern && value && !REGEXES.PASSWORD.test(value)}
-		<p class="text-xs text-red-500">Password must contain at least 8 characters and 1 uppercase letter, lowercase letter, number and special character</p>
+		<span class="text-xs text-red-500">Password must contain at least 8 characters and 1 uppercase letter, lowercase letter, number and special character</span>
 	{/if}
 </div>

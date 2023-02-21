@@ -3,6 +3,7 @@
     import { login } from "@fb/auth"
 	import { TextInput, PasswordInput, Button } from "@components";
 	import type { PageData } from "./$types";
+	import { enter } from "sveltils/actions";
 
     export let data: PageData;
 
@@ -28,7 +29,7 @@
 
 <span class="text text-2xl font-bold">Login</span>
 
-<form class="w-96 raised-card" on:submit|preventDefault={handleSubmit}>
+<form class="w-96 raised-card" on:submit|preventDefault={handleSubmit} use:enter on:enter={handleSubmit}>
     <TextInput required bind:value={data.email} label="Email or Student ID" placeholder="C00xxxxxx(@itcarlow.ie)"/>
     <PasswordInput bind:value={data.password} placeholder="su!perSecure*pAss!12" label="Password" autofocus={!!data.email} />
     <Button style="primary" type="submit" {loading}>Login</Button>

@@ -78,10 +78,12 @@
     let searchQuery = "";
 </script>
 
-<div class="flex h-full">        
-    <CategorySidebar title="Clubs" categories={CATEGORIES} bind:currentCategory searchBar bind:searchQuery/>
+<div class="flex h-full">   
+    <div class="sticky top-0 h-full">
+        <CategorySidebar title="Clubs" categories={CATEGORIES} bind:currentCategory searchBar bind:searchQuery/>
+    </div>
 
-    <div class="flex flex-wrap p-12 gap-4 scroll-y">
+    <div class="flex flex-wrap p-8 gap-4 scroll-y">
         {#each sortedClubs as club}
             {#if currentCategory === 0 || club.categories.includes(CATEGORIES[currentCategory].title)}
                 {#if searchQuery === "" || (club.name + club.description).toLowerCase().includes(searchQuery.toLowerCase())}

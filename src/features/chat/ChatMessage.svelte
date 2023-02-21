@@ -13,6 +13,7 @@
 
 	let editing = false;
 	let hovering = false;
+	let modifier = false;
 
 	const dispatchMessageEvent = createEventDispatcher<MessageEvent>();
 	const ICON_BUTTON_STYLE =
@@ -37,8 +38,20 @@
 		});
 	};
 
+
 	const replyMessage = chatRoom.messages.filter((msg) => msg.id === message.replyTo)[0];
 </script>
+
+<svelte:window on:keydown={(e) => {
+	if (e.key === "Shift") {
+		modifier = true;
+	}
+}}
+on:keyup={(e) => {
+	if (e.key === "Shift") {
+		modifier = false;
+	}
+}}/>
 
 <div
 	class="relative flex w-full flex-col py-1 px-7 [&:not(.gap-1)]:hover:bg-gray-200"
@@ -84,21 +97,23 @@
 
 	{#if hovering}
 		<div class="absolute top-[-13px] right-3 flex h-fit rounded-md bg-gray-200 shadow-md">
-			<button class={ICON_BUTTON_STYLE} on:click={handleReply}>
-				<Icon name="reply" />
-			</button>
-
-			{#if hasModifyPerms}
-				<button use:enter on:enter={handleEdit} class={ICON_BUTTON_STYLE} on:click={() => (editing = !editing)}>
-					<Icon name={editing ? "save" : "edit"} />
+			{#if modifier || !hasModifyPerms}
+				<button class={ICON_BUTTON_STYLE} on:click={handleReply}>
+					<Icon name="reply" />
 				</button>
+			{:else}
+				{#if hasModifyPerms}
+					<button use:enter on:enter={handleEdit} class={ICON_BUTTON_STYLE} on:click={() => (editing = !editing)}>
+						<Icon name={editing ? "save" : "edit"} />
+					</button>
 
-				<button
-					class={ICON_BUTTON_STYLE + " hover:bg-red-400"}
-					on:click={() => dispatchMessageEvent("delete", { messageId: message.id })}
-				>
-					<Icon name="delete" />
-				</button>
+					<button
+						class={ICON_BUTTON_STYLE + " hover:bg-red-400"}
+						on:click={() => dispatchMessageEvent("delete", { messageId: message.id })}
+					>
+						<Icon name="delete" />
+					</button>
+				{/if}
 			{/if}
 		</div>
 	{/if}

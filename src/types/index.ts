@@ -37,7 +37,7 @@ export type Club = {
 	announcements: Announcement[];
 	managers: ID[];
 	members: ID[];
-	registrationCost: number;
+	fee: number;
 	categories: ClubCategory[];
 	invites: ID[];
 };
@@ -45,7 +45,6 @@ export type Club = {
 type ClubCategory = "academic" | "arts" | "athletics" | "community" | "culture" | "faith" | "gaming" | "hobbies" | "media" | "music" | "politics" | "professional" | "science" | "service" | "sports" | "technology" | "other";
 
 export type Announcement = {
-	id: ID;
 	title: string;
 	author: ID;
 	content: string;

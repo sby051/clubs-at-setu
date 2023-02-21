@@ -5,7 +5,7 @@
     export let club: Club;
 </script>
 
-<a href="/clubs/{club.id}" class="h-[25rem] active:scale-[0.99] border-1 [&:not(:hover)]:border-gray-300 max-w-96 transition cursor-pointer p-4 flex flex-col gap-4 hover:bg-gray-200 rounded-md">
+<a href="/clubs/{club.id}" class="h-[25rem] active:scale-[0.99] border-1 border-gray-300 max-w-96 transition cursor-pointer p-4 flex flex-col gap-4 hover:bg-white rounded-md">
     <img src={club.photo} class="w-96 aspect-video shadow-md rounded-lg" alt={club.name}/>
     
     <div class="flex flex-col gap-2">
@@ -29,7 +29,7 @@
         </Tag>
         <Tag color="green-400">
             <Icon name="payments" />
-            €{club.registrationCost}/year
+            €{club.fee}/year
         </Tag>
     </div>
 </a>

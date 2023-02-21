@@ -14,7 +14,7 @@
     });
 </script>
 
-<div class="relative h-full flex-center-column gap-4">
+<div class="relative h-screen flex-center-column gap-4">
     <span class="absolute top-3 left-3 flex">
         <Button href="/" size="sm" style="outlined:normal">
             <Icon name="keyboard_backspace"/>

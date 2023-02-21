@@ -74,8 +74,8 @@
 			</Button>
 		</div>
 	{:else}
-		<p class="mt-2 text text-xs text-gray-500 text-center">
+		<span class="mt-2 text text-xs text-gray-500 text-center">
 			This photo is used to identify you when you sign in to the app. It is not shared with anyone.
-		</p>
+		</span>
 	{/if}
 </div>

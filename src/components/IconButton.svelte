@@ -6,6 +6,7 @@
 	export let className: string | undefined = undefined;
 	export let href: string | undefined = undefined;
 	export let ghost = false;
+	export let title = "";
 	export let outlined = false;
 
 	const tagName = href ? "a" : "button";
@@ -14,6 +15,7 @@
 <svelte:element
 	this={tagName}
 	{href}
+	{title}
 	on:click
 	on:keydown
 	type="button"

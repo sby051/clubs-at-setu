@@ -26,10 +26,11 @@
 	const toggleOpen = () => (open = !open);
 </script>
 
-<div
+<aside
 	on:dblclick={toggleOpen}
-	class="transition-width flex h-full w-16 flex-col gap-2 border-r-[1px] border-gray-300 py-2 duration-75"
-	class:w-52={open}
+	style="grid-area: sidebar"
+	class="transition-width flex h-full w-[3.8rem] flex-col gap-2 border-r-[1px] border-gray-300 py-2 duration-75"
+	class:open
 	aria-label="Sidebar"
 >
 	<section class={SECTION_CLASSES}>
@@ -74,4 +75,10 @@
 			</div>
 		{/if}
 	{/if}
-</div>
+</aside>
+
+<style>
+	.open {
+		width: 15rem;
+	}
+</style>
