@@ -299,7 +299,7 @@
 			By clicking continue, you agree to our <a class="link" href="/terms">Terms of Service</a> and
 			<a class="link" href="/privacy">Privacy Policy</a>.
 		</span>
-	{:else if currentStage === STAGES.FINISH}
+	{:else if currentStage === STAGES.FINISHED}
 		<div class="flex-center-column h-full gap-2" in:scale>
 			<Icon name="check_circle" customSize="8rem" color="green-500" />
 			<span class="text text-xl font-medium">You're all set!</span>
@@ -310,13 +310,13 @@
 	{/if}
 
 	<div class="flex w-full items-center gap-2">
-		{#if currentStage > STAGES.DETAILS && currentStage < STAGES.FINISH}
+		{#if currentStage > STAGES.DETAILS && currentStage < STAGES.FINISHED}
 			<Button fillWidth style="outlined:normal" on:click={handleBack}>
 				<Icon name="keyboard_backspace" />
 				Back
 			</Button>
 		{/if}
-		{#if currentStage < STAGES.FINISH}
+		{#if currentStage < STAGES.FINISHED}
 			<Button type="submit" style="primary" fillWidth {loading}>
 				Continue
 				<Icon name="arrow_forward" />
