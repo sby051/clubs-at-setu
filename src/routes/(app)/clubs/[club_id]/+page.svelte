@@ -144,7 +144,7 @@
     </div>
 </header>
 
-<main class="flex h-full" aria-label="{club.name} Club">
+<main class="flex min-h-screen" aria-label="{club.name} Club">
     <section class="relative flex flex-col gap-4 p-8 w-full border-r-[1px] border-r-gray-300" aria-label="Announcements"> 
         <span class="text text-xl font-semibold">Announcements</span>
 

@@ -78,7 +78,7 @@
 
 </script>
 
-<main class="flex h-full" aria-label="Clubs"> 
+<main class="flex min-h-full" aria-label="Clubs"> 
     <div class="sticky top-0 h-full">
         <CategorySidebar title="Clubs" categories={CATEGORIES} bind:currentCategory searchBar bind:searchQuery/>
     </div>
