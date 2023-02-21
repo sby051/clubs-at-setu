@@ -8,7 +8,7 @@
 	import { scale, slide } from "svelte/transition";
 	import { goto } from "$app/navigation";
 	import { blur } from "svelte/transition";
-	import { enter } from "sveltils/actions";
+	import { confirm } from "@features/confirm";
 
 	const STAGE_NAMES = ["Details", "Confirm", "Medical", "Finished"];
 
@@ -53,13 +53,25 @@
 		switch (currentStage) {
 			case STAGES.DETAILS:
 				if (await isEmailUsed(data.email)) {
-					const result = confirm("This email is already in use. Do you want to login?");
-					if (result) {
-						await goto(`/login?email=${data.email}`);
-					}
+					const goToLogin = await confirm("This email is already in use. Do you want to login?", {
+						message: "Email: " + data.email,
+						icon: "login",
+						buttons: {
+							confirm: {
+								text: "Go to login",
+								style: "primary",
+								icon: "arrow_right",
+							},
+							cancel: {
+								text: "Nevermind",
+								style: "outlined:normal",
+								icon: "close",
+							}
+						}
+					});
+					if (goToLogin) await goto(`/login?email=${data.email}`);
 					return;
 				}
-
 				currentStage++;
 				break;
 			case STAGES.CONFIRM:
@@ -115,8 +127,6 @@
 <form
 	class="min-w-96 raised-card relative flex h-fit max-h-[80%] max-w-lg flex-col gap-5 overflow-y-auto overflow-x-hidden"
 	on:submit|preventDefault={handleSubmit}
-	use:enter
-	on:enter={handleSubmit}
 >
 	{#if loading}
 		<div
