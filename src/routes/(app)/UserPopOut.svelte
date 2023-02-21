@@ -20,7 +20,7 @@
 			icon: "join",
 			title: "Find a club",
 			fn: () => goto("/clubs"),
-		}
+		},
 	];
 
 	let createDrawerOpen = false;
@@ -29,7 +29,7 @@
 		QUICK_ACTIONS.push({
 			icon: "add",
 			title: "Create club",
-			fn: () => createDrawerOpen = true
+			fn: () => (createDrawerOpen = true),
 		});
 	}
 
@@ -49,10 +49,10 @@
 			title: "Log out",
 			hoverColor: "red-200",
 			fn: async () => {
-				if(await confirm("Are you sure you want to log out?", { icon: "logout"})) {
+				if (await confirm("Are you sure you want to log out?", { icon: "logout" })) {
 					await logout();
 				}
-			}
+			},
 		},
 		{
 			icon: "database",
@@ -81,8 +81,8 @@
 					confirmationInput: {
 						label: "Type your email below to confirm",
 						placeholder: "Email",
-						expectedValue: $user?.studentId
-					}
+						expectedValue: $user?.studentId,
+					},
 				});
 
 				if (!confirmed) return;
@@ -90,11 +90,11 @@
 				const deleted = await deleteAccount();
 
 				if (deleted) {
-					alert("Account successfully deleted.")
+					alert("Account successfully deleted.");
 					await goto("/");
 				}
 			},
-		}
+		},
 	];
 
 	const handleWheel = (e: any): void => {
@@ -149,7 +149,8 @@
 				<button
 					on:click={accountSetting.fn}
 					transition:slide|local={{ duration: 200 }}
-					class="flex w-full cursor-pointer gap-2 px-6 py-3 active:bg-gray-300 transition hover:bg-{accountSetting.hoverColor || 'gray-300'}"
+					class="flex w-full cursor-pointer gap-2 px-6 py-3 transition active:bg-gray-300 hover:bg-{accountSetting.hoverColor ||
+						'gray-300'}"
 				>
 					<Icon name={accountSetting.icon} outlined size="lg" />
 					<span class="text overflow-hidden text-ellipsis whitespace-nowrap text-sm"

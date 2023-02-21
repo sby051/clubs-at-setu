@@ -1,9 +1,12 @@
+import type { ID } from "@types";
+import { collection as cltn, deleteDoc, doc, getDoc, getDocs, setDoc, updateDoc } from "firebase/firestore";
 import { fsdb } from ".";
 import type { FirestoreCollection } from "./types";
-import type { ID } from "@types";
-import { doc, getDoc, getDocs, setDoc, collection as cltn, updateDoc, deleteDoc } from "firebase/firestore";
 
-export const getDocument = async <ExpectedDocument>(collection: string, docId: ID): Promise<ExpectedDocument | null> => {
+export const getDocument = async <ExpectedDocument>(
+	collection: string,
+	docId: ID
+): Promise<ExpectedDocument | null> => {
 	const docSnapshot = await getDoc(doc(fsdb, collection, docId));
 	return docSnapshot.exists() ? (docSnapshot.data() as ExpectedDocument) : null;
 };
@@ -13,7 +16,9 @@ export const getDocuments = async <ExpectedDocument>(collection: string, docIds:
 	return docs.filter((doc) => doc !== null) as ExpectedDocument[];
 };
 
-export const getCollection = async <ExpectedDocument>(collection: string): Promise<FirestoreCollection<ExpectedDocument>> => {
+export const getCollection = async <ExpectedDocument>(
+	collection: string
+): Promise<FirestoreCollection<ExpectedDocument>> => {
 	const querySnapshot = await getDocs(cltn(fsdb, collection));
 	return querySnapshot.docs.reduce((acc, doc) => {
 		acc[doc.id] = doc.data() as ExpectedDocument;
@@ -35,13 +40,13 @@ export const createDocuments = async (collection: string, data: unknown[]): Prom
 	try {
 		data.forEach(async (obj) => {
 			obj.id = crypto.randomUUID();
-			await createDocument(collection, obj.id, obj)
+			await createDocument(collection, obj.id, obj);
 		});
 		return true;
 	} catch (e) {
 		return false;
 	}
-}
+};
 
 export const updateDocument = async (collection: string, docId: ID, data: Partial<unknown>): Promise<boolean> => {
 	if (!(await documentExists(collection, docId))) return false;

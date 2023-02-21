@@ -1,62 +1,64 @@
 <script lang="ts">
-    import { Backdrop, Button, Icon, TextInput, } from "@components";
-    import { confirmData, submitConfirm } from "./confirm";
-    import { enter } from "sveltils/actions";
+	import { Backdrop, Button, Icon, TextInput } from "@components";
+	import { confirmData, submitConfirm } from "./confirm";
+	import { enter } from "sveltils/actions";
 	import { backInOut } from "svelte/easing";
 	import { scale } from "svelte/transition";
 
-    let confirmInputValue = "";
+	let confirmInputValue = "";
 
-    $: canSubmit = !$confirmData?.confirmationInput || confirmInputValue === $confirmData.confirmationInput.expectedValue;
+	$: canSubmit =
+		!$confirmData?.confirmationInput || confirmInputValue === $confirmData.confirmationInput.expectedValue;
 </script>
 
-<svelte:window on:enter={() => { if ($confirmData) submitConfirm(true) }} use:enter/>
+<svelte:window
+	on:enter={() => {
+		if ($confirmData) submitConfirm(true);
+	}}
+	use:enter
+/>
 
 <Backdrop open={!!$confirmData}>
-    <div class="w-full h-full grid place-items-center">
-        <div class="raised-card max-w-[30rem] items-center" transition:scale={{duration: 400, easing: backInOut}}>
-            {#if $confirmData?.icon}
-                <Icon name={$confirmData?.icon} customSize="3.5rem" color="gray-400"/>
-            {/if}
+	<div class="grid h-full w-full place-items-center">
+		<div class="raised-card max-w-[30rem] items-center" transition:scale={{ duration: 400, easing: backInOut }}>
+			{#if $confirmData?.icon}
+				<Icon name={$confirmData?.icon} customSize="3.5rem" color="gray-400" />
+			{/if}
 
-            <span class="text-xl font-semibold">{$confirmData?.title}</span>
-        
-            {#if $confirmData?.message}
-                <span class="text text-gray-600 text-center">{$confirmData?.message}</span>
-            {/if}
+			<span class="text-xl font-semibold">{$confirmData?.title}</span>
 
-            {#if $confirmData?.confirmationInput}
-                <TextInput
-                    bind:value={confirmInputValue}
-                    placeholder={$confirmData.confirmationInput.placeholder}
-                    label={$confirmData.confirmationInput.label}
-                />
-            {/if}
-        
-            <div class="flex gap-1 w-full items-center">
-                <Button
-                    on:click={() => submitConfirm(false)}
-                    style={$confirmData.buttons.cancel.style}
-                    fillWidth
-                >
-                    {#if $confirmData.buttons.cancel.icon}
-                        <Icon name={$confirmData?.buttons.cancel.icon} />
-                    {/if}
-                    {$confirmData.buttons.cancel.text}
-                </Button>
-        
-                <Button
-                    on:click={() => submitConfirm(true)}
-                    disabled={!canSubmit}
-                    style={$confirmData.buttons.confirm.style}
-                    fillWidth
-                >
-                    {#if $confirmData.buttons.confirm.icon}
-                        <Icon name={$confirmData.buttons.confirm.icon} />
-                    {/if}
-                    {$confirmData.buttons.confirm.text}
-                </Button>
-            </div>
-        </div>
-    </div>
+			{#if $confirmData?.message}
+				<span class="text text-center text-gray-600">{$confirmData?.message}</span>
+			{/if}
+
+			{#if $confirmData?.confirmationInput}
+				<TextInput
+					bind:value={confirmInputValue}
+					placeholder={$confirmData.confirmationInput.placeholder}
+					label={$confirmData.confirmationInput.label}
+				/>
+			{/if}
+
+			<div class="flex w-full items-center gap-1">
+				<Button on:click={() => submitConfirm(false)} style={$confirmData.buttons.cancel.style} fillWidth>
+					{#if $confirmData.buttons.cancel.icon}
+						<Icon name={$confirmData?.buttons.cancel.icon} />
+					{/if}
+					{$confirmData.buttons.cancel.text}
+				</Button>
+
+				<Button
+					on:click={() => submitConfirm(true)}
+					disabled={!canSubmit}
+					style={$confirmData.buttons.confirm.style}
+					fillWidth
+				>
+					{#if $confirmData.buttons.confirm.icon}
+						<Icon name={$confirmData.buttons.confirm.icon} />
+					{/if}
+					{$confirmData.buttons.confirm.text}
+				</Button>
+			</div>
+		</div>
+	</div>
 </Backdrop>

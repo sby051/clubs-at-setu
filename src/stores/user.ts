@@ -1,6 +1,6 @@
+import { auth } from "@fb";
 import { getDocument, updateDocument } from "@fb/fsdb";
 import { getFileURL } from "@fb/storage";
-import { auth } from "@fb";
 import type { User } from "@types";
 import type { User as FirebaseUser } from "firebase/auth";
 import { onAuthStateChanged } from "firebase/auth";
@@ -10,7 +10,7 @@ export const user = writable<User | null>(null);
 export const authed = writable<boolean | null>(null);
 
 onAuthStateChanged(auth, async (firebaseUser: FirebaseUser | null) => {
-	if(!firebaseUser) {
+	if (!firebaseUser) {
 		authed.set(false);
 		user.set(null);
 		return;
@@ -23,8 +23,8 @@ onAuthStateChanged(auth, async (firebaseUser: FirebaseUser | null) => {
 });
 
 user.subscribe(async (u) => {
-	if(!u) return;
+	if (!u) return;
 	await updateDocument("users", u.id, u);
-})
+});
 
 export default user;

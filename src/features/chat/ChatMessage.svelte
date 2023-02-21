@@ -38,23 +38,24 @@
 		});
 	};
 
-
 	const replyMessage = chatRoom.messages.filter((msg) => msg.id === message.replyTo)[0];
 </script>
 
-<svelte:window on:keydown={(e) => {
-	if (e.key === "Shift") {
-		modifier = true;
-	}
-}}
-on:keyup={(e) => {
-	if (e.key === "Shift") {
-		modifier = false;
-	}
-}}/>
+<svelte:window
+	on:keydown={(e) => {
+		if (e.key === "Shift") {
+			modifier = true;
+		}
+	}}
+	on:keyup={(e) => {
+		if (e.key === "Shift") {
+			modifier = false;
+		}
+	}}
+/>
 
 <div
-	class="rounded-md relative flex w-full flex-col py-1 px-7 [&:not(.gap-1)]:hover:bg-gray-200"
+	class="relative flex w-full flex-col rounded-md py-1 px-7 [&:not(.gap-1)]:hover:bg-gray-200"
 	on:mouseenter={() => (hovering = true)}
 	on:mouseleave={() => (hovering = false)}
 	class:gap-1={editing}
@@ -101,19 +102,17 @@ on:keyup={(e) => {
 				<button class={ICON_BUTTON_STYLE} on:click={handleReply}>
 					<Icon name="reply" />
 				</button>
-			{:else}
-				{#if hasModifyPerms}
-					<button use:enter on:enter={handleEdit} class={ICON_BUTTON_STYLE} on:click={() => (editing = !editing)}>
-						<Icon name={editing ? "save" : "edit"} />
-					</button>
+			{:else if hasModifyPerms}
+				<button use:enter on:enter={handleEdit} class={ICON_BUTTON_STYLE} on:click={() => (editing = !editing)}>
+					<Icon name={editing ? "save" : "edit"} />
+				</button>
 
-					<button
-						class={ICON_BUTTON_STYLE + " hover:bg-red-400"}
-						on:click={() => dispatchMessageEvent("delete", { messageId: message.id })}
-					>
-						<Icon name="delete" />
-					</button>
-				{/if}
+				<button
+					class={ICON_BUTTON_STYLE + " hover:bg-red-400"}
+					on:click={() => dispatchMessageEvent("delete", { messageId: message.id })}
+				>
+					<Icon name="delete" />
+				</button>
 			{/if}
 		</div>
 	{/if}

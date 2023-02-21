@@ -7,7 +7,10 @@
 	export let customSize: string | undefined = undefined;
 </script>
 
-<span style="font-size: {customSize ? customSize : ''}" class="text-{color} text-{size} grid aspect-square place-items-center {className}">
+<span
+	style="font-size: {customSize ? customSize : ''}"
+	class="text-{color} text-{size} grid aspect-square place-items-center {className}"
+>
 	<i class="material-symbols-rounded" class:outlined>{name}</i>
 </span>
 

@@ -14,8 +14,19 @@
 	{#if label}
 		<label for={id} class="text-sm font-medium text-gray-600">{label}</label>
 	{/if}
-	<input {autofocus} pattern={usePattern ? REGEXES.PASSWORD.source : null} class="outlined-input" {placeholder} type="password" bind:value {id} />
+	<input
+		{autofocus}
+		pattern={usePattern ? REGEXES.PASSWORD.source : null}
+		class="outlined-input"
+		{placeholder}
+		type="password"
+		bind:value
+		{id}
+	/>
 	{#if usePattern && value && !REGEXES.PASSWORD.test(value)}
-		<span class="text-xs text-red-500">Password must contain at least 8 characters and 1 uppercase letter, lowercase letter, number and special character</span>
+		<span class="text-xs text-red-500"
+			>Password must contain at least 8 characters and 1 uppercase letter, lowercase letter, number and special
+			character</span
+		>
 	{/if}
 </div>

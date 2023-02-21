@@ -17,14 +17,14 @@
 	{href}
 	on:click
 	on:keydown
-	class="transition flex w-full items-center gap-3 rounded-md p-3 text-sm [&:not(.bg-violet-500)]:hover:bg-gray-200"
+	class="flex w-full items-center gap-3 rounded-md p-3 text-sm transition [&:not(.bg-violet-500)]:hover:bg-gray-200"
 	class:bg-violet-500={active && !shadowActive}
 	class:bg-gray-200={shadowActive && active}
 	class:text-white={active && !shadowActive}
 	class:shadow-md={active}
 >
 	{#if $$slots.default}
-		<slot/>
+		<slot />
 	{:else}
 		<Icon name={icon} size="xl" outlined={!active} />
 	{/if}

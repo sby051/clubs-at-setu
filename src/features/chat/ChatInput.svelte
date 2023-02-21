@@ -24,7 +24,7 @@
 
 <div class="flex w-full gap-2" aria-label="Chat input">
 	<textarea
-		class="max-h-96 outlined-input w-full resize-none overflow-y-auto overflow-x-hidden leading-5 transition"
+		class="outlined-input max-h-96 w-full resize-none overflow-y-auto overflow-x-hidden leading-5 transition"
 		rows="1"
 		placeholder="Type a message..."
 		bind:value

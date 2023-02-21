@@ -28,7 +28,7 @@ export type MedicalContact = {
 	name: string;
 	phoneNumber: string;
 	email?: string;
-}
+};
 
 export type Club = {
 	id: ID;
@@ -44,7 +44,24 @@ export type Club = {
 	invites: ID[];
 };
 
-type ClubCategory = "academic" | "arts" | "athletics" | "community" | "culture" | "faith" | "gaming" | "hobbies" | "media" | "music" | "politics" | "professional" | "science" | "service" | "sports" | "technology" | "other";
+type ClubCategory =
+	| "academic"
+	| "arts"
+	| "athletics"
+	| "community"
+	| "culture"
+	| "faith"
+	| "gaming"
+	| "hobbies"
+	| "media"
+	| "music"
+	| "politics"
+	| "professional"
+	| "science"
+	| "service"
+	| "sports"
+	| "technology"
+	| "other";
 
 export type Announcement = {
 	title: string;
@@ -67,7 +84,7 @@ export type KeyboardShortcut = {
 export type Category = {
 	title: string;
 	icon: string;
-}
+};
 
 export type NavigationLink = {
 	href: string;

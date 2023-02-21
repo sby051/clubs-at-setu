@@ -21,7 +21,7 @@
 	let messagesEl: HTMLElement;
 	$: chatIsEmpty = chatRoom.messages.filter((message) => !message.deleted).length === 0;
 
-	const AUTHOR_NAME = `${$user?.firstName} ${$user?.lastName}`
+	const AUTHOR_NAME = `${$user?.firstName} ${$user?.lastName}`;
 	const AUTHOR_ID = $user?.id;
 	const ROOM_PATH = `chat_rooms/${id}/%`;
 	const ROOM_REF = ref(rtdb, `chat_rooms/${id}`);
@@ -83,7 +83,7 @@
 	{#if chatIsEmpty}
 		<Icon name="forum" className="opacity-10" customSize="11rem" />
 	{:else}
-		<div class="h-full scroll-y flex flex-col gap-0.5 py-5">
+		<div class="scroll-y flex h-full flex-col gap-0.5 py-5">
 			{#each chatRoom.messages as message}
 				<ChatMessage
 					{message}
@@ -98,7 +98,7 @@
 	<div aria-label="Chat input">
 		{#if replyId}
 			{@const replyMessage = chatRoom.messages.filter((message) => message.id === replyId)[0]}
-			<div class="flex w-full mb-2 items-center gap-2 rounded-md bg-blue-200 p-2">
+			<div class="mb-2 flex w-full items-center gap-2 rounded-md bg-blue-200 p-2">
 				<Icon name="reply" color="text-gray-500" size="lg" />
 				<span class="text w-full overflow-hidden text-ellipsis whitespace-nowrap text-xs text-gray-500">
 					<b>{replyMessage.authorName}</b>: {replyMessage.content}

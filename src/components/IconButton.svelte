@@ -2,7 +2,7 @@
 	import { Icon } from ".";
 
 	export let icon: string;
-	export let size: string = "base";
+	export let size = "base";
 	export let className: string | undefined = undefined;
 	export let href: string | undefined = undefined;
 	export let ghost = false;
@@ -22,7 +22,7 @@
 	on:keydown
 	type="button"
 	class:p-0={ghost}
-	class="disabled:opacity-30 disabled:cursor-not-allowed flex w-fit h-fit marker:flex-shrink-0 items-center justify-center gap-1 rounded-full p-2 transition hover:bg-neutral-100 active:translate-y-[1px] active:bg-neutral-50 {className}"
+	class="flex h-fit w-fit items-center justify-center gap-1 rounded-full p-2 transition marker:flex-shrink-0 hover:bg-neutral-100 active:translate-y-[1px] active:bg-neutral-50 disabled:cursor-not-allowed disabled:opacity-30 {className}"
 >
 	<Icon name={icon} {size} {outlined} />
 </svelte:element>

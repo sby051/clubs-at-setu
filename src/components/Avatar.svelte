@@ -4,8 +4,7 @@
 	export let disabled = false;
 </script>
 
-<button {disabled} style="--src: url({src}); --size: {size}" on:click on:mouseenter on:mouseleave class="avatar">
-</button>
+<button {disabled} style="--src: url({src}); --size: {size}" on:click on:mouseenter on:mouseleave class="avatar" />
 
 <style>
 	.avatar {

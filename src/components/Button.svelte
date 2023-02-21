@@ -57,7 +57,9 @@
 	role="button"
 	class:w-full={fillWidth}
 	disabled={disabled || loading}
-	class="flex flex-grow-0 cursor-pointer select-none items-center justify-center gap-1.5 whitespace-nowrap rounded-md font-medium transition duration-100 hover:bg-opacity-90 active:bg-opacity-80 disabled:bg-opacity-50 {STYLES[style]} {SIZES[size]} {className}"
+	class="flex flex-grow-0 cursor-pointer select-none items-center justify-center gap-1.5 whitespace-nowrap rounded-md font-medium transition duration-100 hover:bg-opacity-90 active:bg-opacity-80 disabled:bg-opacity-50 {STYLES[
+		style
+	]} {SIZES[size]} {className}"
 >
 	{#if loading}
 		{loadingText}

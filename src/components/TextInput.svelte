@@ -27,16 +27,16 @@
 				<span class="text-red-500">*</span>
 			{/if}
 			{#if limit}
-				<span class="ml-auto text-gray-500 text-xs font-light">({value.length}/{limit})</span>
+				<span class="ml-auto text-xs font-light text-gray-500">({value.length}/{limit})</span>
 			{/if}
 		</label>
 	{/if}
-	<div class="w-full flex gap-2 items-center outlined-input {className}">
+	<div class="outlined-input flex w-full items-center gap-2 {className}">
 		{#if $$slots.start}
-			<slot name="start"/>
+			<slot name="start" />
 		{/if}
 		<input
-			class="bg-transparent w-full text-overflow focus:outline-none"
+			class="text-overflow w-full bg-transparent focus:outline-none"
 			{placeholder}
 			{required}
 			maxlength={limit}
@@ -53,10 +53,9 @@
 			<slot name="end" />
 		{/if}
 	</div>
-	{#if value && (pattern && !pattern.test(value))}
+	{#if value && pattern && !pattern.test(value)}
 		<span class="text-xs text-red-500">{invalidMessage}</span>
 	{:else if caption}
 		<span class="text-xs text-gray-500">{caption}</span>
 	{/if}
-	
 </div>

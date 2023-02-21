@@ -1,8 +1,13 @@
 import type { User } from "@types";
+import {
+	createUserWithEmailAndPassword,
+	reauthenticateWithCredential,
+	signInWithEmailAndPassword,
+	signOut,
+	updatePassword,
+} from "firebase/auth";
 import { auth } from ".";
 import { createDocument, deleteDocument, getCollection } from "./fsdb";
-import { createUserWithEmailAndPassword, reauthenticateWithCredential, signInWithEmailAndPassword, signOut, updatePassword } from "firebase/auth";
-import { getDocument } from "./fsdb";
 
 export const signUp = async (user: User): Promise<boolean> => {
 	const userCredential = await createUserWithEmailAndPassword(auth, user.email, user.password);
@@ -35,8 +40,7 @@ export const deleteAccount = async (): Promise<boolean> => {
 	try {
 		await auth.currentUser?.delete();
 		return true;
-	}
-	catch (e) {
+	} catch (e) {
 		return false;
 	}
 };
@@ -53,17 +57,17 @@ export const changePassword = async (password: string): Promise<boolean> => {
 	} catch (e) {
 		return false;
 	}
-}
+};
 
 export const reauthenticate = async (password: string): Promise<boolean> => {
 	try {
 		await reauthenticateWithCredential(auth.currentUser, {
 			email: auth.currentUser?.email,
-			password
+			password,
 		});
 		return true;
 	} catch (e) {
 		console.log(e);
 		return false;
 	}
-}
+};

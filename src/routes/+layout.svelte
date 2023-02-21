@@ -7,7 +7,7 @@
 	import { fade } from "svelte/transition";
 	import { navigating } from "$app/stores";
 	import { Confirm } from "@features/confirm";
-	
+
 	$: inGlobalLoadState = !browser || $authed === null;
 </script>
 
@@ -36,5 +36,7 @@
 {/if}
 
 <style lang="postcss">
-	:global(body) { @apply bg-offwhite }
+	:global(body) {
+		@apply bg-offwhite;
+	}
 </style>

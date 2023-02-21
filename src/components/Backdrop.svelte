@@ -1,8 +1,7 @@
 <script lang="ts">
-	import { backInOut } from "svelte/easing";
 	import { fade } from "svelte/transition";
 
-	export let blur: boolean = false;
+	export let blur = false;
 
 	export let opacity: string | number = "50%";
 
