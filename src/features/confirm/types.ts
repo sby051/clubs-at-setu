@@ -13,6 +13,11 @@ export interface ConfirmOptions {
     message?: string,
     icon?: string,
     buttons?: ConfirmButtons,
+    confirmationInput?: {
+        placeholder: string,
+        label: string,
+        expectedValue: string,
+    }
 }
 
 export interface ConfirmData extends ConfirmOptions {

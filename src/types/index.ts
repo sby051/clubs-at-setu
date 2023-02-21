@@ -1,3 +1,5 @@
+import "@total-typescript/ts-reset";
+
 export type ID = string;
 export type StudentID = `C00${ID}` | `c00${ID}`;
 

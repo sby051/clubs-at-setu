@@ -12,7 +12,6 @@
 
 	export let data: LayoutData;
 
-	const CLUBS = Object.values(data.clubs);
 	const SIDEBAR_LINKS: NavigationLinkType[] = [
 		{ title: "Home", icon: "home", href: "/"},
 		{ title: "Clubs", icon: "join", href: "/clubs" },
@@ -27,6 +26,7 @@
 
 	$: if ($authed === false) window.location.href = "/login";
 	$: pathSegments = $page.url.pathname.split("/").filter(segment => segment !== "");
+	$: usersClubs = Object.values(data.clubs).filter(club => club.members.includes($user?.id));
 
 </script>
 
@@ -52,13 +52,13 @@
 
 		<span class="separator-h" />
 
-		{#if CLUBS.length > 0}
+		{#if usersClubs.length > 0}
 			<section class={SIDEBAR_SECTION_CATEGORY} aria-label="Club links">
 				{#if sidebarOpen}
 					<span class="text-gray-500 text-xs p-1 font-medium text-overflow">My clubs</span>
 				{/if}
 
-				{#each CLUBS as club}
+				{#each usersClubs as club}
 					{@const href = `/clubs/${club.id}`}
 					{@const active = $page.url.pathname.startsWith(href)}
 					<NavigationLink

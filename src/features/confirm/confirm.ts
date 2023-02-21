@@ -29,6 +29,7 @@ export const confirm = (title: string, options?: ConfirmOptions): Promise<boolea
         message: options?.message,
         icon: options?.icon,
         buttons: options?.buttons || DEFAULT_CONFIRM_BUTTONS,
+        confirmationInput: options?.confirmationInput,
     });
 
     _confirm_promise = new Promise<boolean>((resolve) => {

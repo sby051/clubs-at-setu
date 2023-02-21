@@ -77,6 +77,11 @@
 							icon: "delete",
 							style: "danger",
 						},
+					},
+					confirmationInput: {
+						label: "Type your email below to confirm",
+						placeholder: "Email",
+						expectedValue: $user?.studentId
 					}
 				});
 

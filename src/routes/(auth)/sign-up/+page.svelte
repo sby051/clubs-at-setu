@@ -3,11 +3,12 @@
 	import { uploadFile } from "@fb/storage"
 	import { windowTitle } from "@stores/globals";
 	import { Button, TextInput, PasswordInput, Icon, IconButton, ImagePicker, HourglassLoader } from "@components";
-	import type { User } from "@types";
+	import type { StudentID, User } from "@types";
 	import { REGEXES } from "@utils/constants";
 	import { scale, slide } from "svelte/transition";
 	import { goto } from "$app/navigation";
 	import { blur } from "svelte/transition";
+	import { enter } from "sveltils/actions";
 
 	const STAGE_NAMES = [
 		"Details",
@@ -25,13 +26,14 @@
 
 	let data: User = {
 		id: "",
-		studentId: "",
+		studentId: "" as StudentID,
 		firstName: "",
 		lastName: "",
 		email: "",
 		clubs: [],
 		password: "",
 		phoneNumber: "",
+		dateOfBirth: 0,
 		medicalInfo: {
 			doctor: {
 				name: "",
@@ -104,7 +106,8 @@
 	let currentStage = STAGES.DETAILS;
 	let loading = false;
 	$: data.email = data.studentId ? `${data.studentId}@itcarlow.ie` : "";
-	$: data.studentId = data.studentId?.toUpperCase();
+	$: data.studentId = data.studentId?.toUpperCase() as StudentID;	
+	$: data.dateOfBirth = new Date(data.dateOfBirth).getTime();
 
 	windowTitle.set("Sign up");
 </script>

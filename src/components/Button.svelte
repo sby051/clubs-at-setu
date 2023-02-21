@@ -10,6 +10,7 @@
 	export let loadingText = "Loading...";
 	export let loading = false;
 	export let type = "button";
+	export let disabled = false;
 
 	const STYLES = {
 		normal: "bg-offblack text-white",
@@ -55,7 +56,7 @@
 	on:keydown
 	role="button"
 	class:w-full={fillWidth}
-	disabled={loading}
+	disabled={disabled || loading}
 	class="flex flex-grow-0 cursor-pointer select-none items-center justify-center gap-1.5 whitespace-nowrap rounded-md font-medium transition duration-100 hover:bg-opacity-90 active:bg-opacity-80 disabled:bg-opacity-50 {STYLES[style]} {SIZES[size]} {className}"
 >
 	{#if loading}

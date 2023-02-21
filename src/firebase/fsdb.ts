@@ -1,6 +1,6 @@
 import { fsdb } from ".";
 import type { FirestoreCollection } from "./types";
-import type { ID, User } from "@types";
+import type { ID } from "@types";
 import { doc, getDoc, getDocs, setDoc, collection as cltn, updateDoc, deleteDoc } from "firebase/firestore";
 
 export const getDocument = async <ExpectedDocument>(collection: string, docId: ID): Promise<ExpectedDocument | null> => {
