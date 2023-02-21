@@ -102,7 +102,10 @@
 	let loading = false;
 	$: data.email = data.studentId ? `${data.studentId}@itcarlow.ie` : "";
 	$: data.studentId = data.studentId?.toUpperCase() as StudentID;
-	$: data.dateOfBirth = new Date(data.dateOfBirth).getTime();
+	
+	let dob = 0;
+
+	$: data.dateOfBirth = dob;
 
 	windowTitle.set("Sign up");
 </script>
@@ -183,7 +186,7 @@
 			/>
 			<div class="flex flex-col gap-1">
 				<label for="date-of-birth" class="text text-sm font-medium text-gray-600">Date of birth</label>
-				<input required bind:value={data.dateOfBirth} id="date-of-birth" type="date" class="outlined-input" />
+				<input required bind:value={dob} id="date-of-birth" type="date" class="outlined-input" />
 			</div>
 		</section>
 		<PasswordInput usePattern bind:value={data.password} />
