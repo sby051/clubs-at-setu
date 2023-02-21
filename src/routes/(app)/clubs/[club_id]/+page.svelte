@@ -9,11 +9,14 @@
 	import { invalidateAll } from "$app/navigation";
 	import { fade, slide } from "svelte/transition";
 	import type { Announcement } from "@types";
-	import { ChatRoom } from "@features/chat";
+	import { windowTitle } from "@stores/globals";
+	// import { ChatRoom } from "@features/chat";
 
 	export let data: PageData;
 
 	const { club } = data;
+
+	windowTitle.set(club.name);
 
 	const announcement = {
 		title: "",
