@@ -47,7 +47,7 @@ export const deleteAccount = async (): Promise<boolean> => {
 
 export const isEmailUsed = async (email: string): Promise<boolean> => {
 	const users = await getCollection<User>("users");
-	return users.some((user) => user.email === email);
+	return Object.values(users).some((user) => user.email === email);
 };
 
 export const changePassword = async (password: string): Promise<boolean> => {
