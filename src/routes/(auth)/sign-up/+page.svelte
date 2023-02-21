@@ -16,7 +16,7 @@
 		DETAILS,
 		CONFIRM,
 		MEDICAL,
-		FINISH,
+		FINISHED,
 	}
 
 	let data: User = {
@@ -212,10 +212,8 @@
 			<span class="text mt-2 text-sm text-gray-500">
 				Due to the nature of joining a club, we require some medical information. This information is used to
 				contact your doctor and next of kin in case of an emergency. All data is stored securely and is not
-				shared with any third parties. To learn more about how we use your data, please read our <a
-					href="/privacy-policy"
-					class="link text-sm">privacy policy</a
-				>.
+				shared with any third parties. To learn more about how we use your data, please read our 
+				<a href="/privacy-policy" class="link text-sm">privacy policy</a>
 			</span>
 		</div>
 
