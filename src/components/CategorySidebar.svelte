@@ -1,6 +1,8 @@
 <script lang="ts">
 	import type { Category } from "@types";
+	import { slide } from "svelte/transition"
 	import { Icon, IconButton, NavigationLink, TextInput } from "@components";
+	import { cubicInOut } from "svelte/easing";
 
 	export let categories: Category[];
 	export let title: string;
@@ -19,11 +21,13 @@
 		{/if}
 	</div>
 	{#if searchVisible}
-		<TextInput placeholder="Search.." className="mb-4" bind:value={searchQuery}>
-			<svelte:fragment slot="start">
-				<Icon name="search" />
-			</svelte:fragment>
-		</TextInput>
+		<span class="w-full" transition:slide={{duration: 300, easing: cubicInOut}}>
+			<TextInput placeholder="Search.." className="mb-4" bind:value={searchQuery}>
+				<svelte:fragment slot="start">
+					<Icon name="search" />
+				</svelte:fragment>
+			</TextInput>
+		</span>
 	{/if}
 	{#each categories as category, i}
 		<NavigationLink

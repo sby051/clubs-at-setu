@@ -3,7 +3,7 @@
 	import { windowTitle } from "@stores/globals";
 	import { authed } from "@stores/user";
 	import { browser } from "$app/environment";
-	import { HourglassLoader } from "@components";
+	import { Loader } from "@components";
 	import { fade } from "svelte/transition";
 	import { navigating } from "$app/stores";
 	import { Confirm } from "@features/confirm";
@@ -18,7 +18,7 @@
 <Confirm />
 
 {#if $navigating}
-	<progress class="fixed top-0 left-0 h-1 w-screen animate-pulse bg-sky-400 duration-75" />
+	<span class="fixed top-0 left-0 h-1 w-screen animate-pulse bg-sky-400 duration-75" />
 {/if}
 
 {#if inGlobalLoadState}
@@ -26,7 +26,7 @@
 		transition:fade
 		class="fixed inset-0 flex h-screen w-screen flex-col items-center justify-center gap-1 overflow-hidden"
 	>
-		<HourglassLoader />
+		<Loader />
 		<span class="text text-sm font-medium">Getting things ready..</span>
 	</div>
 {:else}

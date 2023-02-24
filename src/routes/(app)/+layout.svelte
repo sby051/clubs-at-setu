@@ -4,13 +4,10 @@
 	import user from "@stores/user";
 	import logo from "@assets/logo.png";
 	import { clickoutside } from "sveltils/actions";
-	import type { LayoutData } from "./$types";
 	import { Icon, NavigationLink } from "@components";
 	import type { NavigationLink as NavigationLinkType } from "@types";
 	import { Avatar } from "@components";
 	import { page } from "$app/stores";
-
-	export let data: LayoutData;
 
 	const SIDEBAR_LINKS: NavigationLinkType[] = [
 		{ title: "Home", icon: "home", href: "/" },
@@ -26,14 +23,12 @@
 
 	$: if ($authed === false) window.location.href = "/login";
 	$: pathSegments = $page.url.pathname.split("/").filter((segment) => segment !== "");
-	$: usersClubs = Object.values(data.clubs).filter((club) => club.members.includes($user?.id));
 </script>
 
 <div class="flex h-[100dvh] w-[100dvw] overflow-hidden" aria-label="App layout">
 	<aside
 		on:dblclick={toggleSidebar}
-		class="transition-width flex h-full w-[3.8rem] flex-col gap-2 border-r-[1px] border-gray-300 py-2 duration-75"
-		class:w-[14rem]={sidebarOpen}
+		class="transition-width w-{sidebarOpen ? '64' : '18'} flex h-full flex-col gap-2 border-r-[1px] border-gray-300 py-2 duration-75"
 		aria-label="Sidebar"
 	>
 		<section class={SIDEBAR_SECTION_CATEGORY}>
@@ -51,13 +46,13 @@
 
 		<span class="separator-h" />
 
-		{#if usersClubs.length > 0}
+		{#if $user?.clubs.length > 0}
 			<section class={SIDEBAR_SECTION_CATEGORY} aria-label="Club links">
 				{#if sidebarOpen}
 					<span class="text-overflow p-1 text-xs font-medium text-gray-500">My clubs</span>
 				{/if}
 
-				{#each usersClubs as club}
+				{#each $user?.clubs as club}
 					{@const href = `/clubs/${club.id}`}
 					{@const active = $page.url.pathname.startsWith(href)}
 					<NavigationLink title={club.name} {href} {active} {sidebarOpen} shadowActive>

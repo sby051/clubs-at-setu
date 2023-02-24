@@ -2,7 +2,7 @@
 	import { isEmailUsed, signUp } from "@fb/auth";
 	import { uploadFile } from "@fb/storage";
 	import { windowTitle } from "@stores/globals";
-	import { Button, TextInput, PasswordInput, Icon, IconButton, ImagePicker, HourglassLoader } from "@components";
+	import { Button, TextInput, PasswordInput, Icon, IconButton, ImagePicker, Loader } from "@components";
 	import type { StudentID, User } from "@types";
 	import { REGEXES } from "@utils/constants";
 	import { scale, slide } from "svelte/transition";

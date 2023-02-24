@@ -1,5 +1,5 @@
 import { auth } from "@fb";
-import { getDocument, updateDocument } from "@fb/fsdb";
+import { getDocument, getDocuments, updateDocument } from "@fb/fsdb";
 import { getFileURL } from "@fb/storage";
 import type { User } from "@types";
 import type { User as FirebaseUser } from "firebase/auth";
@@ -16,8 +16,9 @@ onAuthStateChanged(auth, async (firebaseUser: FirebaseUser | null) => {
 		return;
 	}
 	const userDoc = await getDocument<User>("users", firebaseUser.uid);
+	const clubDocs = await getDocuments<Club>("clubs", userDoc.clubs);
 	userDoc.photo = await getFileURL(userDoc.photo);
-	console.log(userDoc);
+	userDoc.clubs = clubDocs;
 	user.set(userDoc);
 	authed.set(true);
 });

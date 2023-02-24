@@ -6,3 +6,13 @@ export const toHTMLEntities = (str: string) => str.replace(/\p{Emoji}/gmu, (s) =
 export const whenInBrowser = (fn: () => unknown): void => {
 	if (typeof window !== "undefined") fn();
 };
+
+export const safeAwait = async <T>(promise: Promise<T>): Promise<[T | null, Error | null]> => {
+	try {
+		const data = await promise;
+		return [data, null];
+	} catch (error: unknown) {
+		return [null, error];
+	}
+}
+

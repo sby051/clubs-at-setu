@@ -8,6 +8,7 @@ import {
 } from "firebase/auth";
 import { auth } from ".";
 import { createDocument, deleteDocument, getCollection } from "./fsdb";
+import { safeAwait } from "@utils/helpers";
 
 export const signUp = async (user: User): Promise<boolean> => {
 	const userCredential = await createUserWithEmailAndPassword(auth, user.email, user.password);
@@ -27,22 +28,14 @@ export const signUp = async (user: User): Promise<boolean> => {
 export const logout = async (): Promise<void> => await signOut(auth);
 
 export const login = async (email: string, password: string): Promise<boolean> => {
-	try {
-		await signInWithEmailAndPassword(auth, email, password);
-		return true;
-	} catch (e) {
-		return false;
-	}
+	const [_, err] = await safeAwait(signInWithEmailAndPassword(auth, email, password));
+	return !err;
 };
 
 export const deleteAccount = async (): Promise<boolean> => {
 	if (!(await deleteDocument("users", auth.currentUser?.uid))) return false;
-	try {
-		await auth.currentUser?.delete();
-		return true;
-	} catch (e) {
-		return false;
-	}
+	if (!(await auth.currentUser?.delete())) return false;
+	return true;
 };
 
 export const isEmailUsed = async (email: string): Promise<boolean> => {
@@ -51,23 +44,11 @@ export const isEmailUsed = async (email: string): Promise<boolean> => {
 };
 
 export const changePassword = async (password: string): Promise<boolean> => {
-	try {
-		await updatePassword(auth.currentUser, password);
-		return true;
-	} catch (e) {
-		return false;
-	}
+	const [_, err] = await safeAwait(updatePassword(auth.currentUser, password));
+	return !err;
 };
 
 export const reauthenticate = async (password: string): Promise<boolean> => {
-	try {
-		await reauthenticateWithCredential(auth.currentUser, {
-			email: auth.currentUser?.email,
-			password,
-		});
-		return true;
-	} catch (e) {
-		console.log(e);
-		return false;
-	}
+	const [_, err] = await safeAwait(reauthenticateWithCredential(auth.currentUser, password));
+	return !err;
 };

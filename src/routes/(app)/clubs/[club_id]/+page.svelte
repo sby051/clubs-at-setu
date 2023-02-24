@@ -8,7 +8,7 @@
 	import { confirm } from "@features/confirm";
 	import { invalidateAll } from "$app/navigation";
 	import { fade, slide } from "svelte/transition";
-	import type { Announcement } from "@types";
+	import type { Announcement, User } from "@types";
 	import { windowTitle } from "@stores/globals";
 	// import { ChatRoom } from "@features/chat";
 
@@ -25,15 +25,13 @@
 
 	const joinClub = async () => {
 		if (isMember) return;
-		$user = {
+		user.set({
 			...$user,
 			clubs: [...$user?.clubs, club.id],
-		};
+		} as User);
 		await updateDocument("clubs", club.id, {
 			members: [...club.members, $user?.id],
 		});
-
-		await invalidateAll();
 	};
 
 	const leaveClub = async () => {
@@ -46,14 +44,12 @@
 
 		$user = {
 			...$user,
-			clubs: $user.clubs.filter((id) => id !== club.id),
-		};
+			clubs: $user?.clubs.filter((id) => id !== club.id),
+		} as User;
 
 		await updateDocument("clubs", club.id, {
 			members: club.members.filter((id) => id !== $user?.id),
 		});
-
-		await invalidateAll();
 	};
 
 	const createAnnouncement = async () => {
@@ -73,11 +69,9 @@
 		postingAnnouncement = false;
 		announcement.title = "";
 		announcement.content = "";
-
-		await invalidateAll();
 	};
 
-	const deleteAnnouncement = async () => {
+	const deleteAnnouncement = async (announcement: Announcement) => {
 		const confirmed = await confirm("Are you sure you want to delete this announcement?", {
 			message: "This action cannot be undone.",
 			icon: "warning",
@@ -88,14 +82,12 @@
 		await updateDocument("clubs", club.id, {
 			announcements: club.announcements.filter((a) => a.title !== announcement.title),
 		});
-
-		await invalidateAll();
 	};
 
 	let postingAnnouncement = false;
 
-	$: isMember = $user.clubs.includes(club.id);
-	$: isManager = club.managers.includes($user?.id) || $user?.admin;
+	$: isMember = $user?.clubs.includes(club.id);
+	$: isManager = club.managers.includes($user?.id);
 </script>
 
 <header class="flex items-center gap-8 border-b-[1px] border-b-gray-300 p-10" aria-label="Club header">
@@ -171,7 +163,7 @@
 								maxlength="50"
 								type="text"
 								bind:value={announcement.title}
-								class="text-overflow w-full bg-transparent text-lg font-medium focus:outline-none"
+								class="text-overflow w-full bg-transparent text-xl font-semibold focus:outline-none"
 								placeholder="Say something to your club.."
 							/>
 							{#if announcement.title}
@@ -179,17 +171,23 @@
 							{/if}
 						</div>
 						{#if announcement.title}
+							{@const contentLimit = 1028}
 							<div class="flex w-full flex-col gap-3" transition:slide>
 								<textarea
-									maxlength="256"
+									maxlength={contentLimit}
 									bind:value={announcement.content}
-									class="h-64 w-full resize-none bg-transparent focus:outline-none"
+									class="h-64 text-sm w-full resize-none bg-transparent focus:outline-none"
 									placeholder="Say something to your club.."
 								/>
-								<Button style="primary" size="sm" className="w-fit ml-auto" type="submit">
-									<Icon name="send" />
-									Send
-								</Button>
+								<span class="w-full justify-end items-center flex gap-2">
+									<span class="text text-xs font-medium text-gray-600">
+										{announcement.content.length}/{contentLimit}
+									</span>
+									<Button style="primary" size="sm" type="submit">
+										<Icon name="send" />
+										Send
+									</Button>
+								</span>
 							</div>
 						{/if}
 					{/if}
@@ -202,41 +200,35 @@
 						{#await getDocument("users", announcement.author)}
 							<li class="h-8 w-full animate-pulse rounded-md bg-gray-200" />
 						{:then author}
-							{#each [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15] as i}
-								<li
-									class="border-1 group relative flex flex-col gap-2 rounded-md border-gray-300 p-4 transition hover:bg-white"
-								>
-									<span class="flex items-center gap-2">
-										<Avatar src={author.photo} size="32px" />
-										<div class="flex flex-col ">
-											<span class="text text-sm font-medium text-gray-800"
-												>{author.firstName} {author.lastName}</span
-											>
-											<span class="text text-xs font-medium text-gray-500"
-												>{author.studentId}</span
-											>
-										</div>
-										<Icon name="admin_panel_settings" customSize="1.25rem" color="gray-600" />
-										<span class="text ml-auto text-xs">
-											<Time
-												relative={Date.now() < announcement.date + 1000 * 60 * 60 * 3}
-												timestamp={announcement.date}
-												format="dddd D, MMMM YYYY @ h:mm:a"
-											/>
-										</span>
+							<li class="border-1 group relative flex flex-col gap-2 rounded-md border-gray-300 p-4 transition hover:bg-white">
+								<span class="flex items-center gap-2">
+									<Avatar src={author.photo} size="32px" />
+									<div class="flex flex-col ">
+										<span class="text text-sm font-medium text-gray-800">{author.firstName} {author.lastName}</span>
+										<span class="text text-xs font-medium text-gray-500">{author.studentId}</span>
+									</div>
+									<Icon name="admin_panel_settings" customSize="1.25rem" color="gray-600" />
+									<span class="text ml-auto text-xs">
+										<Time
+											relative={Date.now() < announcement.date + 1000 * 60 * 60 * 3}
+											timestamp={announcement.date}
+											format="dddd D, MMMM YYYY @ h:mm:a"
+										/>
 									</span>
-									<span class="text text-lg font-semibold text-gray-800">{announcement.title}</span>
-									<span class="text text-sm text-gray-500">{announcement.content}</span>
-									{#if isManager}
-										<span
-											class="border-1 invisible absolute -right-2 -top-2 z-20 flex items-center rounded-full border-gray-300 bg-gray-200 p-0.5 shadow-md transition group-hover:visible"
-										>
-											<IconButton icon="edit" title="Feature coming soon.." disabled />
-											<IconButton icon="delete" title="Delete announcement" />
-										</span>
-									{/if}
-								</li>
-							{/each}
+								</span>
+
+								<article class="prose prose-sm min-w-full">
+									<h2>{announcement.title}</h2>
+									<p class="text-wrap">{announcement.content}</p>
+								</article>
+
+								{#if isManager && author.id === $user?.id}
+									<span class="border-1 invisible absolute -right-2 -top-2 z-20 flex items-center rounded-full border-gray-300 bg-gray-200 p-0.5 shadow-md transition group-hover:visible">
+										<IconButton icon="edit" title="Feature coming soon.." disabled />
+										<IconButton on:click={() => deleteAnnouncement(announcement)} icon="delete" title="Delete announcement" />
+									</span>
+								{/if}
+							</li>
 						{/await}
 					{/each}
 				{:else}
@@ -266,10 +258,9 @@
 					{:then user}
 						<li class="flex items-center gap-2 rounded-md p-2 transition hover:bg-gray-200">
 							<Avatar src={user.photo} size="28px" />
-							<span class="text-overflow text text-sm font-medium text-gray-800"
-								>{user.firstName} {user.lastName}</span
+							<span class="text-overflow text text-sm font-medium text-gray-800">{user.firstName} {user.lastName}</span
 							>
-							{#if !manager}
+							{#if manager}
 								<Icon
 									className="ml-auto"
 									name="admin_panel_settings"

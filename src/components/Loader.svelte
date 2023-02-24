@@ -1,24 +1,23 @@
 <script lang="ts">
-	export let size = "20";
-
 	export let scale = 1;
 </script>
 
-<div class="lds-ellipsis" style="scale: {scale}">
-	<div />
-	<div />
-	<div />
-	<div />
+<div class="loader" style="scale: {scale}">
+	<span class="loader__circle"/>
+	<span class="loader__circle" />
+	<span class="loader__circle" />
+	<span class="loader__circle" />
 </div>
 
 <style>
-	.lds-ellipsis {
+	.loader {
 		display: inline-block;
 		position: relative;
 		width: 80px;
 		height: 80px;
 	}
-	.lds-ellipsis div {
+
+	.loader__circle {
 		position: absolute;
 		top: 33px;
 		width: 13px;
@@ -27,23 +26,28 @@
 		background: black;
 		animation-timing-function: cubic-bezier(0, 1, 1, 0);
 	}
-	.lds-ellipsis div:nth-child(1) {
+
+	.loader:first-child {
 		left: 8px;
-		animation: lds-ellipsis1 0.6s infinite;
+		animation: loader-circles-1 ease-in-out 0.6s infinite;
 	}
-	.lds-ellipsis div:nth-child(2) {
+
+	.loader:nth-child(2) {
 		left: 8px;
-		animation: lds-ellipsis2 0.6s infinite;
+		animation: loader-circles-2 ease-in-out 0.6s infinite;
 	}
-	.lds-ellipsis div:nth-child(3) {
+	
+	.loader:nth-child(3) {
 		left: 32px;
-		animation: lds-ellipsis2 0.6s infinite;
+		animation: loader-circles-3 ease-in-out 0.6s infinite;
 	}
-	.lds-ellipsis div:nth-child(4) {
+
+	.loader:last-child {
 		left: 56px;
-		animation: lds-ellipsis3 0.6s infinite;
+		animation: loader-circles-2 ease-in-out 0.6s infinite;
 	}
-	@keyframes lds-ellipsis1 {
+	
+	@keyframes loader-circles-1 {
 		0% {
 			transform: scale(0);
 		}
@@ -51,7 +55,8 @@
 			transform: scale(1);
 		}
 	}
-	@keyframes lds-ellipsis3 {
+
+	@keyframes loader-circles-2 {
 		0% {
 			transform: scale(1);
 		}
@@ -59,7 +64,8 @@
 			transform: scale(0);
 		}
 	}
-	@keyframes lds-ellipsis2 {
+
+	@keyframes loader-circles-3 {
 		0% {
 			transform: translate(0, 0);
 		}

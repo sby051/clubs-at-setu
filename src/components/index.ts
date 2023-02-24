@@ -3,7 +3,7 @@ export { default as Backdrop } from "./Backdrop.svelte";
 export { default as Button } from "./Button.svelte";
 export { default as CategorySidebar } from "./CategorySidebar.svelte";
 export { default as Drawer } from "./Drawer.svelte";
-export { default as HourglassLoader } from "./HourglassLoader.svelte";
+export { default as Loader } from "./Loader.svelte";
 export { default as Icon } from "./Icon.svelte";
 export { default as IconButton } from "./IconButton.svelte";
 export { default as ImagePicker } from "./ImagePicker.svelte";
