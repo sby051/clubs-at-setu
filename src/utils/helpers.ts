@@ -1,17 +1,20 @@
 import type { SvelteComponent } from "svelte";
 
 export const lazyLoadComponent = async (path: string): Promise<SvelteComponent> => (await import(path)).default;
-export const toHTMLEntities = (str: string) => str.replace(/\p{Emoji}/gmu, (s) => "&#" + s.codePointAt(0) + ";");
 
 export const whenInBrowser = (fn: () => unknown): void => {
 	if (typeof window !== "undefined") fn();
 };
 
-export const safeAwait = async <T>(promise: Promise<T>): Promise<[T | null, Error | null]> => {
+/**
+ * Await a promise and return a tuple of [data, error]
+ * @param p Promise to await
+ * @returns [data, error] tuple
+ */
+export async function safeAwait<T>(p: Promise<T>): Promise<[T | null, unknown | null]> {
 	try {
-		const data = await promise;
-		return [data, null];
-	} catch (error: unknown) {
-		return [null, error];
+		const d = await p;
+		return [d, null];
 	}
-};
+	catch (e: unknown) { return [null, e]; }
+}
