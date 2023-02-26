@@ -8,6 +8,9 @@
 	import type { NavigationLink as NavigationLinkType } from "@types";
 	import { Avatar } from "@components";
 	import { page } from "$app/stores";
+	import { subscribeToRealtimeDatabase } from "@fb/rtdb";
+	import { onDestroy, onMount } from "svelte";
+	import { onDestroy } from "svelte/types/runtime/internal/lifecycle";
 
 	const SIDEBAR_LINKS: NavigationLinkType[] = [
 		{ title: "Home", icon: "home", href: "/" },
