@@ -3,7 +3,7 @@
 	import { uploadFile } from "@fb/storage";
 	import { windowTitle } from "@stores/globals";
 	import { Button, TextInput, PasswordInput, Icon, IconButton, ImagePicker, Loader } from "@components";
-	import type { StudentID, User } from "@types";
+	import { UserSchema, type StudentID, type User } from "@types";
 	import { REGEXES } from "@utils/constants";
 	import { scale, slide } from "svelte/transition";
 	import { goto } from "$app/navigation";
@@ -66,12 +66,13 @@
 								text: "Nevermind",
 								style: "outlined:normal",
 								icon: "close",
-							}
-						}
+							},
+						},
 					});
 					if (goToLogin) await goto(`/login?email=${data.email}`);
-					return;
+					break;
 				}
+
 				currentStage++;
 				break;
 			case STAGES.CONFIRM:
@@ -80,6 +81,12 @@
 			case STAGES.MEDICAL:
 				currentStage++;
 				loading = true;
+
+				if (!UserSchema.safeParse(data).success) {
+					alert("Invalid data");
+					break;
+				}
+
 				const signUpResult = await signUp(data);
 
 				if (!signUpResult) {
@@ -114,7 +121,7 @@
 	let loading = false;
 	$: data.email = data.studentId ? `${data.studentId}@itcarlow.ie` : "";
 	$: data.studentId = data.studentId?.toUpperCase() as StudentID;
-	
+
 	let dob = 0;
 
 	$: data.dateOfBirth = dob;
@@ -212,7 +219,7 @@
 			<span class="text mt-2 text-sm text-gray-500">
 				Due to the nature of joining a club, we require some medical information. This information is used to
 				contact your doctor and next of kin in case of an emergency. All data is stored securely and is not
-				shared with any third parties. To learn more about how we use your data, please read our 
+				shared with any third parties. To learn more about how we use your data, please read our
 				<a href="/privacy-policy" class="link text-sm">privacy policy</a>
 			</span>
 		</div>

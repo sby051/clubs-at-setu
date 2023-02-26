@@ -1,7 +1,7 @@
 import { auth } from "@fb";
 import { getDocument, getDocuments, updateDocument } from "@fb/fsdb";
 import { getFileURL } from "@fb/storage";
-import type { User } from "@types";
+import { UserSchema, type User } from "@types";
 import type { User as FirebaseUser } from "firebase/auth";
 import { onAuthStateChanged } from "firebase/auth";
 import { writable } from "svelte/store";
@@ -16,6 +16,20 @@ onAuthStateChanged(auth, async (firebaseUser: FirebaseUser | null) => {
 		return;
 	}
 	const userDoc = await getDocument<User>("users", firebaseUser.uid);
+
+	if (!userDoc) {
+		authed.set(false);
+		user.set(null);
+		return;
+	}
+
+	if (!UserSchema.safeParse(userDoc).success) {
+		authed.set(false);
+		user.set(null);
+		alert("Your account is corrupted. Please contact an administrator.");
+		return;
+	}
+
 	const clubDocs = await getDocuments<Club>("clubs", userDoc.clubs);
 	userDoc.photo = await getFileURL(userDoc.photo);
 	userDoc.clubs = clubDocs;

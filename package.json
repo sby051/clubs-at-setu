@@ -4,6 +4,7 @@
 	"private": true,
 	"scripts": {
 		"dev": "vite dev",
+		"start": "vite dev",
 		"dev:host": "vite dev --host",
 		"env:pull": "npx dotenv-vault pull",
 		"env:push": "npx dotenv-vault push",
@@ -12,8 +13,12 @@
 		"build": "vite build",
 		"preview": "vite preview",
 		"lint": "eslint .",
+		"lint:fix": "eslint . --fix",
 		"deploy": "vercel deploy --prod --yes",
-		"fmt": "prettier --write --plugin-search-dir=. ./src/**/*.{js,ts,html,css,svelte,json}"
+		"deploy:preview": "vercel --prod --yes",
+		"fmt": "prettier --write --plugin-search-dir=. ./src/**/*.{js,ts,html,css,svelte,json}",
+		"fmt:check": "prettier --check --plugin-search-dir=. ./src/**/*.{js,ts,html,css,svelte,json}",
+		"git:update": "git add -A && git commit -m \"Update\" && git push"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^1.0.2",
@@ -46,6 +51,7 @@
 		"svelte-emoji-selector": "^1.0.1",
 		"svelte-time": "^0.7.1",
 		"sveltils": "^0.2.0",
-		"vercel": "^28.14.1"
+		"vercel": "^28.14.1",
+		"zod": "^3.20.6"
 	}
 }

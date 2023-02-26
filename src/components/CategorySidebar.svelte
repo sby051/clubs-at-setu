@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Category } from "@types";
-	import { slide } from "svelte/transition"
+	import { slide } from "svelte/transition";
 	import { Icon, IconButton, NavigationLink, TextInput } from "@components";
 	import { cubicInOut } from "svelte/easing";
 
@@ -21,7 +21,7 @@
 		{/if}
 	</div>
 	{#if searchVisible}
-		<span class="w-full" transition:slide={{duration: 300, easing: cubicInOut}}>
+		<span class="w-full" transition:slide={{ duration: 300, easing: cubicInOut }}>
 			<TextInput placeholder="Search.." className="mb-4" bind:value={searchQuery}>
 				<svelte:fragment slot="start">
 					<Icon name="search" />

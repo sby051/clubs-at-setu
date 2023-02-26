@@ -31,7 +31,9 @@
 <div class="flex h-[100dvh] w-[100dvw] overflow-hidden" aria-label="App layout">
 	<aside
 		on:dblclick={toggleSidebar}
-		class="transition-width w-{sidebarOpen ? '64' : '18'} flex h-full flex-col gap-2 border-r-[1px] border-gray-300 py-2 duration-75"
+		class="transition-width w-{sidebarOpen
+			? '64'
+			: '18'} flex h-full flex-col gap-2 border-r-[1px] border-gray-300 py-2 duration-75"
 		aria-label="Sidebar"
 	>
 		<section class={SIDEBAR_SECTION_CATEGORY}>

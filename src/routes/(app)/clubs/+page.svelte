@@ -73,7 +73,7 @@
 			icon: "computer",
 		},
 	];
-	
+
 	$: sortedClubs = clubs.sort((a, b) => a.name.localeCompare(b.name));
 </script>
 

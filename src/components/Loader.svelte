@@ -3,7 +3,7 @@
 </script>
 
 <div class="loader" style="scale: {scale}">
-	<span class="loader__circle"/>
+	<span class="loader__circle" />
 	<span class="loader__circle" />
 	<span class="loader__circle" />
 	<span class="loader__circle" />
@@ -36,7 +36,7 @@
 		left: 8px;
 		animation: loader-circles-2 ease-in-out 0.6s infinite;
 	}
-	
+
 	.loader:nth-child(3) {
 		left: 32px;
 		animation: loader-circles-3 ease-in-out 0.6s infinite;
@@ -46,7 +46,7 @@
 		left: 56px;
 		animation: loader-circles-2 ease-in-out 0.6s infinite;
 	}
-	
+
 	@keyframes loader-circles-1 {
 		0% {
 			transform: scale(0);

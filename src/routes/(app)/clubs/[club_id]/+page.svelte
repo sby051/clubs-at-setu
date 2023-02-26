@@ -176,10 +176,10 @@
 								<textarea
 									maxlength={contentLimit}
 									bind:value={announcement.content}
-									class="h-64 text-sm w-full resize-none bg-transparent focus:outline-none"
+									class="h-64 w-full resize-none bg-transparent text-sm focus:outline-none"
 									placeholder="Say something to your club.."
 								/>
-								<span class="w-full justify-end items-center flex gap-2">
+								<span class="flex w-full items-center justify-end gap-2">
 									<span class="text text-xs font-medium text-gray-600">
 										{announcement.content.length}/{contentLimit}
 									</span>
@@ -200,11 +200,15 @@
 						{#await getDocument("users", announcement.author)}
 							<li class="h-8 w-full animate-pulse rounded-md bg-gray-200" />
 						{:then author}
-							<li class="border-1 group relative flex flex-col gap-2 rounded-md border-gray-300 p-4 transition hover:bg-white">
+							<li
+								class="border-1 group relative flex flex-col gap-2 rounded-md border-gray-300 p-4 transition hover:bg-white"
+							>
 								<span class="flex items-center gap-2">
 									<Avatar src={author.photo} size="32px" />
 									<div class="flex flex-col ">
-										<span class="text text-sm font-medium text-gray-800">{author.firstName} {author.lastName}</span>
+										<span class="text text-sm font-medium text-gray-800"
+											>{author.firstName} {author.lastName}</span
+										>
 										<span class="text text-xs font-medium text-gray-500">{author.studentId}</span>
 									</div>
 									<Icon name="admin_panel_settings" customSize="1.25rem" color="gray-600" />
@@ -223,9 +227,15 @@
 								</article>
 
 								{#if isManager && author.id === $user?.id}
-									<span class="border-1 invisible absolute -right-2 -top-2 z-20 flex items-center rounded-full border-gray-300 bg-gray-200 p-0.5 shadow-md transition group-hover:visible">
+									<span
+										class="border-1 invisible absolute -right-2 -top-2 z-20 flex items-center rounded-full border-gray-300 bg-gray-200 p-0.5 shadow-md transition group-hover:visible"
+									>
 										<IconButton icon="edit" title="Feature coming soon.." disabled />
-										<IconButton on:click={() => deleteAnnouncement(announcement)} icon="delete" title="Delete announcement" />
+										<IconButton
+											on:click={() => deleteAnnouncement(announcement)}
+											icon="delete"
+											title="Delete announcement"
+										/>
 									</span>
 								{/if}
 							</li>
@@ -258,7 +268,8 @@
 					{:then user}
 						<li class="flex items-center gap-2 rounded-md p-2 transition hover:bg-gray-200">
 							<Avatar src={user.photo} size="28px" />
-							<span class="text-overflow text text-sm font-medium text-gray-800">{user.firstName} {user.lastName}</span
+							<span class="text-overflow text text-sm font-medium text-gray-800"
+								>{user.firstName} {user.lastName}</span
 							>
 							{#if manager}
 								<Icon

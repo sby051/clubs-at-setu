@@ -1,4 +1,5 @@
-import type { User } from "@types";
+import { UserSchema, type User } from "@types";
+import { safeAwait } from "@utils/helpers";
 import {
 	createUserWithEmailAndPassword,
 	reauthenticateWithCredential,
@@ -8,19 +9,20 @@ import {
 } from "firebase/auth";
 import { auth } from ".";
 import { createDocument, deleteDocument, getCollection } from "./fsdb";
-import { safeAwait } from "@utils/helpers";
 
 export const signUp = async (user: User): Promise<boolean> => {
-	const userCredential = await createUserWithEmailAndPassword(auth, user.email, user.password);
+	if (!UserSchema.safeParse(user).success) return false;
 
-	const { uid } = userCredential.user;
+	const [userCredential, err] = await safeAwait(createUserWithEmailAndPassword(auth, user.email, user.password));
 
-	if (!uid) return false;
+	if (err) return false;
+
+	if (!userCredential?.uid) return false;
 
 	delete user.password;
-	user.id = uid;
+	user.id = userCredential?.uid;
 
-	if (!(await createDocument("users", uid, user))) return false;
+	if (!(await createDocument("users", userCredential?.uid, user))) return false;
 
 	return true;
 };
