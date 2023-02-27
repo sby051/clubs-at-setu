@@ -1,8 +1,11 @@
 <script lang="ts">
 	import { Icon, Tag } from "@components";
 	import type { Club } from "@types";
+	import user from "@stores/user";
 
 	export let club: Club;
+
+	$: isMember = $user?.clubs.includes(club.id);
 </script>
 
 <a
@@ -30,9 +33,16 @@
 			<Icon name="people" outlined />
 			{club.members.length}
 		</Tag>
-		<Tag color="green-400">
-			<Icon name="payments" />
-			€{club.fee}/year
-		</Tag>
+		{#if isMember}
+			<Tag color="green-200">
+				<Icon name="check" outlined />
+				You're a member
+			</Tag>
+		{:else}
+			<Tag color="green-400">
+				<Icon name="payments" />
+				€{club.fee}/year
+			</Tag>
+		{/if}
 	</div>
 </a>

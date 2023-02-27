@@ -25,13 +25,14 @@
 
 	const joinClub = async () => {
 		if (isMember) return;
-		user.set({
-			...$user,
-			clubs: [...$user?.clubs, club.id],
-		} as User);
+		$user.clubs = [...$user?.clubs, club.id];
+
 		await updateDocument("clubs", club.id, {
 			members: [...club.members, $user?.id],
 		});
+
+		await invalidateAll();
+
 	};
 
 	const leaveClub = async () => {
@@ -42,14 +43,13 @@
 
 		if (!isMember || !confirmed) return;
 
-		$user = {
-			...$user,
-			clubs: $user?.clubs.filter((id) => id !== club.id),
-		} as User;
+		$user.clubs = $user?.clubs.filter((id) => id !== club.id);
 
 		await updateDocument("clubs", club.id, {
 			members: club.members.filter((id) => id !== $user?.id),
 		});
+
+		await invalidateAll();
 	};
 
 	const createAnnouncement = async () => {
@@ -69,6 +69,8 @@
 		postingAnnouncement = false;
 		announcement.title = "";
 		announcement.content = "";
+
+		await invalidateAll();
 	};
 
 	const deleteAnnouncement = async (announcement: Announcement) => {
@@ -82,12 +84,14 @@
 		await updateDocument("clubs", club.id, {
 			announcements: club.announcements.filter((a) => a.title !== announcement.title),
 		});
+
+		await invalidateAll();
 	};
 
 	let postingAnnouncement = false;
 
 	$: isMember = $user?.clubs.includes(club.id);
-	$: isManager = club.managers.includes($user?.id);
+	$: isManager = club.managers.includes($user?.id) || $user?.admin;
 </script>
 
 <header class="flex items-center gap-8 border-b-[1px] border-b-gray-300 p-10" aria-label="Club header">

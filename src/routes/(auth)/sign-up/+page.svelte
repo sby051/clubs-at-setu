@@ -3,14 +3,13 @@
 	import { uploadFile } from "@fb/storage";
 	import { windowTitle } from "@stores/globals";
 	import { Button, TextInput, PasswordInput, Icon, IconButton, ImagePicker, Loader } from "@components";
-	import { UserSchema, type StudentID, type User } from "@types";
+	import type { StudentID, User } from "@types";
 	import { REGEXES } from "@utils/constants";
 	import { scale, slide } from "svelte/transition";
 	import { goto } from "$app/navigation";
 	import { blur } from "svelte/transition";
 	import { confirm } from "@features/confirm";
-
-	const STAGE_NAMES = ["Details", "Confirm", "Medical", "Finished"];
+	import { enter } from "sveltils/actions";
 
 	const enum STAGES {
 		DETAILS,
@@ -18,6 +17,77 @@
 		MEDICAL,
 		FINISHED,
 	}
+	const STAGE_NAMES = ["Details", "Confirm", "Medical", "Finished"];
+	const FORM_GROUP_SECTION = "flex flex-col sm:flex-row w-full gap-2";
+
+	const handleSubmit = async (): Promise<void> => {
+		switch (currentStage) {
+			case STAGES.DETAILS:
+				const emailIsUsed = await isEmailUsed(data.email);
+				if (emailIsUsed) {
+					const goToLogin = await confirm("This email is already in use. Do you want to login?", {
+						message: "Email: " + data.email,
+						icon: "login",
+						buttons: {
+							confirm: {
+								text: "Go to login",
+								style: "primary",
+								icon: "arrow_right",
+							},
+							cancel: {
+								text: "Nevermind",
+								style: "outlined:normal",
+								icon: "close",
+							},
+						},
+					});
+					if (goToLogin) await goto(`/login?email=${data.email}`);
+					return;
+				}
+
+				currentStage++;
+				break;
+			case STAGES.CONFIRM:
+				currentStage++;
+				break;
+			case STAGES.MEDICAL:
+				currentStage++;
+				loading = true;
+
+				const signUpResult = await signUp(data);
+
+				if (!signUpResult) {
+					alert("An error occurred");
+					return;
+				}
+
+				loading = false;
+
+				setTimeout(async () => {
+					await goto("/");
+				}, 1000);
+				
+				break;
+		}
+	};
+
+	const handleBack = (): void => {
+		if (currentStage > 0) currentStage--;
+	};
+
+	const handleRemoveCondition = (i: number): void => {
+		data.medicalInfo.conditions.splice(i, 1);
+		data = data;
+	};
+
+	const handlePhotoPick = async (e: CustomEvent<{ url: string; file: File }>): Promise<void> => {
+		const { file } = e.detail;
+		const path = `photos/${data.studentId}.${file.type.split("/")[1]}`;
+		loading = true;
+		await uploadFile(path, file);
+		loading = false;
+		data.photo = path;
+	};
 
 	let data: User = {
 		id: "",
@@ -42,88 +112,12 @@
 		},
 		photo: "",
 	};
-
-	const FORM_GROUP_SECTION = "flex flex-col sm:flex-row w-full gap-2";
-
-	const handleBack = (): void => {
-		if (currentStage > 0) currentStage--;
-	};
-
-	const handleSubmit = async (): Promise<void> => {
-		switch (currentStage) {
-			case STAGES.DETAILS:
-				if (await isEmailUsed(data.email)) {
-					const goToLogin = await confirm("This email is already in use. Do you want to login?", {
-						message: "Email: " + data.email,
-						icon: "login",
-						buttons: {
-							confirm: {
-								text: "Go to login",
-								style: "primary",
-								icon: "arrow_right",
-							},
-							cancel: {
-								text: "Nevermind",
-								style: "outlined:normal",
-								icon: "close",
-							},
-						},
-					});
-					if (goToLogin) await goto(`/login?email=${data.email}`);
-					break;
-				}
-
-				currentStage++;
-				break;
-			case STAGES.CONFIRM:
-				currentStage++;
-				break;
-			case STAGES.MEDICAL:
-				currentStage++;
-				loading = true;
-
-				if (!UserSchema.safeParse(data).success) {
-					alert("Invalid data");
-					break;
-				}
-
-				const signUpResult = await signUp(data);
-
-				if (!signUpResult) {
-					alert("An error occurred");
-					return;
-				}
-
-				loading = false;
-
-				setTimeout(async () => {
-					await goto("/");
-				}, 1000);
-				break;
-		}
-	};
-
-	const handleRemoveCondition = (i: number): void => {
-		data.medicalInfo.conditions.splice(i, 1);
-		data = data;
-	};
-
-	const handlePicked = async (e: CustomEvent<{ url: string; file: File }>): Promise<void> => {
-		const { file } = e.detail;
-		const path = `photos/${data.studentId}.${file.type.split("/")[1]}`;
-		loading = true;
-		await uploadFile(path, file);
-		loading = false;
-		data.photo = path;
-	};
-
 	let currentStage = STAGES.DETAILS;
 	let loading = false;
-	$: data.email = data.studentId ? `${data.studentId}@itcarlow.ie` : "";
-	$: data.studentId = data.studentId?.toUpperCase() as StudentID;
-
 	let dob = 0;
 
+	$: data.email = data.studentId ? `${data.studentId}@itcarlow.ie` : "";
+	$: data.studentId = data.studentId?.toUpperCase() as StudentID;
 	$: data.dateOfBirth = dob;
 
 	windowTitle.set("Sign up");
@@ -231,7 +225,7 @@
 					Your photo *
 				</span>
 
-				<ImagePicker on:picked={handlePicked} />
+				<ImagePicker on:picked={handlePhotoPick} />
 			</div>
 
 			<div class="flex w-full flex-col gap-2">

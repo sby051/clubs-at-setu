@@ -22,9 +22,7 @@ npm install
 - Pull environment variables from dotenv-vault
 You will need to contact me to get the vault password.
 ```bash
-npm run dotenv-vault login
-...
-npm run dotenv-vault pull
+npm run env:pull
 ```
 
 - Run the dev server

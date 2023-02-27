@@ -1,5 +1,5 @@
-import { UserSchema, type User } from "@types";
-import { safeAwait } from "@utils/helpers";
+import type { User } from "@types";
+import type { UserCredential } from "firebase/auth";
 import {
 	createUserWithEmailAndPassword,
 	reauthenticateWithCredential,
@@ -11,18 +11,22 @@ import { auth } from ".";
 import { createDocument, deleteDocument, getCollection } from "./fsdb";
 
 export const signUp = async (user: User): Promise<boolean> => {
-	if (!UserSchema.safeParse(user).success) return false;
+	let userCredential: UserCredential;
+	try {
+		userCredential = await createUserWithEmailAndPassword(auth, user.email, user.password as string);
+	} catch (err) {
+		console.log(err);
+		return false;
+	}
 
-	const [userCredential, err] = await safeAwait(createUserWithEmailAndPassword(auth, user.email, user.password));
-
-	if (err) return false;
-
-	if (!userCredential?.uid) return false;
+	if (!userCredential) return false;
 
 	delete user.password;
-	user.id = userCredential?.uid;
+	user.id = userCredential.user.uid;
 
-	if (!(await createDocument("users", userCredential?.uid, user))) return false;
+	const created = await createDocument("users", user.id, user);
+
+	if (!created) return false;
 
 	return true;
 };
@@ -30,8 +34,12 @@ export const signUp = async (user: User): Promise<boolean> => {
 export const logout = async (): Promise<void> => await signOut(auth);
 
 export const login = async (email: string, password: string): Promise<boolean> => {
-	const [_, err] = await safeAwait(signInWithEmailAndPassword(auth, email, password));
-	return !err;
+	try {
+		await signInWithEmailAndPassword(auth, email, password);
+		return true;
+	} catch (err) {
+		return false;
+	}
 };
 
 export const deleteAccount = async (): Promise<boolean> => {
@@ -46,11 +54,19 @@ export const isEmailUsed = async (email: string): Promise<boolean> => {
 };
 
 export const changePassword = async (password: string): Promise<boolean> => {
-	const [_, err] = await safeAwait(updatePassword(auth.currentUser, password));
-	return !err;
+	try {
+		await updatePassword(auth.currentUser, password);
+		return true;
+	} catch (err) {
+		return false;
+	}
 };
 
 export const reauthenticate = async (password: string): Promise<boolean> => {
-	const [_, err] = await safeAwait(reauthenticateWithCredential(auth.currentUser, password));
-	return !err;
+	try {
+		await reauthenticateWithCredential(auth.currentUser, password);
+		return true;
+	} catch (err) {
+		return false;
+	}
 };

@@ -3,22 +3,19 @@ import { collection as cltn, deleteDoc, doc, getDoc, getDocs, setDoc, updateDoc 
 import { fsdb } from ".";
 import type { FirestoreCollection } from "./types";
 
-export const getDocument = async <ExpectedDocument>(
-	collection: string,
-	docId: ID
-): Promise<ExpectedDocument | null> => {
+export const getDocument = async <ExpectedDocument>(collection: string, docId: ID) => {
 	const docSnapshot = await getDoc(doc(fsdb, collection, docId));
 	return docSnapshot.exists() ? (docSnapshot.data() as ExpectedDocument) : null;
 };
 
-export const getDocuments = async <ExpectedDocument>(collection: string, docIds: ID[]): Promise<ExpectedDocument[]> => {
-	const docs = await Promise.all(docIds.map((docId) => getDocument<ExpectedDocument>(collection, docId)));
-	return docs.filter((doc) => doc !== null) as ExpectedDocument[];
+export const getDocuments = async <ExpectedDocument>(collection: string, docIds: ID[]) => {
+	const querySnapshot = await getDocs(cltn(fsdb, collection));
+	return querySnapshot.docs
+		.filter((doc) => docIds.includes(doc.id))
+		.map((doc) => doc.data() as FirestoreCollection<ExpectedDocument>);
 };
 
-export const getCollection = async <ExpectedDocument>(
-	collection: string
-): Promise<FirestoreCollection<ExpectedDocument>> => {
+export const getCollection = async <ExpectedDocument>(collection: string) => {
 	const querySnapshot = await getDocs(cltn(fsdb, collection));
 	return querySnapshot.docs.reduce((acc, doc) => {
 		acc[doc.id] = doc.data() as ExpectedDocument;

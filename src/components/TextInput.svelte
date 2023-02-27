@@ -31,28 +31,20 @@
 			{/if}
 		</label>
 	{/if}
-	<div class="outlined-input flex w-full items-center gap-2 {className}">
-		{#if $$slots.start}
-			<slot name="start" />
-		{/if}
-		<input
-			class="text-overflow w-full bg-transparent focus:outline-none"
-			{placeholder}
-			{required}
-			maxlength={limit}
-			pattern={pattern?.source}
-			{disabled}
-			type="text"
-			use:enter
-			{autofocus}
-			on:enter={() => dispatch("enter")}
-			bind:value
-			{id}
-		/>
-		{#if $$slots.end}
-			<slot name="end" />
-		{/if}
-	</div>
+	<input 
+		class="outlined-input flex items-center gap-2 {className}"
+		{placeholder}
+		{required}
+		maxlength={limit}
+		pattern={pattern?.source}
+		{disabled}
+		type="text"
+		use:enter
+		{autofocus}
+		on:enter={() => dispatch("enter")}
+		bind:value
+		{id}
+	/>
 	{#if value && pattern && !pattern.test(value)}
 		<span class="text-xs text-red-500">{invalidMessage}</span>
 	{:else if caption}

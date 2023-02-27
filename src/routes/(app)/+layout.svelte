@@ -8,9 +8,6 @@
 	import type { NavigationLink as NavigationLinkType } from "@types";
 	import { Avatar } from "@components";
 	import { page } from "$app/stores";
-	import { subscribeToRealtimeDatabase } from "@fb/rtdb";
-	import { onDestroy, onMount } from "svelte";
-	import { onDestroy } from "svelte/types/runtime/internal/lifecycle";
 
 	const SIDEBAR_LINKS: NavigationLinkType[] = [
 		{ title: "Home", icon: "home", href: "/" },
@@ -19,7 +16,7 @@
 
 	let userMenuOpen = false;
 	let sidebarOpen = false;
-
+	
 	const toggleUserMenu = () => (userMenuOpen = !userMenuOpen);
 	const toggleSidebar = () => (sidebarOpen = !sidebarOpen);
 	const SIDEBAR_SECTION_CATEGORY = "px-2 flex gap-1 flex-col w-full";
@@ -51,17 +48,16 @@
 
 		<span class="separator-h" />
 
-		{#if $user?.clubs.length > 0}
+		{#if $user.clubs.length > 0}
 			<section class={SIDEBAR_SECTION_CATEGORY} aria-label="Club links">
 				{#if sidebarOpen}
 					<span class="text-overflow p-1 text-xs font-medium text-gray-500">My clubs</span>
 				{/if}
 
 				{#each $user?.clubs as club}
-					{@const href = `/clubs/${club.id}`}
+					{@const href = `/clubs/${club}`}
 					{@const active = $page.url.pathname.startsWith(href)}
-					<NavigationLink title={club.name} {href} {active} {sidebarOpen} shadowActive>
-						<Avatar src={club.photo} size="20px" />
+					<NavigationLink icon="group" title={club} {href} {active} {sidebarOpen} shadowActive>
 					</NavigationLink>
 				{/each}
 			</section>

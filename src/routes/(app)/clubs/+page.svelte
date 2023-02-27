@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { PageData } from "./$types";
-	import { CategorySidebar, Icon, IconButton, TextInput } from "@components";
+	import { CategorySidebar } from "@components";
 	import type { Category } from "@types";
 	import ClubCard from "./ClubCard.svelte";
 
@@ -77,8 +77,8 @@
 	$: sortedClubs = clubs.sort((a, b) => a.name.localeCompare(b.name));
 </script>
 
-<main class="flex min-h-full" aria-label="Clubs">
-	<div class="sticky top-0 h-full">
+<main class="flex h-full" aria-label="Clubs">
+	<div class="sticky top-0">
 		<CategorySidebar title="Clubs" categories={CATEGORIES} bind:currentCategory searchBar bind:searchQuery />
 	</div>
 
