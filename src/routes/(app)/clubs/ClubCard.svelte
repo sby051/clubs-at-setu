@@ -10,9 +10,9 @@
 
 <a
 	href="/clubs/{club.id}"
-	class="border-1 max-w-96 flex h-[25rem] cursor-pointer flex-col gap-4 rounded-md border-gray-300 p-4 transition hover:bg-white active:scale-[0.99]"
+	class="border-1 w-96 flex flex-1 cursor-pointer flex-col gap-4 rounded-xl border-gray-300 p-4 transition hover:bg-white active:scale-[0.99]"
 >
-	<img src={club.photo} class="aspect-video w-96 rounded-lg shadow-md" alt={club.name} />
+	<img src={club.photo} class="aspect-video w-full rounded-lg shadow-md" alt={club.name} />
 
 	<div class="flex flex-col gap-2">
 		<div class="flex items-center gap-2">
@@ -23,23 +23,24 @@
 				</Tag>
 			{/each}
 		</div>
-		<span class="text text-sm">
+		<span class="text text-sm text-gray-600">
 			{club.description}
 		</span>
 	</div>
 
 	<div class="mt-auto flex w-full items-center justify-end gap-1">
-		<Tag color="gray-200">
+		<Tag outlined>
 			<Icon name="people" outlined />
 			{club.members.length}
+			members
 		</Tag>
 		{#if isMember}
-			<Tag color="green-200">
-				<Icon name="check" outlined />
-				You're a member
+			<Tag className="bg-violet-500 text-offwhite">
+				<Icon name="check"/>
+				Joined
 			</Tag>
 		{:else}
-			<Tag color="green-400">
+			<Tag color="orange-400" className="bg-green-500 text-offwhitewhite">
 				<Icon name="payments" />
 				€{club.fee}/year
 			</Tag>

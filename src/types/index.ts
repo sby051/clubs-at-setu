@@ -1,5 +1,3 @@
-import type { FirestoreCollection } from "@fb/types";
-
 export type ID = string;
 export type StudentID = `C00${ID}` | `c00${ID}`;
 
@@ -12,7 +10,7 @@ export type User = {
 	photo: string;
 	phoneNumber: string;
 	dateOfBirth: EpochTimeStamp;
-	clubs: ID[] | FirestoreCollection<Club>;
+	clubs: ID[];
 	medicalInfo: MedicalInfo;
 	password?: string;
 	admin?: boolean;
@@ -38,7 +36,7 @@ export type Club = {
 	photo: string | null;
 	announcements: Announcement[];
 	managers: ID[];
-	members: ID[] | FirestoreCollection<User>;
+	members: ID[];
 	fee: number;
 	categories: ClubCategory[];
 	invites: ID[];

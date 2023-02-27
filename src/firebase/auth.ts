@@ -4,11 +4,13 @@ import {
 	createUserWithEmailAndPassword,
 	reauthenticateWithCredential,
 	signInWithEmailAndPassword,
-	signOut,
+	signOut as signOutAuth,
 	updatePassword,
 } from "firebase/auth";
 import { auth } from ".";
-import { createDocument, deleteDocument, getCollection } from "./fsdb";
+import { createDocument, deleteDocument, getCollection, getDocument } from "./fsdb";
+import { getDownloadURL } from "firebase/storage";
+import { getFileURL } from "./storage";
 
 export const signUp = async (user: User): Promise<boolean> => {
 	let userCredential: UserCredential;
@@ -31,14 +33,24 @@ export const signUp = async (user: User): Promise<boolean> => {
 	return true;
 };
 
-export const logout = async (): Promise<void> => await signOut(auth);
+export const signOut = async (): Promise<void> => await signOutAuth(auth);
 
-export const login = async (email: string, password: string): Promise<boolean> => {
+export const signIn = async (email: string, password: string): Promise<boolean> => {
 	try {
 		await signInWithEmailAndPassword(auth, email, password);
 		return true;
 	} catch (err) {
 		return false;
+	}
+};
+
+export const requestUserData = async (id: string) => {
+	const userDoc = await getDocument<User>("users", id);
+	const userFiles = await getFileURL(userDoc?.photo)
+
+	return {
+		fsdb: userDoc,
+		storage: userFiles
 	}
 };
 

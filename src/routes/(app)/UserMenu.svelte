@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Icon } from "@components";
 	import user from "@stores/user";
-	import { deleteAccount, logout } from "@fb/auth";
+	import { deleteAccount, signOut } from "@fb/auth";
 	import { slide } from "svelte/transition";
 	import { Avatar } from "@components";
 	import { goto } from "$app/navigation";
@@ -15,14 +15,14 @@
 		{
 			icon: "password",
 			title: "Change password",
-			fn: () => goto("/change-password"),
+			fn: () => goto("/password/change"),
 		},
 		{
 			icon: "logout",
 			title: "Log out",
 			fn: async () => {
 				if (await confirm("Are you sure you want to log out?", { icon: "logout" })) {
-					await logout();
+					await signOut();
 				}
 			},
 		},
@@ -72,9 +72,7 @@
 
 	let open = false;
 
-	let userPhoto: unknown;
-
-	onMount(async () => userPhoto = await getFileURL($user?.photo))
+	let userPhoto = $user?.photo;
 </script>
 
 <section class="relative" aria-label="User area">
@@ -95,7 +93,7 @@
 		
 			<span class="separator-h" />
 		
-			<span class="text px-6 text-sm font-semibold">Account</span>
+			<span class="text px-6 text-sm font-semibold">Settings</span>
 		
 			<div class="flex flex-col">
 				{#each SETTINGS as setting, i}

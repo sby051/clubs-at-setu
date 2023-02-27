@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { page } from "$app/stores";
-	import { Icon, NavigationLink } from "@components";
+	import { Avatar, Icon, NavigationLink } from "@components";
+	import { getDocument } from "@fb/fsdb";
 	import user from "@stores/user";
 	import type { NavigationLink as NavigationLinkType } from "@types";
 
@@ -42,10 +43,16 @@
 				<span class="text-overflow p-1 text-xs font-medium text-gray-500">My clubs</span>
 			{/if}
 
-			{#each $user.clubs as club}
-				{@const href = `/clubs/${club}`}
-				{@const active = $page.url.pathname.startsWith(href)}
-				<NavigationLink icon="group" title={club} {href} {active} sidebarOpen={open} shadowActive />
+			{#each $user?.clubs as club}
+				{#await getDocument("clubs", club)}
+					Loading
+				{:then clubData}
+					{@const href = `/clubs/${clubData.id}`}
+					{@const active = $page.url.pathname.startsWith(href)}
+					<NavigationLink icon="group" title={clubData.name} {href} {active} sidebarOpen={open} shadowActive>
+						<Avatar src={clubData.photo} size="20px"/>
+					</NavigationLink>
+				{/await}
 			{/each}
 		</section>
 	{:else if open}

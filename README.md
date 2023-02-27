@@ -4,7 +4,7 @@ A simple web app to manage your clubs at SETU.
 
 ## Features
 - Create an account
-- Login
+- Sign In
 - Join a club
 - Post in a club (manager only)
   

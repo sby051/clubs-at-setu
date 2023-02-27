@@ -7,10 +7,9 @@
 	import { Avatar } from "@components";
 	import { confirm } from "@features/confirm";
 	import { invalidateAll } from "$app/navigation";
-	import { fade, slide } from "svelte/transition";
-	import type { Announcement, User } from "@types";
+	import { slide } from "svelte/transition";
+	import type { Announcement } from "@types";
 	import { windowTitle } from "@stores/globals";
-	// import { ChatRoom } from "@features/chat";
 
 	export let data: PageData;
 
@@ -25,6 +24,25 @@
 
 	const joinClub = async () => {
 		if (isMember) return;
+
+		const confirmed = await confirm(`Join "${club.name}"`, {
+			message: "Joining this club will cost you €" + club.fee + "/year.",
+			icon: "group_add",
+			buttons: {
+				confirm: {
+					text: "Join club",
+					icon: "group_add",
+					style: "primary",
+				},
+				cancel: {
+					text: "Nevermind",
+					style: "outlined:normal",
+				}
+			}
+		});
+
+		if(!confirmed) return;
+
 		$user.clubs = [...$user?.clubs, club.id];
 
 		await updateDocument("clubs", club.id, {
@@ -37,7 +55,18 @@
 	const leaveClub = async () => {
 		const confirmed = await confirm("Are you sure you want to leave this club?", {
 			message: "You will not be refunded any fees you have paid for this club.",
-			icon: "warning",
+			icon: "group_remove",
+			buttons: {
+				confirm: {
+					text: "Leave club",
+					icon: "group_remove",
+					style: "danger",
+				},
+				cancel: {
+					text: "I'll stay!",
+					style: "outlined:primary",
+				}
+			}
 		});
 
 		if (!isMember || !confirmed) return;
@@ -107,8 +136,8 @@
 				{/if}
 				{#if !isMember}
 					<Button style="primary" className="rounded-full" on:click={joinClub}>
-						<Icon name="group_add" />
-						Join for {club.fee ? "Free" : `€${club.fee}/year`}
+						<Icon name="group_add" outlined />
+						Join for {club.fee ? `€${club.fee}/year` : "free"}
 					</Button>
 				{:else}
 					<Button style="danger" className="rounded-full" on:click={leaveClub}>
@@ -122,13 +151,21 @@
 		<span class="text-gray-500">{club.description}</span>
 
 		<div class="flex items-center gap-1">
-			<Tag>
-				<Icon name="payments" />
-				€{club.fee ? club.fee : "Free"}/year
-			</Tag>
+			{#if isMember}
+				<Tag className="bg-violet-500 text-offwhite">
+					<Icon name="check"/>
+					Joined
+				</Tag>
+			{:else}
+				<Tag color="orange-400" className="bg-green-500 text-offwhitewhite">
+					<Icon name="payments" />
+					€{club.fee}/year
+				</Tag>
+			{/if}
 			<Tag outlined>
-				<Icon name="person" />
-				{club.members.length} member{club.members.length === 1 ? "" : "s"}
+				<Icon name="people" outlined />
+				{club.members.length}
+				members
 			</Tag>
 			{#each club.categories as category}
 				<Tag outlined>
@@ -208,7 +245,7 @@
 							>
 								<span class="flex items-center gap-2">
 									<Avatar src={author.photo} size="32px" />
-									<div class="flex flex-col ">
+									<div class="flex flex-col">
 										<span class="text text-sm font-medium text-gray-800"
 											>{author.firstName} {author.lastName}</span
 										>
@@ -253,12 +290,6 @@
 		{/if}
 	</section>
 
-	<!-- <section class="sticky flex flex-col gap-4 top-0 h-full p-8 min-w-[30rem] border-r-[1px] border-r-gray-300">
-        <span class="text text-xl font-semibold">Chat</span>
-
-        <ChatRoom id={club.id} members={club.members}/>
-    </section> -->
-
 	<section class="sticky top-0 flex h-full min-w-[15rem] flex-col gap-4 p-8">
 		<span class="text text-xl font-semibold">Members</span>
 
@@ -271,15 +302,13 @@
 					{:then user}
 						<li class="flex items-center gap-2 rounded-md p-2 transition hover:bg-gray-200">
 							<Avatar src={user.photo} size="28px" />
-							<span class="text-overflow text text-sm font-medium text-gray-800"
-								>{user.firstName} {user.lastName}</span
-							>
+							<span class="text-overflow text text-sm font-medium text-gray-800">{user.firstName} {user.lastName}</span>
 							{#if manager}
 								<Icon
 									className="ml-auto"
 									name="admin_panel_settings"
 									customSize="1.25rem"
-									color="gray-600"
+									color="red-400"
 								/>
 							{/if}
 						</li>

@@ -5,7 +5,6 @@
 	import { browser } from "$app/environment";
 	import { Loader } from "@components";
 	import { fade } from "svelte/transition";
-	import { navigating } from "$app/stores";
 	import { Confirm } from "@features/confirm";
 
 	$: inGlobalLoadState = !browser || $authed === null;
@@ -16,10 +15,6 @@
 </svelte:head>
 
 <Confirm />
-
-{#if $navigating}
-	<span class="fixed top-0 left-0 h-1 w-screen animate-pulse bg-sky-400 duration-75" />
-{/if}
 
 {#if inGlobalLoadState}
 	<div

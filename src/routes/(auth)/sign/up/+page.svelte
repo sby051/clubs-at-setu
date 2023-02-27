@@ -9,7 +9,7 @@
 	import { goto } from "$app/navigation";
 	import { blur } from "svelte/transition";
 	import { confirm } from "@features/confirm";
-	import { enter } from "sveltils/actions";
+	import type { Snapshot } from "./$types";
 
 	const enum STAGES {
 		DETAILS,
@@ -25,12 +25,12 @@
 			case STAGES.DETAILS:
 				const emailIsUsed = await isEmailUsed(data.email);
 				if (emailIsUsed) {
-					const goToLogin = await confirm("This email is already in use. Do you want to login?", {
+					const goToSignIn = await confirm("This email is already in use. Do you want to signIn?", {
 						message: "Email: " + data.email,
-						icon: "login",
+						icon: "signIn",
 						buttons: {
 							confirm: {
-								text: "Go to login",
+								text: "Go to signIn",
 								style: "primary",
 								icon: "arrow_right",
 							},
@@ -41,7 +41,7 @@
 							},
 						},
 					});
-					if (goToLogin) await goto(`/login?email=${data.email}`);
+					if (goToSignIn) await goto(`/sign/in?email=${data.email}`);
 					return;
 				}
 
@@ -117,6 +117,14 @@
 	$: data.email = data.studentId ? `${data.studentId}@itcarlow.ie` : "";
 	$: data.studentId = data.studentId?.toUpperCase() as StudentID;
 	$: data.dateOfBirth = dob;
+
+	export const snapshot: Snapshot<User> = {
+		capture: () => data,
+		restore: (snapshot) => {
+			console.log(snapshot);
+			data = snapshot;
+		}
+	};
 
 	windowTitle.set("Sign up");
 </script>
@@ -324,4 +332,4 @@
 	</div>
 </form>
 
-<a class="link" href="/login">Already have an account?</a>
+<a class="link" href="/sign/in">Already have an account?</a>

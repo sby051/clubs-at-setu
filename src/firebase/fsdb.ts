@@ -36,7 +36,6 @@ export const createDocument = async (collection: string, docId: ID, data: unknow
 export const createDocuments = async (collection: string, data: unknown[]): Promise<boolean> => {
 	try {
 		data.forEach(async (obj) => {
-			obj.id = crypto.randomUUID();
 			await createDocument(collection, obj.id, obj);
 		});
 		return true;

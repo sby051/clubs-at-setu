@@ -1,7 +1,14 @@
 <script lang="ts">
+	import { getFileURL } from "@fb/storage";
+	import { onMount } from "svelte";
+
 	export let size = "36px";
 	export let src: string;
 	export let disabled = false;
+
+	onMount(async () => {
+		src = await getFileURL(src);
+	})
 </script>
 
 <button {disabled} style="--src: url({src}); --size: {size}" on:click on:mouseenter on:mouseleave class="avatar" />

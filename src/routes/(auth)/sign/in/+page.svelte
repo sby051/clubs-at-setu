@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { goto } from "$app/navigation";
-	import { login } from "@fb/auth";
+	import { signIn } from "@fb/auth";
 	import { TextInput, PasswordInput, Button } from "@components";
 	import type { PageData } from "./$types";
 	import { enter } from "sveltils/actions";
@@ -12,9 +12,9 @@
 	const handleSubmit = async (): Promise<void> => {
 		loading = true;
 
-		const email = data.email?.includes("@itcarlow.ie") ? data.email : data.email + "@itcarlow.ie";
+		const email = data.email.includes("@itcarlow.ie") ? data.email : data.email + "@itcarlow.ie";
 
-		const result = await login(email, data.password);
+		const result = await signIn(email, data.password);
 		loading = false;
 
 		if (!result) {
@@ -27,7 +27,7 @@
 	};
 </script>
 
-<span class="text text-2xl font-bold">Login</span>
+<span class="text text-2xl font-bold">Sign In</span>
 
 <form class="raised-card w-96" on:submit|preventDefault={handleSubmit} use:enter on:enter={handleSubmit}>
 	<TextInput required bind:value={data.email} label="Email or Student ID" placeholder="C00xxxxxx(@itcarlow.ie)" />
@@ -37,8 +37,8 @@
 		label="Password"
 		autofocus={!!data.email}
 	/>
-	<Button style="primary" type="submit" {loading}>Login</Button>
-	<a class="link ml-auto mr-auto" href="/reset-password">Forgot your password?</a>
+	<Button style="primary" type="submit" {loading}>Sign In</Button>
+	<a class="link ml-auto mr-auto" href="/password/reset">Forgot your password?</a>
 </form>
 
-<a class="link" href="/sign-up">Don't have an account?</a>
+<a class="link" href="/sign/up">Don't have an account?</a>

@@ -4,7 +4,7 @@
 	import NavBar from "./NavBar.svelte";
 	import SideBar from "./SideBar.svelte";
 
-	$: if ($authed === false) window.location.href = "/login";
+	$: if ($authed === false) window.location.href = "/sign/in";
 </script>
 
 <div class="flex h-[100dvh] w-[100dvw] overflow-hidden" aria-label="App layout">
