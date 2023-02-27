@@ -14,7 +14,7 @@ onAuthStateChanged(auth, async (firebaseUser: FirebaseUser | null) => {
 		user.set(null);
 		return;
 	}
-	
+
 	const userDoc = await getDocument<User>("users", firebaseUser.uid);
 
 	if (!userDoc) {

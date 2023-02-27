@@ -20,7 +20,7 @@
 	const STAGE_NAMES = ["Details", "Confirm", "Medical", "Finished"];
 	const FORM_GROUP_SECTION = "flex flex-col sm:flex-row w-full gap-2";
 
-	const handleSubmit = async (): Promise<void> => {
+	const handleSubmit = async () => {
 		switch (currentStage) {
 			case STAGES.DETAILS:
 				const emailIsUsed = await isEmailUsed(data.email);
@@ -63,24 +63,22 @@
 
 				loading = false;
 
-				setTimeout(async () => {
-					await goto("/");
-				}, 1000);
-				
+				setTimeout(async () => await goto("/"), 1000);
+
 				break;
 		}
 	};
 
-	const handleBack = (): void => {
+	const handleBack = () => {
 		if (currentStage > 0) currentStage--;
 	};
 
-	const handleRemoveCondition = (i: number): void => {
+	const handleRemoveCondition = (i: number) => {
 		data.medicalInfo.conditions.splice(i, 1);
 		data = data;
 	};
 
-	const handlePhotoPick = async (e: CustomEvent<{ url: string; file: File }>): Promise<void> => {
+	const handlePhotoPick = async (e: CustomEvent<{ url: string; file: File }>) => {
 		const { file } = e.detail;
 		const path = `photos/${data.studentId}.${file.type.split("/")[1]}`;
 		loading = true;

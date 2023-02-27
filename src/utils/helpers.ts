@@ -15,6 +15,7 @@ export async function safeAwait<T>(p: Promise<T>): Promise<[T | null, unknown | 
 	try {
 		const d = await p;
 		return [d, null];
+	} catch (e: unknown) {
+		return [null, e];
 	}
-	catch (e: unknown) { return [null, e]; }
 }

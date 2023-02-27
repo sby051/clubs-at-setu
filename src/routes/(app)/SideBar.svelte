@@ -1,0 +1,57 @@
+<script lang="ts">
+	import { page } from "$app/stores";
+	import { Icon, NavigationLink } from "@components";
+	import user from "@stores/user";
+	import type { NavigationLink as NavigationLinkType } from "@types";
+
+	const LINKS: NavigationLinkType[] = [
+		{ title: "Home", icon: "home", href: "/" },
+		{ title: "Clubs", icon: "join", href: "/clubs" },
+	];
+
+	const SECTION_CLASSLIST = "px-2 flex gap-1 flex-col w-full" as const;
+
+	const openClose = () => (open = !open);
+
+	let open = false;
+</script>
+
+<aside
+	on:dblclick={openClose}
+	class="transition-width w-{open ? '64' : '18'} flex h-full flex-col gap-2 border-r-[1px] border-gray-300 py-2 duration-75"
+	aria-label="Sidebar"
+>
+	<section class={SECTION_CLASSLIST}>
+		<NavigationLink title="Toggle sidebar" icon={open ? "menu_open" : "menu"} on:click={openClose} />
+	</section>
+
+	<span class="separator-h" />
+
+	<section class={SECTION_CLASSLIST} aria-label="Page links">
+		{#each LINKS as link}
+			{@const active = $page.url.pathname.split("/")[1] === link.href.split("/")[1]}
+			<NavigationLink {...link} {active} sidebarOpen={open} />
+		{/each}
+	</section>
+
+	<span class="separator-h" />
+
+	{#if $user.clubs.length > 0}
+		<section class={SECTION_CLASSLIST} aria-label="Club links">
+			{#if open}
+				<span class="text-overflow p-1 text-xs font-medium text-gray-500">My clubs</span>
+			{/if}
+
+			{#each $user.clubs as club}
+				{@const href = `/clubs/${club}`}
+				{@const active = $page.url.pathname.startsWith(href)}
+				<NavigationLink icon="group" title={club} {href} {active} sidebarOpen={open} shadowActive />
+			{/each}
+		</section>
+	{:else if open}
+		<div class="flex-center-column h-full gap-1">
+			<Icon name="group_remove" customSize="2.5rem" color="gray-400" />
+			<span class="text-overflow p-1 text-xs font-medium text-gray-500">You are not in any clubs</span>
+		</div>
+	{/if}
+</aside>

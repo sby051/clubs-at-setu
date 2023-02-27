@@ -6,9 +6,6 @@
 
 	export let data: PageData;
 
-	let currentCategory = 0;
-	let searchQuery = "";
-
 	const clubs = Object.values(data.clubs);
 
 	const CATEGORIES: Category[] = [
@@ -74,6 +71,13 @@
 		},
 	];
 
+	const performSearch = (name: string) => {
+		if (searchQuery === "") return true;
+		return name.toLowerCase().includes(searchQuery.toLowerCase());
+	};
+
+	let currentCategory = 0;
+	let searchQuery = "";
 	$: sortedClubs = clubs.sort((a, b) => a.name.localeCompare(b.name));
 </script>
 
@@ -85,9 +89,7 @@
 	<div class="scroll-y flex flex-wrap gap-4 p-8">
 		{#each sortedClubs as club}
 			{#if currentCategory === 0 || club.categories.includes(CATEGORIES[currentCategory].title)}
-				{#if searchQuery === "" || (club.name + club.description)
-						.toLowerCase()
-						.includes(searchQuery.toLowerCase())}
+				{#if performSearch(club.name)}
 					<ClubCard {club} />
 				{/if}
 			{/if}

@@ -25,8 +25,9 @@ export const deleteFile = async (path: string): Promise<void> => {
 export const getFileURL = async (path: string): Promise<string | null> => {
 	const storageRef = ref(storage, path);
 	try {
-		const downloadURL = await getDownloadURL(storageRef);
-		return downloadURL;
+		const url = await getDownloadURL(storageRef);
+		console.log(url);
+		return url;
 	} catch (e) {
 		console.error("Error getting file download URL:", e);
 		return null;

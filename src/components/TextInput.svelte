@@ -31,7 +31,7 @@
 			{/if}
 		</label>
 	{/if}
-	<input 
+	<input
 		class="outlined-input flex items-center gap-2 {className}"
 		{placeholder}
 		{required}

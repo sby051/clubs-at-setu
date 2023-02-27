@@ -21,13 +21,7 @@
 		{/if}
 	</div>
 	{#if searchVisible}
-		<span class="w-full" transition:slide={{ duration: 300, easing: cubicInOut }}>
-			<TextInput placeholder="Search.." className="mb-4" bind:value={searchQuery}>
-				<svelte:fragment slot="start">
-					<Icon name="search" />
-				</svelte:fragment>
-			</TextInput>
-		</span>
+		<TextInput placeholder="Search.." className="mb-4" bind:value={searchQuery}/>
 	{/if}
 	{#each categories as category, i}
 		<NavigationLink

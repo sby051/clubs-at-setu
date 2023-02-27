@@ -15,7 +15,7 @@
 		!$confirmData?.confirmationInput || confirmInputValue === $confirmData.confirmationInput.expectedValue;
 </script>
 
-<svelte:window on:enter={handleConfirm} use:enter/>
+<svelte:window on:enter={handleConfirm} use:enter />
 
 <Backdrop open={!!$confirmData}>
 	<div class="grid h-full w-full place-items-center">
@@ -24,7 +24,7 @@
 				<Icon name={$confirmData?.icon} customSize="3.5rem" color="gray-400" />
 			{/if}
 
-			<span class="text-xl font-semibold text-center">{$confirmData?.title}</span>
+			<span class="text-center text-xl font-semibold">{$confirmData?.title}</span>
 
 			{#if $confirmData?.message}
 				<span class="text text-center text-gray-600">{$confirmData?.message}</span>

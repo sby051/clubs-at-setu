@@ -32,7 +32,6 @@
 		});
 
 		await invalidateAll();
-
 	};
 
 	const leaveClub = async () => {
