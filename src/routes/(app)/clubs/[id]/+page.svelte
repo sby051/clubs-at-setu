@@ -118,6 +118,7 @@
 
 	let postingAnnouncement = false;
 
+	$: club.announcements = club.announcements.sort((a, b) => b.date - a.date);
 	$: isMember = $user?.clubs.includes(club.id);
 	$: isManager = club.managers.includes($user?.id) || $user?.admin;
 </script>
