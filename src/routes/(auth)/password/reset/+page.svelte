@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { TextInput, Button, Icon } from "@components";
 	import { auth } from "@fb";
+	import { windowTitle } from "@stores/globals";
 	import { sendPasswordResetEmail } from "firebase/auth";
 
 	let email = "";
@@ -15,6 +16,8 @@
 			alert("Error sending password reset email");
 		}
 	};
+
+	$windowTitle = "Reset Password";
 </script>
 
 <span class="text text-2xl font-bold">Reset Password</span>

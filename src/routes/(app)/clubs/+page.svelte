@@ -4,6 +4,7 @@
 	import type { Category } from "@types";
 	import ClubCard from "./ClubCard.svelte";
 	import { fly } from "svelte/transition";
+	import { windowTitle } from "@stores/globals";
 
 	export let data: PageData;
 
@@ -90,6 +91,8 @@
 	let currentCategory = 0;
 	let searchQuery = "";
 	$: sortedClubs = clubs.sort((a, b) => a.name.localeCompare(b.name));
+
+	$windowTitle = "Clubs";
 </script>
 
 <main class="flex h-full" aria-label="Clubs">

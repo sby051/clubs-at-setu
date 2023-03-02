@@ -4,6 +4,7 @@
 	import { TextInput, PasswordInput, Button } from "@components";
 	import type { PageData } from "./$types";
 	import { enter } from "sveltils/actions";
+	import { windowTitle } from "@stores/globals";
 
 	export let data: PageData;
 
@@ -25,6 +26,8 @@
 
 		await goto("/");
 	};
+
+	$windowTitle = "Sign In";
 </script>
 
 <span class="text text-2xl font-bold">Sign In</span>

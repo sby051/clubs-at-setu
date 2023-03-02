@@ -3,6 +3,7 @@
     import { requestUserData } from "@fb/auth";
     import user from "@stores/user";
 	import { Button, Icon } from "@components";
+	import { windowTitle } from "@stores/globals";
 
     const handleDownload = (data: any, fileName: string) => {
         const element = document.createElement("a");
@@ -14,6 +15,8 @@
     }
 
     export let data: PageData;
+
+	$windowTitle = "Request Data";
 </script>
 
 <span class="font-bold text-xl">Request your data</span>

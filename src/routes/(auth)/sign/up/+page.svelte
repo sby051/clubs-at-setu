@@ -126,7 +126,7 @@
 		}
 	};
 
-	windowTitle.set("Sign up");
+	$windowTitle = "Sign up";
 </script>
 
 <span class="text text-2xl font-bold">Sign up</span>

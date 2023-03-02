@@ -2,6 +2,7 @@
 	import { goto } from "$app/navigation";
 	import { changePassword, signIn, reauthenticate } from "@fb/auth";
 	import { TextInput, PasswordInput, Button } from "@components";
+	import { windowTitle } from "@stores/globals";
 
 	const passwords = {
 		old: "",
@@ -28,6 +29,8 @@
 
 		alert("Password changed successfully");
 	};
+
+	$windowTitle = "Change Password";
 </script>
 
 <span class="text text-2xl font-bold">Change Password</span>

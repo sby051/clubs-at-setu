@@ -15,8 +15,6 @@
 
 	const { club } = data;
 
-	windowTitle.set(club.name);
-
 	const joinClub = async () => {
 		if (isMember) return;
 
@@ -152,6 +150,8 @@
 
 	$: isMember = $user.clubs.includes(club.id);
 	$: isManager = club.managers.includes($user.id) || $user.admin;
+
+	$windowTitle = club.name;
 </script>
 
 <Drawer bind:open={editClubDrawerOpen} title="Edit club" on:close={() => editClubDrawerOpen = false}>

@@ -4,6 +4,7 @@
 	import user from "@stores/user";
 	import logo from "@assets/logo.png";
 	import { createDocuments } from "@fb/fsdb";
+	import { windowTitle } from "@stores/globals";
 
 	// const clubs = [
 
@@ -12,6 +13,8 @@
 	// const addClubs = async () => {
 	// 	await createDocuments("clubs", clubs)
 	// }
+
+	$windowTitle = "Home";
 </script>
 
 <main class="flex-center-column h-full gap-4" aria-label="Home">

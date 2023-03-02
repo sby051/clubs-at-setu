@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { page } from "$app/stores";
+	import { windowTitle } from "@stores/globals";
 
 	import { Button, Icon } from "@components";
 	import { backInOut } from "svelte/easing";
@@ -11,6 +12,8 @@
 		404: "<b>Couldn't find the page you were looking for. </b> <br/> Please check the link and try again.",
 		500: "<b> Oops! Something went wrong.</b><br/> Please try again later.",
 	};
+
+	windowTitle.set(status.toString());
 </script>
 
 <div class="grid h-screen place-items-center">
