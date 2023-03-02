@@ -29,7 +29,7 @@
         <a class="link" href={data.storage}>{data.storage}</a>
     </div>
 
-    <Button style="primary" on:click={() => handleDownload(data, `${$user?.id}-data-${new Date()}.txt`)}>
+    <Button style="primary" on:click={() => handleDownload(data, `${$user.id}-data-${new Date()}.txt`)}>
         <Icon name="download"/>
         Download your data
     </Button>

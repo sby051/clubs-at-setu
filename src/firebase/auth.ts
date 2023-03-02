@@ -9,7 +9,6 @@ import {
 } from "firebase/auth";
 import { auth } from ".";
 import { createDocument, deleteDocument, getCollection, getDocument } from "./fsdb";
-import { getDownloadURL } from "firebase/storage";
 import { getFileURL } from "./storage";
 
 export const signUp = async (user: User): Promise<boolean> => {

@@ -1,6 +1,8 @@
 export type ID = string;
 export type StudentID = `C00${ID}` | `c00${ID}`;
 
+export type ReactionEmojis = "😂" | "😍" | "😮" | "😡" | "🤔" | "❤️" | "👍";
+
 export type User = {
 	id: ID;
 	studentId: StudentID;
@@ -62,11 +64,14 @@ type ClubCategory =
 	| "other";
 
 export type Announcement = {
+	id: ID;
 	title: string;
 	author: ID;
-	readBy: ID[];
 	content: string;
 	date: EpochTimeStamp;
+	reactions?: {
+		[emoji in ReactionEmojis]: ID[];
+	}
 };
 
 export type KeyboardShortcut = {

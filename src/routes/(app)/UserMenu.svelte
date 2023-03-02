@@ -52,7 +52,7 @@
 					confirmationInput: {
 						label: "Type your Student ID below to confirm (all caps)",
 						placeholder: "Student ID",
-						expectedValue: $user?.studentId as string,
+						expectedValue: $user.studentId as string,
 					},
 				});
 
@@ -68,26 +68,26 @@
 		},
 	];
 
-	const openClose = () => (open = !open);
+	const openClose = () => open = !open;
 
 	let open = false;
 
-	let userPhoto = $user?.photo;
+	let userPhoto = $user.photo;
 </script>
 
 <section class="relative" aria-label="User area">
 	<Avatar src={userPhoto} on:click={openClose} />
 	{#if open}
-		<div class="z-20 flex w-96 flex-col gap-4 overflow-hidden rounded-md border-[1px] border-gray-300 bg-offwhite py-6 shadow-md transition absolute right-0 top-10" use:clickoutside on:clickoutside={openClose}>
+		<div transition:slide class="z-20 flex w-96 flex-col gap-4 overflow-hidden rounded-md border-[1px] border-gray-300 bg-offwhite py-6 shadow-md transition absolute right-0 top-10" use:clickoutside on:clickoutside={openClose}>
 			<div class="flex flex-col items-center justify-center gap-3 py-4">
 				<Avatar size="100px" src={userPhoto} />
 		
 				<span class="overflow-hidden text-ellipsis whitespace-nowrap text-center text-2xl font-bold">
-					{$user?.firstName}
+					{$user.firstName}
 				</span>
 		
 				<span class="text text-center text-sm">
-					{$user?.email}
+					{$user.email}
 				</span>
 			</div>
 		

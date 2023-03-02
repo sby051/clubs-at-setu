@@ -8,7 +8,6 @@ export { default as IconButton } from "./IconButton.svelte";
 export { default as ImagePicker } from "./ImagePicker.svelte";
 export { default as Loader } from "./Loader.svelte";
 export { default as NavigationLink } from "./NavigationLink.svelte";
-export { default as PageTransition } from "./PageTransition.svelte";
 export { default as PasswordInput } from "./PasswordInput.svelte";
 export { default as Tag } from "./Tag.svelte";
 export { default as TextInput } from "./TextInput.svelte";

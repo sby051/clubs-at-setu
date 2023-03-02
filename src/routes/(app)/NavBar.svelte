@@ -9,7 +9,7 @@
 
 <nav
 	aria-label="Navbar"
-	class="absolute top-0 left-0 flex h-[3.81rem] w-full items-center justify-between border-b-[1px] border-gray-300 bg-offwhite px-4"
+	class="z-20 absolute top-0 left-0 flex h-[3.81rem] w-full items-center justify-between border-b-[1px] border-gray-300 bg-offwhite/60 backdrop-blur-md px-4"
 >
 	<section class="flex items-center gap-2" aria-label="Breadcrumbs">
 		<a href="/">

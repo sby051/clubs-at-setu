@@ -39,12 +39,14 @@
 			{/if}
 
 			<div class="flex w-full items-center gap-1">
-				<Button on:click={() => submitConfirm(false)} style={$confirmData.buttons.cancel.style} fillWidth>
-					{#if $confirmData.buttons.cancel.icon}
-						<Icon name={$confirmData?.buttons.cancel.icon} />
-					{/if}
-					{$confirmData.buttons.cancel.text}
-				</Button>
+				{#if $confirmData.buttons.cancel}
+					<Button on:click={() => submitConfirm(false)} style={$confirmData.buttons.cancel.style} fillWidth>
+						{#if $confirmData.buttons.cancel.icon}
+							<Icon name={$confirmData?.buttons.cancel.icon} />
+						{/if}
+						{$confirmData.buttons.cancel.text}
+					</Button>
+				{/if}
 
 				<Button
 					on:click={handleConfirm}

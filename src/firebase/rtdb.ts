@@ -12,14 +12,14 @@ import {
 } from "firebase/database";
 import { rtdb } from ".";
 
-type CallbackFunction = (snapshot: DataSnapshot) => Unsubscribe;
+type CallbackFunction = (snapshot: DataSnapshot) => Unsubscribe | Promise<Unsubscribe>;
 
 export const subscribeToRealtimeDatabase = (path: string) => {
 	const reference = ref(rtdb, path);
 	return {
-		onAdded: (callback: CallbackFunction) => onChildAdded(reference, callback),
-		onRemoved: (callback: CallbackFunction) => onChildRemoved(reference, callback),
-		onChanged: (callback: CallbackFunction) => onValue(reference, callback),
+		onAdd: (callback: CallbackFunction) => onChildAdded(reference, callback),
+		onRemove: (callback: CallbackFunction) => onChildRemoved(reference, callback),
+		onChange: (callback: CallbackFunction) => onValue(reference, callback),
 		clear: () => remove(reference),
 		add: (key: string | null, value: unknown) => push(ref(rtdb, `${path}/${key}`), value),
 		update: (key: string | null, values: Record<string, unknown>) => update(ref(rtdb, `${path}/${key}`), values),
@@ -27,3 +27,5 @@ export const subscribeToRealtimeDatabase = (path: string) => {
 		unsubscribe: () => off(reference),
 	};
 };
+
+const sub = subscribeToRealtimeDatabase("test");

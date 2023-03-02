@@ -17,7 +17,7 @@
 	{href}
 	on:click
 	on:keydown
-	class="flex w-full items-center gap-3 rounded-md p-3 text-sm transition [&:not(.bg-violet-500)]:hover:bg-gray-200"
+	class="text-gray-700 [&:not(.bg-violet-500)]:hover:text-black flex w-full items-center gap-3 rounded-md p-3 text-sm transition [&:not(.bg-violet-500)]:hover:bg-gray-200"
 	class:bg-violet-500={active && !shadowActive}
 	class:bg-gray-200={shadowActive && active}
 	class:text-white={active && !shadowActive}

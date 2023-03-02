@@ -5,7 +5,7 @@ export interface ConfirmButton {
 }
 
 export interface ConfirmButtons {
-	cancel: ConfirmButton;
+	cancel?: ConfirmButton;
 	confirm: ConfirmButton;
 }
 

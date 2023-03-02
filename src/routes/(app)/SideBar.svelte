@@ -43,10 +43,8 @@
 				<span class="text-overflow p-1 text-xs font-medium text-gray-500">My clubs</span>
 			{/if}
 
-			{#each $user?.clubs as club}
-				{#await getDocument("clubs", club)}
-					Loading
-				{:then clubData}
+			{#each $user.clubs as club}
+				{#await getDocument("clubs", club) then clubData}
 					{@const href = `/clubs/${clubData.id}`}
 					{@const active = $page.url.pathname.startsWith(href)}
 					<NavigationLink icon="group" title={clubData.name} {href} {active} sidebarOpen={open} shadowActive>

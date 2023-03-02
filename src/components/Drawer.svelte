@@ -17,7 +17,7 @@
 </script>
 
 <Backdrop bind:open>
-	<aside
+	<div
 		class="absolute top-0 right-0 z-50 flex h-full w-{width} flex-col gap-3 bg-offwhite p-5 shadow-xl"
 		transition:fly={{ x: 500, duration: 200 }}
 		use:clickoutside
@@ -38,5 +38,5 @@
 				<slot name="footerButtons" />
 			</footer>
 		{/if}
-	</aside>
+	</div>
 </Backdrop>

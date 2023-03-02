@@ -5,13 +5,15 @@ import type { User as FirebaseUser } from "firebase/auth";
 import { onAuthStateChanged } from "firebase/auth";
 import { writable } from "svelte/store";
 
-export const user = writable<User | null>(null);
+const BLANK_USER = {} as User;
+
+export const user = writable<User>(BLANK_USER);
 export const authed = writable<boolean | null>(null);
 
 onAuthStateChanged(auth, async (firebaseUser: FirebaseUser | null) => {
 	if (firebaseUser === null) {
 		authed.set(false);
-		user.set(null);
+		user.set(BLANK_USER);
 		return;
 	}
 
@@ -19,7 +21,7 @@ onAuthStateChanged(auth, async (firebaseUser: FirebaseUser | null) => {
 
 	if (!userDoc) {
 		authed.set(false);
-		user.set(null);
+		user.set(BLANK_USER);
 		return;
 	}
 
@@ -28,7 +30,7 @@ onAuthStateChanged(auth, async (firebaseUser: FirebaseUser | null) => {
 });
 
 user.subscribe(async (u) => {
-	if (!u) return;
+	if (JSON.stringify(u) === JSON.stringify(BLANK_USER)) return;
 	await updateDocument("users", u.id, u);
 });
 

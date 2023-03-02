@@ -5,30 +5,23 @@
 
 	export let club: Club;
 
-	$: isMember = $user?.clubs.includes(club.id);
+	$: isMember = $user.clubs.includes(club.id);
 </script>
 
 <a
 	href="/clubs/{club.id}"
-	class="border-1 w-96 flex flex-1 cursor-pointer flex-col gap-4 rounded-xl border-gray-300 p-4 transition hover:bg-white active:scale-[0.99]"
+	class="relative border-1 flex lg:flex-row flex-col w-full h-fit cursor-pointer gap-6 rounded-xl border-gray-300 p-6 transition hover:bg-white active:scale-[0.99]"
 >
-	<img src={club.photo} class="aspect-video w-full rounded-lg shadow-md" alt={club.name} />
+	<img src={club.photo} class="aspect-video lg:w-64 w-full flex-grow-0 flex-shrink-0 rounded-lg shadow-md" alt={club.name} />
 
-	<div class="flex flex-col gap-2">
-		<div class="flex items-center gap-2">
-			<span class="text text-lg font-bold">{club.name}</span>
-			{#each club.categories as category}
-				<Tag outlined>
-					{category}
-				</Tag>
-			{/each}
-		</div>
+	<div class="flex flex-col gap-2 w-full">
+		<span class="text text-2xl text-overflow font-bold">{club.name}</span>
 		<span class="text text-sm text-gray-600">
 			{club.description}
 		</span>
 	</div>
 
-	<div class="mt-auto flex w-full items-center justify-end gap-1">
+	<div class="lg:absolute lg:bottom-6 lg:right-6 flex gap-2 sm:mt-auto sm:justify-end">
 		<Tag outlined>
 			<Icon name="people" outlined />
 			{club.members.length}
