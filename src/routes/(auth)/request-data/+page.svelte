@@ -1,20 +1,18 @@
 <script lang="ts">
-	import type { PageData } from "./$types";
     import { requestUserData } from "@fb/auth";
     import user from "@stores/user";
-	import { Button, Icon } from "@components";
+	import { Button, Icon, CodeBlock } from "@components";
 	import { windowTitle } from "@stores/globals";
 
     const handleDownload = (data: any, fileName: string) => {
         const element = document.createElement("a");
-        const file = new Blob([JSON.stringify(data, null, 4)], { type: "text/plain" });
+        const file = new Blob([JSON.stringify(data, null, 4)], { type: "application/json" });
         element.href = URL.createObjectURL(file);
         element.download = fileName;
         document.body.appendChild(element);
         element.click();
+        element.remove();
     }
-
-    export let data: PageData;
 
 	$windowTitle = "Request Data";
 </script>
@@ -26,13 +24,15 @@
 {:then data}
     <div class="raised-card max-w-[50vw] max-h-[80vh] overflow-x-hidden overflow-y-auto">
         <span class="font-bold text-xl">User data</span>
-        <code class="whitespace-pre-wrap">{JSON.stringify(data.fsdb, null, 4)}</code>
+        <span class="text text-sm text-gray-500">
+            This is the data we have on you. You can download it by clicking the button below.
+            We don't store anything else, so if you don't see something here, it's because we don't have it.
+        </span>
 
-        <span class="font-bold text-xl">Storage</span>
-        <a class="link" href={data.storage}>{data.storage}</a>
+        <CodeBlock language="json" code={JSON.stringify(data, null, 2)} header="User data"/>
     </div>
 
-    <Button style="primary" on:click={() => handleDownload(data, `${$user.id}-data-${new Date()}.txt`)}>
+    <Button style="primary" on:click={() => handleDownload(data, `${$user.firstName}_${$user.lastName}_${$user.id}_Clubs_At_SETU_User_Data_${new Date().toDateString()}.json`)}>
         <Icon name="download"/>
         Download your data
     </Button>
