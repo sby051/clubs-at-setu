@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { enter } from 'sveltils/actions';
 	import { Button, Drawer, Icon, IconButton, Tag, TextInput } from "@components";
-	import type { PageData } from "./$types";
+	import type { PageData, Snapshot } from "./$types";
 	import Time from "svelte-time";
 	import user from "@stores/user";
 	import { getDocument, updateDocument } from "@fb/fsdb";
@@ -145,6 +145,14 @@
 		title: "",
 		content: "",
 	}
+
+	export const snapshot: Snapshot<{ title: string, content: string }> = {
+		capture: () => announcement,
+		restore: (snapshot) => {
+			announcement = snapshot;
+		}
+	}
+
 	let postingAnnouncement = false;
 	let editClubDrawerOpen = false;
 
@@ -305,7 +313,7 @@
 								<span class="text text-sm text-gray-400 animate-pulse">Loading announcement...</span>
 							</li>
 						{:then author}
-							<li class="ml-6 delay-75 group hover:mb-3 hover:bg-white mb-0 hover:shadow-md rounded-lg hover:p-3 p-0 transition-all">
+							<li class="ml-6 delay-75 group mb-4 hover:bg-white hover:shadow-md rounded-lg hover:p-3 p-0 transition-all">
 								<div class="flex-center-column absolute w-6 h-6 bg-green-500 rounded-full -left-3">
 									<Icon name="campaign" customSize="1rem" color="white" />
 								</div>
