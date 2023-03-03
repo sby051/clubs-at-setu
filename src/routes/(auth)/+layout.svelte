@@ -1,12 +1,11 @@
 <script lang="ts">
 	import { goto } from "$app/navigation";
-	import { page } from "$app/stores";
 	import { Button, Icon } from "@components";
 	import { authed } from "@stores/user";
 	import { onMount } from "svelte";
 
 	onMount(async () => {
-		if ($authed === true) goto("/");
+		if ($authed === true) await goto("/");
 	});
 </script>
 
