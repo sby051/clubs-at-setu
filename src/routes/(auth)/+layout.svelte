@@ -5,10 +5,8 @@
 	import { authed } from "@stores/user";
 	import { onMount } from "svelte";
 
-	const ALLOWED_WITH_AUTH = ["/password/change"];
-
 	onMount(async () => {
-		if ($authed === true || !ALLOWED_WITH_AUTH.includes($page.url.pathname)) await goto("/");
+		if ($authed === true) goto("/");
 	});
 </script>
 
