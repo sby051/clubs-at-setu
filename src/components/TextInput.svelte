@@ -7,6 +7,7 @@
 	export let value = "";
 	export let className: string | undefined = undefined;
 	export let autofocus = false;
+	export let readonly = false;
 	export let caption = "";
 	export let required = false;
 	export let pattern: RegExp | undefined = undefined;
@@ -38,6 +39,7 @@
 		maxlength={limit}
 		pattern={pattern?.source}
 		{disabled}
+		{readonly}
 		type="text"
 		use:enter
 		{autofocus}

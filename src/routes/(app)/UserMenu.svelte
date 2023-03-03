@@ -47,13 +47,13 @@
 							text: "Delete",
 							icon: "delete",
 							style: "danger",
-						},
+						}
 					},
 					confirmationInput: {
 						label: "Type your Student ID below to confirm (all caps)",
 						placeholder: "Student ID",
 						expectedValue: $user.studentId as string,
-					},
+					}
 				});
 
 				if (!confirmed) return;
@@ -61,8 +61,8 @@
 				const deleted = await deleteAccount();
 
 				if (deleted) {
-					alert("Account successfully deleted.");
 					await goto("/");
+					alert("Account successfully deleted.");
 				}
 			},
 		},
@@ -100,8 +100,7 @@
 					<button
 						on:click={setting.fn}
 						transition:slide|local={{ duration: 200 }}
-						class="flex w-full cursor-pointer gap-2 px-6 py-3 transition active:bg-gray-300 hover:bg-{setting.hoverColor ||
-							'gray-300'}"
+						class="flex w-full cursor-pointer gap-2 px-6 py-3 transition active:bg-gray-300 hover:bg-gray-200"
 					>
 						<Icon name={setting.icon} outlined size="lg" />
 						<span class="text overflow-hidden text-ellipsis whitespace-nowrap text-sm">{setting.title}</span>

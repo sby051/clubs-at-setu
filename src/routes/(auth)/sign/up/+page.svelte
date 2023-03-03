@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { auth } from '@fb';
 	import { isEmailUsed, signUp } from "@fb/auth";
 	import { uploadFile } from "@fb/storage";
 	import { windowTitle } from "@stores/globals";
@@ -10,6 +11,7 @@
 	import { blur } from "svelte/transition";
 	import { confirm } from "@features/confirm";
 	import type { Snapshot } from "./$types";
+	import { applyActionCode, sendEmailVerification } from "firebase/auth";
 
 	const enum STAGES {
 		DETAILS,
@@ -19,6 +21,8 @@
 	}
 	const STAGE_NAMES = ["Details", "Confirm", "Medical", "Finished"];
 	const FORM_GROUP_SECTION = "flex flex-col sm:flex-row w-full gap-2";
+
+	let code = "";
 
 	const handleSubmit = async () => {
 		switch (currentStage) {
@@ -45,9 +49,18 @@
 					return;
 				}
 
+				// await sendEmailVerification(data.email);
+
 				currentStage++;
 				break;
 			case STAGES.CONFIRM:
+				// try {
+				// 	await applyActionCode(auth, code);
+				// } catch(e) {
+				// 	alert("Incorrect code provided");
+				// 	return;
+				// }
+
 				currentStage++;
 				break;
 			case STAGES.MEDICAL:

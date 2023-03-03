@@ -324,8 +324,8 @@
 									<div class="w-1 h-1 bg-gray-300 rounded-full"/>
 									<span class="text text-xs font-medium text-gray-500">{author.firstName} {author.lastName}</span>
 								</div>
-								<h3 class="text-lg font-semibold text-gray-900 ">{announcement.title}</h3>
-								<p class="my-2 text-wrap text-sm font-normal text-gray-500 ">{announcement.content}</p>
+								<h3 class="text-lg text-overflow font-semibold text-gray-900">{announcement.title}</h3>
+								<p class="my-2 text-sm text-wrap font-normal text-gray-500 ">{announcement.content}</p>
 								{#if isManager || announcement.author === user.id}
 									<div class="delay-75 transition opacity-0 group-hover:opacity-100 justify-end flex gap-1">
 										<Button style="danger" size="sm" on:click={() => deleteAnnouncement(announcement)}>

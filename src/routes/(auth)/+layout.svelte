@@ -5,7 +5,7 @@
 	import { onMount } from "svelte";
 
 	onMount(async () => {
-		if ($authed === true) await goto("/");
+		// if ($authed === true) await goto("/");
 	});
 </script>
 
