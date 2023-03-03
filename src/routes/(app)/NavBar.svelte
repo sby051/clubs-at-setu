@@ -26,7 +26,7 @@
 			>
 				{#if pathSegments[0] === "clubs" && i === 1}
 					{@const club = $page.data.club}
-					<Avatar src={club.photo} size="20px" />
+					<img src={club.photo} class="w-[20px] rounded-full object-cover" alt={club.name} />
 					{club.name}
 				{:else}
 					{segment}
