@@ -17,6 +17,6 @@
 		class:backdrop-blur-sm={blur}
 		class="fixed top-0 left-0 z-40 h-screen w-screen bg-black"
 		style="opacity: {opacity}"
-		transition:b={{ duration: 100 }
+		transition:b={{ duration: 100 }}
 	/>
 {/if}
