@@ -48,7 +48,7 @@
 					{@const href = `/clubs/${clubData.id}`}
 					{@const active = $page.url.pathname.startsWith(href)}
 					<NavigationLink icon="group" title={clubData.name} {href} {active} sidebarOpen={open} shadowActive>
-						<img src={clubData.photo} class="w-[20px] rounded-full object-cover" alt={clubData.name} />
+						<img src={clubData.photo} class="w-[20px] circle" alt={clubData.name} />
 					</NavigationLink>
 				{/await}
 			{/each}
