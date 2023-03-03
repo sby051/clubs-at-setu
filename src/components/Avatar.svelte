@@ -9,7 +9,7 @@
 	let loading = true;
 
 	onMount(async () => {
-		src = await getFileURL(src) ?? src;
+		src = (await getFileURL(src)) || src;
 		loading = false;
 	})
 </script>
