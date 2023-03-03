@@ -2,7 +2,7 @@
 	import { Backdrop, Button, Icon, TextInput } from "@components";
 	import { confirmData, submitConfirm } from "./confirm";
 	import { enter } from "sveltils/actions";
-	import { backInOut } from "svelte/easing";
+	import { backOut } from "svelte/easing";
 	import { scale } from "svelte/transition";
 
 	let confirmInputValue = "";
@@ -19,7 +19,7 @@
 
 <Backdrop open={!!$confirmData}>
 	<div class="grid h-full w-full place-items-center">
-		<div class="raised-card max-w-[30rem] items-center" transition:scale={{ duration: 400, easing: backInOut }}>
+		<div class="raised-card max-w-[30rem] items-center" transition:scale={{ duration: 100, easing: backOut }}>
 			{#if $confirmData?.icon}
 				<Icon name={$confirmData?.icon} customSize="3.5rem" color="gray-400" />
 			{/if}

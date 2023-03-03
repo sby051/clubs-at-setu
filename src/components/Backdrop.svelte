@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { fade } from "svelte/transition";
+	import { blur as b } from "svelte/transition";
 
 	export let blur = false;
 
@@ -17,6 +17,6 @@
 		class:backdrop-blur-sm={blur}
 		class="fixed top-0 left-0 z-40 h-screen w-screen bg-black"
 		style="opacity: {opacity}"
-		transition:fade
+		transition:b={{ duration: 100 }
 	/>
 {/if}
