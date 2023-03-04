@@ -1,7 +1,6 @@
 <script lang="ts">
     import { page } from "$app/stores";
 	import { Button, Icon, TextInput } from "@components";
-	import { onMount } from "svelte";
 
     const code = $page.url.searchParams.get("oobCode");
 
@@ -17,10 +16,11 @@
     };
 </script>
 
+<span class="text text-2xl font-bold">Confirmation Code</span>
+
 <div class="raised-card">
-    <h1 class="text-xl font-bold">Confirm email</h1>
     {#if code}
-        <span class="text text-sm text-gray-600">Copy the code below and paste it into your original tab for Sign Up:</span>
+        <span class="text text-sm text-gray-600">Copy the code below and paste it into your original tab</span>
         <div class="flex items-center gap-2">
             <TextInput value={code} readonly />
             <Button disabled={written} className="h-full" size="sm" style="primary" on:click={copyToClipboard}>
