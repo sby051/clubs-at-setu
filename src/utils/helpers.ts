@@ -19,3 +19,5 @@ export async function safeAwait<T>(p: Promise<T>): Promise<[T | null, unknown | 
 		return [null, e];
 	}
 }
+
+export const sleep = (seconds: number): Promise<void> => new Promise((resolve) => setTimeout(resolve, seconds * 1000));

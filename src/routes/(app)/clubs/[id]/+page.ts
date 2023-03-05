@@ -1,4 +1,4 @@
-import { getDocument } from "@fb/fsdb";
+import { getDocument } from "@fb/firestore";
 import { error } from "@sveltejs/kit";
 import type { Club } from "@types";
 import type { PageLoad } from "./$types";

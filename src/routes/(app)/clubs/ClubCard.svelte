@@ -12,6 +12,7 @@
 	href="/clubs/{club.id}"
 	class="relative border-1 flex lg:flex-row flex-col w-full h-fit cursor-pointer gap-6 rounded-xl border-gray-300 p-6 transition hover:bg-white active:scale-[0.99]"
 >
+
 	<img src={club.photo} class="aspect-video lg:w-64 w-full flex-grow-0 flex-shrink-0 rounded-lg shadow-md" alt={club.name} />
 
 	<div class="flex flex-col gap-2 w-full">

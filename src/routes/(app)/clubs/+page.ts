@@ -1,4 +1,4 @@
-import { getCollection } from "@fb/fsdb";
+import { getCollection } from "@fb/firestore";
 import type { Club } from "@types";
 import type { PageLoad } from "./$types";
 

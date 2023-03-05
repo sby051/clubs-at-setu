@@ -8,7 +8,7 @@ import {
 	updatePassword,
 } from "firebase/auth";
 import { auth } from ".";
-import { createDocument, deleteDocument, getCollection, getDocument } from "./fsdb";
+import { createDocument, deleteDocument, getCollection, getDocument } from "./firestore";
 import { getFileURL } from "./storage";
 
 export const signUp = async (user: User): Promise<boolean> => {
@@ -18,7 +18,7 @@ export const signUp = async (user: User): Promise<boolean> => {
 	} catch (err) {
 		console.log(err);
 		return false;
-	}
+	}l
 
 	if (!userCredential) return false;
 

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { page } from "$app/stores";
 	import { Avatar, Icon, NavigationLink } from "@components";
-	import { getDocument } from "@fb/fsdb";
+	import { getDocument } from "@fb/firestore";
 	import user from "@stores/user";
 	import type { NavigationLink as NavigationLinkType } from "@types";
 

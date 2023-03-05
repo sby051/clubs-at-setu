@@ -6,6 +6,7 @@
 	import { fly } from "svelte/transition";
 	import { handleKeydown, type KeyboardShortcut } from "sveltils/handlers";
 	import { clickoutside } from "sveltils/actions";
+	import ClubCard from "./clubs/ClubCard.svelte";
 
 	const SHORTCUTS: KeyboardShortcut[] = [
 		{
@@ -23,6 +24,7 @@
 			shiftKey: false,
 			altKey: false,
 			action: () => {
+				searchQuery = "";
 				searchInput.blur();
 			}
 		}
@@ -76,15 +78,50 @@
 		</div>
 
 		{#if searchQuery}
-			<div out:fly={{y: -5, duration: 200}} in:fly={{y: -10, duration: 300}} class="overflow-hidden absolute top-12 rounded-md w-full p-4 h-64 bg-white shadow-xl">
-				<!-- <div class="transition flex items-center gap-2 w-full px-3 py-2 rounded-md hover:bg-gray-200 h-12">
-					<span class="text-sm">{searchQuery}</span>
-				</div> -->
-
-				<div in:fly={{y: 400, duration: 400, delay: 250}} out:fly={{y: -400, duration: 400}} class="w-full h-full flex-center-column gap-2">
-					<Loader size="15"/>
-					<span class="text-xs font-medium text-gray-400 uppercase">searching for "{searchQuery}"</span>
+			<div out:fly={{y: -5, duration: 200}} in:fly={{y: -10, duration: 300}} class="scroll-y flex flex-col gap-2 absolute top-12 rounded-md w-full p-4 bg-white shadow-xl">
+				<div class="transition flex items-center gap-2 group w-full px-3 py-2 rounded-md hover:bg-gray-100 hover:shadow-sm h-12">
+					<Icon name="search" color="gray-400"/>
+					<span class="text-sm transition text-gray-800 group-hover:text-black">{searchQuery}</span>
 				</div>
+				<div role="status" class="w-full p-4 space-y-4 divide-y divide-gray-200 rounded shadow animate-pulse md:p-6">
+					<div class="flex items-center justify-between">
+						<div>
+							<div class="h-2.5 bg-gray-300 rounded-full w-24 mb-2.5"></div>
+							<div class="w-32 h-2 bg-gray-200 rounded-full"></div>
+						</div>
+						<div class="h-2.5 bg-gray-300 rounded-full w-12"></div>
+					</div>
+					<div class="flex items-center justify-between pt-4">
+						<div>
+							<div class="h-2.5 bg-gray-300 rounded-full w-24 mb-2.5"></div>
+							<div class="w-32 h-2 bg-gray-200 rounded-full"></div>
+						</div>
+						<div class="h-2.5 bg-gray-300 rounded-full w-12"></div>
+					</div>
+					<div class="flex items-center justify-between pt-4">
+						<div>
+							<div class="h-2.5 bg-gray-300 rounded-full w-24 mb-2.5"></div>
+							<div class="w-32 h-2 bg-gray-200 rounded-full"></div>
+						</div>
+						<div class="h-2.5 bg-gray-300 rounded-full w-12"></div>
+					</div>
+					<div class="flex items-center justify-between pt-4">
+						<div>
+							<div class="h-2.5 bg-gray-300 rounded-full w-24 mb-2.5"></div>
+							<div class="w-32 h-2 bg-gray-200 rounded-full "></div>
+						</div>
+						<div class="h-2.5 bg-gray-300 rounded-full w-12"></div>
+					</div>
+					<div class="flex items-center justify-between pt-4">
+						<div>
+							<div class="h-2.5 bg-gray-300 rounded-full w-24 mb-2.5"></div>
+							<div class="w-32 h-2 bg-gray-200 rounded-full "></div>
+						</div>
+						<div class="h-2.5 bg-gray-300 rounded-full w-12"></div>
+					</div>
+					<span class="sr-only">Loading...</span>
+				</div>
+
 			</div>
 		{/if}
 	</div>

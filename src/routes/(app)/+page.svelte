@@ -3,16 +3,7 @@
 	import { signOut } from "@fb/auth";
 	import user from "@stores/user";
 	import logo from "@assets/logo.png";
-	import { createDocuments } from "@fb/fsdb";
 	import { windowTitle } from "@stores/globals";
-
-	// const clubs = [
-
-	// ];
-
-	// const addClubs = async () => {
-	// 	await createDocuments("clubs", clubs)
-	// }
 
 	$windowTitle = "Home";
 </script>

@@ -4,12 +4,13 @@
 	import type { PageData, Snapshot } from "./$types";
 	import Time from "svelte-time";
 	import user from "@stores/user";
-	import { getDocument, updateDocument } from "@fb/fsdb";
+	import { getDocument, updateDocument } from "@fb/firestore";
 	import { Avatar } from "@components";
 	import { confirm } from "@features/confirm";
 	import { fade, slide } from "svelte/transition";
 	import type { Announcement } from "@types";
 	import { windowTitle } from "@stores/globals";
+	import { sleep } from '@utils/helpers';
 
 	export let data: PageData;
 
@@ -91,7 +92,7 @@
 		const fullAnnouncement: Announcement = {
 			id: btoa(JSON.stringify(announcement)).substring(0, 16) + "-" + Math.random().toString(36).substring(2, 15),
 			date: Date.now(),
-			author: $user.id,
+			author: $user.firstName + " " + $user.lastName,
 			...announcement,
 		};
 
@@ -305,14 +306,14 @@
 						</li>
 					{/if}
 					{#each club.announcements as announcement}
-						{#await getDocument("users", announcement.author)}
+						{#await sleep(0.5)}
 							<li class="ml-6 h-16">
 								<div class="flex-center-column absolute w-6 h-6 bg-gray-400 animate-spin rounded-full -left-3">
 									<Icon name="sync" customSize="1rem" color="white" />
 								</div>
 								<span class="text text-sm text-gray-400 animate-pulse">Loading announcement...</span>
 							</li>
-						{:then author}
+						{:then _}
 							<li class="ml-6 delay-75 group mb-4 hover:bg-white hover:shadow-md rounded-lg hover:p-3 p-0 transition-all">
 								<div class="flex-center-column absolute w-6 h-6 bg-green-500 rounded-full -left-3">
 									<Icon name="campaign" customSize="1rem" color="white" />
@@ -322,11 +323,11 @@
 										<Time relative={Date.now() < announcement.date + 1000 * 60 * 60 * 3} timestamp={announcement.date} />
 									</time>
 									<div class="w-1 h-1 bg-gray-300 rounded-full"/>
-									<span class="text text-xs font-medium text-gray-500">{author.firstName} {author.lastName}</span>
+									<span class="text text-xs font-medium text-gray-500">{announcement.author}</span>
 								</div>
 								<h3 class="text-lg text-overflow font-semibold text-gray-900">{announcement.title}</h3>
 								<p class="my-2 text-sm text-wrap font-normal text-gray-500 ">{announcement.content}</p>
-								{#if isManager || announcement.author === user.id}
+								{#if isManager}
 									<div class="delay-75 transition opacity-0 group-hover:opacity-100 justify-end flex gap-1">
 										<Button style="danger" size="sm" on:click={() => deleteAnnouncement(announcement)}>
 											<Icon name="delete"/>
@@ -337,7 +338,7 @@
 							</li>
 						{/await}
 					{/each}
-					<li transition:slide class="ml-6">
+					<li in:slide class="ml-6">
 						<div class="flex-center-column absolute w-6 h-6 bg-violet-500 rounded-full -left-3">
 							<Icon name="check" customSize="1rem" color="white" />
 						</div>

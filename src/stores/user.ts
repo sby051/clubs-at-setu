@@ -1,5 +1,5 @@
 import { auth } from "@fb";
-import { getDocument, updateDocument } from "@fb/fsdb";
+import { getDocument, updateDocument } from "@fb/firestore";
 import type { User } from "@types";
 import type { User as FirebaseUser } from "firebase/auth";
 import { onAuthStateChanged } from "firebase/auth";
