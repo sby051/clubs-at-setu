@@ -1,8 +1,6 @@
 <script lang="ts">
 	import type { Category } from "@types";
-	import { slide } from "svelte/transition";
-	import { Icon, IconButton, NavigationLink, TextInput } from "@components";
-	import { cubicInOut } from "svelte/easing";
+	import { IconButton, NavigationLink, TextInput } from "@components";
 
 	export let categories: Category[];
 	export let title: string;

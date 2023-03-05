@@ -4,10 +4,10 @@
 	import { getDocument } from "@fb/firestore";
 	import user from "@stores/user";
 	import type { NavigationLink as NavigationLinkType } from "@types";
+	import { slide } from "svelte/transition";
 
 	const LINKS: NavigationLinkType[] = [
-		{ title: "Home", icon: "home", href: "/" },
-		{ title: "Clubs", icon: "join", href: "/clubs" },
+		{ title: "Clubs", icon: "join", href: "/" }
 	];
 
 	const SECTION_CLASSLIST = "px-2 flex gap-1 flex-col w-full" as const;
@@ -19,7 +19,8 @@
 
 <aside
 	on:dblclick={openClose}
-	class="transition-width w-{open ? '64' : '18'} flex h-full flex-col gap-2 border-r-[1px] border-gray-300 py-2 duration-75"
+	class="transition-width flex h-full flex-col gap-2 border-r-[1px] border-gray-300 py-2 duration-75"
+	style="width: {open ? "300px" : "61px"}"
 	aria-label="Sidebar"
 >
 	<section class={SECTION_CLASSLIST}>
@@ -45,10 +46,10 @@
 
 			{#each $user.clubs as club}
 				{#await getDocument("clubs", club) then clubData}
-					{@const href = `/clubs/${clubData.id}`}
+					{@const href = "/" + clubData.id}
 					{@const active = $page.url.pathname.startsWith(href)}
 					<NavigationLink icon="group" title={clubData.name} {href} {active} sidebarOpen={open} shadowActive>
-						<img src={clubData.photo} class="w-[20px] circle" alt={clubData.name} />
+						<img src={clubData.photo} class="w-[20px] circle shadow-sm border border-gray-400" alt={clubData.name} />
 					</NavigationLink>
 				{/await}
 			{/each}

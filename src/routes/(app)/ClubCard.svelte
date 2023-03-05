@@ -9,7 +9,7 @@
 </script>
 
 <a
-	href="/clubs/{club.id}"
+	href="{club.id}"
 	class="relative border-1 flex lg:flex-row flex-col w-full h-fit cursor-pointer gap-6 rounded-xl border-gray-300 p-6 transition hover:bg-white active:scale-[0.99]"
 >
 

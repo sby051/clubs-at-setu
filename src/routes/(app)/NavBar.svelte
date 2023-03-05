@@ -6,7 +6,6 @@
 	import { fly } from "svelte/transition";
 	import { handleKeydown, type KeyboardShortcut } from "sveltils/handlers";
 	import { clickoutside } from "sveltils/actions";
-	import ClubCard from "./clubs/ClubCard.svelte";
 
 	const SHORTCUTS: KeyboardShortcut[] = [
 		{
@@ -55,7 +54,7 @@
 				class:text-gray-500={i !== pathSegments.length - 1}
 				href={`/${pathSegments.slice(0, i + 1).join("/")}`}
 			>
-				{#if pathSegments[0] === "clubs" && i === 1}
+				{#if pathSegments[0]}
 					{@const club = $page.data.club}
 					<img src={club.photo} class="w-[20px] circle" alt={club.name} />
 					{club.name}

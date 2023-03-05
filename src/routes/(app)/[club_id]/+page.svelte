@@ -306,7 +306,7 @@
 						</li>
 					{/if}
 					{#each club.announcements as announcement}
-						{#await sleep(0.5)}
+						{#await sleep(0.5)} <!-- Optimistic loading -->
 							<li class="ml-6 h-16">
 								<div class="flex-center-column absolute w-6 h-6 bg-gray-400 animate-spin rounded-full -left-3">
 									<Icon name="sync" customSize="1rem" color="white" />
