@@ -6,7 +6,7 @@
 	import type { NavigationLink as NavigationLinkType } from "@types";
 	import { toggle } from "svelte-machinery";
 
-	const LINKS: NavigationLinkType[] = [{ title: "Clubs", icon: "join", href: "/" }];
+	const LINKS: NavigationLinkType[] = [{ title: "Clubs", icon: "people", href: "/" }];
 
 	const SECTION_CLASSLIST = "px-2 flex gap-1 flex-col w-full" as const;
 
