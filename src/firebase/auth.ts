@@ -18,7 +18,7 @@ export const signUp = async (user: User): Promise<boolean> => {
 	} catch (err) {
 		console.log(err);
 		return false;
-	}l
+	}
 
 	if (!userCredential) return false;
 
@@ -45,12 +45,12 @@ export const signIn = async (email: string, password: string): Promise<boolean> 
 
 export const requestUserData = async (id: string) => {
 	const userDoc = await getDocument<User>("users", id);
-	const userFiles = await getFileURL(userDoc?.photo)
+	const userFiles = await getFileURL(userDoc?.photo);
 
 	return {
 		fsdb: userDoc,
-		storage: userFiles
-	}
+		storage: userFiles,
+	};
 };
 
 export const deleteAccount = async (): Promise<boolean> => {

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { enter } from 'sveltils/actions';
+	import { enter } from "sveltils/actions";
 	import { Button, Drawer, Icon, IconButton, Tag, TextInput } from "@components";
 	import type { PageData, Snapshot } from "./$types";
 	import Time from "svelte-time";
@@ -10,7 +10,7 @@
 	import { fade, slide } from "svelte/transition";
 	import type { Announcement } from "@types";
 	import { windowTitle } from "@stores/globals";
-	import { sleep } from '@utils/helpers';
+	import { sleep } from "@utils/helpers";
 
 	export let data: PageData;
 
@@ -31,11 +31,11 @@
 				cancel: {
 					text: "Nevermind",
 					style: "outlined:normal",
-				}
-			}
+				},
+			},
 		});
 
-		if(!confirmed) return;
+		if (!confirmed) return;
 
 		$user.clubs = [...$user.clubs, club.id];
 
@@ -45,18 +45,19 @@
 	};
 
 	const leaveClub = async () => {
-		if(!isMember) return;
+		if (!isMember) return;
 
-		if(isManager) {
+		if (isManager) {
 			await confirm("You are a manager of this club", {
-				message: "You cannot leave this club until you transfer your manager role to another member. Please contact an administrator if you wish to do this.",
+				message:
+					"You cannot leave this club until you transfer your manager role to another member. Please contact an administrator if you wish to do this.",
 				icon: "warning",
 				buttons: {
 					confirm: {
 						text: "OK",
 						style: "primary",
-					}
-				}
+					},
+				},
 			});
 			return;
 		}
@@ -73,15 +74,15 @@
 				cancel: {
 					text: "I'll stay!",
 					style: "outlined:primary",
-				}
-			}
+				},
+			},
 		});
 
 		if (!isMember || !confirmed) return;
 
-		$user.clubs = $user.clubs.filter(c => c !== club.id);
+		$user.clubs = $user.clubs.filter((c) => c !== club.id);
 
-		club.members = club.members.filter(m => m !== $user.id);
+		club.members = club.members.filter((m) => m !== $user.id);
 
 		await updateDocument("users", $user.id, { clubs: $user.clubs });
 	};
@@ -106,7 +107,7 @@
 		setTimeout(() => {
 			postingAnnouncement = false;
 			club.announcements = [fullAnnouncement as Announcement, ...club.announcements];
-		}, 500)
+		}, 500);
 	};
 
 	const deleteAnnouncement = async (announcement: Announcement) => {
@@ -122,13 +123,13 @@
 				cancel: {
 					text: "Let's keep it!'",
 					style: "outlined:primary",
-				}
-			}
+				},
+			},
 		});
 
 		if (!confirmed) return;
 
-		club.announcements = club.announcements.filter(a => a.id !== announcement.id);
+		club.announcements = club.announcements.filter((a) => a.id !== announcement.id);
 
 		await updateDocument("clubs", club.id, { announcements: club.announcements });
 	};
@@ -140,19 +141,19 @@
 		});
 
 		editClubDrawerOpen = false;
-	}
+	};
 
 	let announcement = {
 		title: "",
 		content: "",
-	}
+	};
 
-	export const snapshot: Snapshot<{ title: string, content: string }> = {
+	export const snapshot: Snapshot<{ title: string; content: string }> = {
 		capture: () => announcement,
 		restore: (snapshot) => {
 			announcement = snapshot;
-		}
-	}
+		},
+	};
 
 	let postingAnnouncement = false;
 	let editClubDrawerOpen = false;
@@ -163,13 +164,13 @@
 	$windowTitle = club.name;
 </script>
 
-<Drawer bind:open={editClubDrawerOpen} title="Edit club" on:close={() => editClubDrawerOpen = false}>
+<Drawer bind:open={editClubDrawerOpen} title="Edit club" on:close={() => (editClubDrawerOpen = false)}>
 	<TextInput bind:value={club.name} label="Club name" />
 	<TextInput bind:value={club.description} label="Club description" />
 	<svelte:fragment slot="footerButtons">
-		<Button fillWidth style="outlined:normal" on:click={() => editClubDrawerOpen = false}>Cancel</Button>
+		<Button fillWidth style="outlined:normal" on:click={() => (editClubDrawerOpen = false)}>Cancel</Button>
 		<Button fillWidth style="primary" on:click={updateClub}>
-			<Icon name="check"/>
+			<Icon name="check" />
 			Save
 		</Button>
 	</svelte:fragment>
@@ -182,7 +183,7 @@
 			<span class="text-overflow w-full text-4xl font-extrabold">{club.name}</span>
 			<div class="flex w-full items-center justify-end gap-1">
 				{#if isManager}
-					<Button style="outlined:primary" on:click={() => editClubDrawerOpen = !editClubDrawerOpen}>
+					<Button style="outlined:primary" on:click={() => (editClubDrawerOpen = !editClubDrawerOpen)}>
 						<Icon name="edit" />
 						Edit
 					</Button>
@@ -206,12 +207,12 @@
 		<div class="flex items-center gap-1">
 			{#if isMember}
 				<Tag className="bg-violet-500 text-offwhite">
-					<Icon name="check"/>
+					<Icon name="check" />
 					Joined
 				</Tag>
 				{#if isManager}
 					<Tag className="bg-orange-600 text-offwhite">
-						<Icon name="admin_panel_settings"/>
+						<Icon name="admin_panel_settings" />
 						You're a Manager
 					</Tag>
 				{/if}
@@ -271,7 +272,7 @@
 
 					{#if announcement.title}
 						{@const contentLimit = 1028}
-						<div class="flex w-full flex-col gap-3" transition:slide={{duration: 100}}>
+						<div class="flex w-full flex-col gap-3" transition:slide={{ duration: 100 }}>
 							<textarea
 								maxlength={contentLimit}
 								bind:value={announcement.content}
@@ -281,7 +282,13 @@
 							<span class="flex w-full items-center justify-end gap-2">
 								{#if announcement.content}
 									{@const limitReached = announcement.content.length >= contentLimit}
-									<span class:text-red-400={limitReached} class:animate-pulse={limitReached} class:font-medium={limitReached} transition:fade={{duration: 80}} class="text text-xs font-light text-gray-600">
+									<span
+										class:text-red-400={limitReached}
+										class:animate-pulse={limitReached}
+										class:font-medium={limitReached}
+										transition:fade={{ duration: 80 }}
+										class="text text-xs font-light text-gray-600"
+									>
 										{announcement.content.length}/{contentLimit}
 									</span>
 								{/if}
@@ -295,42 +302,58 @@
 				</form>
 			{/if}
 
-			<ol class="relative border-l-2 border-green-500/30 h-fit">
+			<ol class="relative h-fit border-l-2 border-green-500/30">
 				{#if club.announcements.length > 0}
 					{#if postingAnnouncement}
 						<li in:slide class="ml-6 h-16">
-							<div class="flex-center-column absolute w-6 h-6 bg-violet-500 animate-bounce rounded-full -left-3">
+							<div
+								class="flex-center-column absolute -left-3 h-6 w-6 animate-bounce rounded-full bg-violet-500"
+							>
 								<Icon name="upload" customSize="1rem" color="white" />
 							</div>
-							<span class="text text-sm text-gray-400 animate-pulse">Posting announcement...</span>
+							<span class="text animate-pulse text-sm text-gray-400">Posting announcement...</span>
 						</li>
 					{/if}
 					{#each club.announcements as announcement}
-						{#await sleep(0.5)} <!-- Optimistic loading -->
+						{#await sleep(0.5)}
+							<!-- Optimistic loading -->
 							<li class="ml-6 h-16">
-								<div class="flex-center-column absolute w-6 h-6 bg-gray-400 animate-spin rounded-full -left-3">
+								<div
+									class="flex-center-column absolute -left-3 h-6 w-6 animate-spin rounded-full bg-gray-400"
+								>
 									<Icon name="sync" customSize="1rem" color="white" />
 								</div>
-								<span class="text text-sm text-gray-400 animate-pulse">Loading announcement...</span>
+								<span class="text animate-pulse text-sm text-gray-400">Loading announcement...</span>
 							</li>
 						{:then _}
-							<li class="ml-6 delay-75 group mb-4 hover:bg-white hover:shadow-md rounded-lg hover:p-3 p-0 transition-all">
-								<div class="flex-center-column absolute w-6 h-6 bg-green-500 rounded-full -left-3">
+							<li
+								class="group ml-6 mb-4 rounded-lg p-0 transition-all delay-75 hover:bg-white hover:p-3 hover:shadow-md"
+							>
+								<div class="flex-center-column absolute -left-3 h-6 w-6 rounded-full bg-green-500">
 									<Icon name="campaign" customSize="1rem" color="white" />
 								</div>
-								<div class="flex gap-2 items-center">
+								<div class="flex items-center gap-2">
 									<time class="mb-1 text-xs font-normal leading-none text-gray-400">
-										<Time relative={Date.now() < announcement.date + 1000 * 60 * 60 * 3} timestamp={announcement.date} />
+										<Time
+											relative={Date.now() < announcement.date + 1000 * 60 * 60 * 3}
+											timestamp={announcement.date}
+										/>
 									</time>
-									<div class="w-1 h-1 bg-gray-300 rounded-full"/>
+									<div class="h-1 w-1 rounded-full bg-gray-300" />
 									<span class="text text-xs font-medium text-gray-500">{announcement.author}</span>
 								</div>
-								<h3 class="text-lg text-overflow font-semibold text-gray-900">{announcement.title}</h3>
-								<p class="my-2 text-sm text-wrap font-normal text-gray-500 ">{announcement.content}</p>
+								<h3 class="text-overflow text-lg font-semibold text-gray-900">{announcement.title}</h3>
+								<p class="text-wrap my-2 text-sm font-normal text-gray-500 ">{announcement.content}</p>
 								{#if isManager}
-									<div class="delay-75 transition opacity-0 group-hover:opacity-100 justify-end flex gap-1">
-										<Button style="danger" size="sm" on:click={() => deleteAnnouncement(announcement)}>
-											<Icon name="delete"/>
+									<div
+										class="flex justify-end gap-1 opacity-0 transition delay-75 group-hover:opacity-100"
+									>
+										<Button
+											style="danger"
+											size="sm"
+											on:click={() => deleteAnnouncement(announcement)}
+										>
+											<Icon name="delete" />
 											Delete announcement
 										</Button>
 									</div>
@@ -339,18 +362,20 @@
 						{/await}
 					{/each}
 					<li in:slide class="ml-6">
-						<div class="flex-center-column absolute w-6 h-6 bg-violet-500 rounded-full -left-3">
+						<div class="flex-center-column absolute -left-3 h-6 w-6 rounded-full bg-violet-500">
 							<Icon name="check" customSize="1rem" color="white" />
 						</div>
 						<h3 class="text-lg font-semibold text-gray-900 ">You've reached the end!</h3>
-						<p class="my-2 text-wrap text-sm font-normal text-gray-500 ">Come back later, there might be something new to see.</p>
+						<p class="text-wrap my-2 text-sm font-normal text-gray-500 ">
+							Come back later, there might be something new to see.
+						</p>
 					</li>
 				{:else}
 					<li class="ml-6">
-						<div class="flex-center-column absolute w-6 h-6 bg-gray-300 rounded-full -left-3">
+						<div class="flex-center-column absolute -left-3 h-6 w-6 rounded-full bg-gray-300">
 							<Icon name="blur_on" customSize="1rem" />
 						</div>
-						<p class="my-2 text-wrap text-sm font-normal text-gray-500 ">No announcements found. </p>
+						<p class="text-wrap my-2 text-sm font-normal text-gray-500 ">No announcements found.</p>
 					</li>
 				{/if}
 			</ol>
@@ -369,7 +394,9 @@
 					{:then user}
 						<li class="flex items-center gap-2 rounded-md p-2 transition hover:bg-gray-200">
 							<Avatar src={user.photo} size="28px" />
-							<span class="text-overflow text text-sm font-medium text-gray-800">{user.firstName} {user.lastName}</span>
+							<span class="text-overflow text text-sm font-medium text-gray-800"
+								>{user.firstName} {user.lastName}</span
+							>
 							{#if manager}
 								<Icon
 									className="ml-auto"

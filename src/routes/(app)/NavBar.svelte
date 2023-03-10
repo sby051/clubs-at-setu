@@ -1,5 +1,5 @@
 <script lang="ts">
-    import logo from "@assets/logo.png";
+	import logo from "@assets/logo.png";
 	import { page } from "$app/stores";
 	import { Avatar, Icon, IconButton, Loader } from "@components";
 	import UserMenu from "./UserMenu.svelte";
@@ -15,7 +15,7 @@
 			altKey: false,
 			action: () => {
 				searchInput.focus();
-			}
+			},
 		},
 		{
 			key: "Escape",
@@ -25,9 +25,9 @@
 			action: () => {
 				searchQuery = "";
 				searchInput.blur();
-			}
-		}
-	]
+			},
+		},
+	];
 
 	let searchQuery = "";
 	let searchInput: HTMLInputElement;
@@ -35,11 +35,11 @@
 	$: pathSegments = $page.url.pathname.split("/").filter((segment) => segment !== "");
 </script>
 
-<svelte:window on:keydown={(e) => handleKeydown(e, SHORTCUTS)}/>
+<svelte:window on:keydown={(e) => handleKeydown(e, SHORTCUTS)} />
 
 <nav
 	aria-label="Navbar"
-	class="z-20 absolute top-0 left-0 flex h-[3.81rem] w-full items-center justify-between border-b-[1px] border-gray-300 bg-offwhite/60 backdrop-blur-md px-4"
+	class="absolute top-0 left-0 z-20 flex h-[3.81rem] w-full items-center justify-between border-b-[1px] border-gray-300 bg-offwhite/60 px-4 backdrop-blur-md"
 >
 	<section class="flex items-center gap-2" aria-label="Breadcrumbs">
 		<a href="/">
@@ -56,7 +56,7 @@
 			>
 				{#if pathSegments[0]}
 					{@const club = $page.data.club}
-					<img src={club.photo} class="w-[20px] circle" alt={club.name} />
+					<img src={club.photo} class="circle w-[20px]" alt={club.name} />
 					{club.name}
 				{:else}
 					{segment}
@@ -65,65 +65,81 @@
 		{/each}
 	</section>
 
-	<div class="relative w-1/2" use:clickoutside on:clickoutside={() => searchQuery = ""}>
-		<div class="transition-all z-10 w-full h-fit flex gap-2 items-center px-3 py-2.5 rounded-md bg-gray-200 focus-within:bg-white focus-within:shadow-md">
-			<Icon name="search" size="xl" color="gray-500"/>
-			<input bind:value={searchQuery} bind:this={searchInput} type="text" class="text-overflow text-sm w-full bg-transparent focus:outline-none" placeholder="Find a club.." />
+	<div class="relative w-1/2" use:clickoutside on:clickoutside={() => (searchQuery = "")}>
+		<div
+			class="z-10 flex h-fit w-full items-center gap-2 rounded-md bg-gray-200 px-3 py-2.5 transition-all focus-within:bg-white focus-within:shadow-md"
+		>
+			<Icon name="search" size="xl" color="gray-500" />
+			<input
+				bind:value={searchQuery}
+				bind:this={searchInput}
+				type="text"
+				class="text-overflow w-full bg-transparent text-sm focus:outline-none"
+				placeholder="Find a club.."
+			/>
 			{#if searchQuery}
-				<button on:click={() => searchQuery = ""}>
-					<Icon name="close" size="xl" color="gray-500"/>
+				<button on:click={() => (searchQuery = "")}>
+					<Icon name="close" size="xl" color="gray-500" />
 				</button>
 			{/if}
 		</div>
 
 		{#if searchQuery}
-			<div out:fly={{y: -5, duration: 200}} in:fly={{y: -10, duration: 300}} class="scroll-y flex flex-col gap-2 absolute top-12 rounded-md w-full p-4 bg-white shadow-xl">
-				<div class="transition flex items-center gap-2 group w-full px-3 py-2 rounded-md hover:bg-gray-100 hover:shadow-sm h-12">
-					<Icon name="search" color="gray-400"/>
-					<span class="text-sm transition text-gray-800 group-hover:text-black">{searchQuery}</span>
+			<div
+				out:fly={{ y: -5, duration: 200 }}
+				in:fly={{ y: -10, duration: 300 }}
+				class="scroll-y absolute top-12 flex w-full flex-col gap-2 rounded-md bg-white p-4 shadow-xl"
+			>
+				<div
+					class="group flex h-12 w-full items-center gap-2 rounded-md px-3 py-2 transition hover:bg-gray-100 hover:shadow-sm"
+				>
+					<Icon name="search" color="gray-400" />
+					<span class="text-sm text-gray-800 transition group-hover:text-black">{searchQuery}</span>
 				</div>
-				<div role="status" class="w-full p-4 space-y-4 divide-y divide-gray-200 rounded shadow animate-pulse md:p-6">
+				<div
+					role="status"
+					class="w-full animate-pulse space-y-4 divide-y divide-gray-200 rounded p-4 shadow md:p-6"
+				>
 					<div class="flex items-center justify-between">
 						<div>
-							<div class="h-2.5 bg-gray-300 rounded-full w-24 mb-2.5"></div>
-							<div class="w-32 h-2 bg-gray-200 rounded-full"></div>
+							<div class="mb-2.5 h-2.5 w-24 rounded-full bg-gray-300" />
+							<div class="h-2 w-32 rounded-full bg-gray-200" />
 						</div>
-						<div class="h-2.5 bg-gray-300 rounded-full w-12"></div>
+						<div class="h-2.5 w-12 rounded-full bg-gray-300" />
 					</div>
 					<div class="flex items-center justify-between pt-4">
 						<div>
-							<div class="h-2.5 bg-gray-300 rounded-full w-24 mb-2.5"></div>
-							<div class="w-32 h-2 bg-gray-200 rounded-full"></div>
+							<div class="mb-2.5 h-2.5 w-24 rounded-full bg-gray-300" />
+							<div class="h-2 w-32 rounded-full bg-gray-200" />
 						</div>
-						<div class="h-2.5 bg-gray-300 rounded-full w-12"></div>
+						<div class="h-2.5 w-12 rounded-full bg-gray-300" />
 					</div>
 					<div class="flex items-center justify-between pt-4">
 						<div>
-							<div class="h-2.5 bg-gray-300 rounded-full w-24 mb-2.5"></div>
-							<div class="w-32 h-2 bg-gray-200 rounded-full"></div>
+							<div class="mb-2.5 h-2.5 w-24 rounded-full bg-gray-300" />
+							<div class="h-2 w-32 rounded-full bg-gray-200" />
 						</div>
-						<div class="h-2.5 bg-gray-300 rounded-full w-12"></div>
+						<div class="h-2.5 w-12 rounded-full bg-gray-300" />
 					</div>
 					<div class="flex items-center justify-between pt-4">
 						<div>
-							<div class="h-2.5 bg-gray-300 rounded-full w-24 mb-2.5"></div>
-							<div class="w-32 h-2 bg-gray-200 rounded-full "></div>
+							<div class="mb-2.5 h-2.5 w-24 rounded-full bg-gray-300" />
+							<div class="h-2 w-32 rounded-full bg-gray-200 " />
 						</div>
-						<div class="h-2.5 bg-gray-300 rounded-full w-12"></div>
+						<div class="h-2.5 w-12 rounded-full bg-gray-300" />
 					</div>
 					<div class="flex items-center justify-between pt-4">
 						<div>
-							<div class="h-2.5 bg-gray-300 rounded-full w-24 mb-2.5"></div>
-							<div class="w-32 h-2 bg-gray-200 rounded-full "></div>
+							<div class="mb-2.5 h-2.5 w-24 rounded-full bg-gray-300" />
+							<div class="h-2 w-32 rounded-full bg-gray-200 " />
 						</div>
-						<div class="h-2.5 bg-gray-300 rounded-full w-12"></div>
+						<div class="h-2.5 w-12 rounded-full bg-gray-300" />
 					</div>
 					<span class="sr-only">Loading...</span>
 				</div>
-
 			</div>
 		{/if}
 	</div>
 
-	<UserMenu/>
+	<UserMenu />
 </nav>

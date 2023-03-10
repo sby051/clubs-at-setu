@@ -10,7 +10,7 @@
 
 	const MESSAGES = {
 		404: "<b>Couldn't find the page you were looking for. </b> <br/> Please check the link and try again.",
-		500: "<b> Oops! Something went wrong.</b><br/> Please try again later.",
+		500: `<b> Oops! Something went wrong.</b><br/> Please try again later. <br/> ${error.message}`,
 	};
 
 	windowTitle.set(status.toString());
@@ -24,7 +24,7 @@
 		<span class="text text-md lg:text-md text-center">
 			{@html status in MESSAGES ? MESSAGES[status] : error.message}
 		</span>
-		<Button style="primary" on:click={() => window.history.back()}>
+		<Button style="primary" on:click={() => window.location.reload()}>
 			<Icon name="refresh" outlined size="lg" />
 			Refresh page
 		</Button>

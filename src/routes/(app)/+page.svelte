@@ -80,8 +80,8 @@
 		});
 	};
 
-	const handleScroll = (e: any) => scrolled = e.target.scrollTop > 100;
-	
+	const handleScroll = (e: any) => (scrolled = e.target.scrollTop > 100);
+
 	const performSearch = (name: string) => {
 		if (searchQuery === "") return true;
 		return name.trim().toLowerCase().includes(searchQuery.trim().toLowerCase());
@@ -99,7 +99,7 @@
 	</div>
 
 	{#if clubs.length > 0}
-		<div on:scroll={handleScroll} id="clubs-div" class="scroll-y p-8 flex flex-col gap-3 w-full">
+		<div on:scroll={handleScroll} id="clubs-div" class="scroll-y flex w-full flex-col gap-3 p-8">
 			{#each sortedClubs as club}
 				{#if currentCategory === 0 || club.categories.includes(CATEGORIES[currentCategory].title)}
 					{#if performSearch(club.name)}
@@ -107,20 +107,26 @@
 					{/if}
 				{/if}
 			{/each}
-			<div class="w-full h-48 gap-2 flex-center-column border border-gray-300 rounded-lg">
-				<Icon name="check_circle" size="6xl" className="text-green-500" outlined/>
-				<p class="text-gray-400 text-sm">You've reached the end!</p>
+
+			<div class="flex-center-column h-48 w-full gap-2 rounded-lg border border-gray-300">
+				<Icon name="check_circle" size="6xl" className="text-green-500" outlined />
+				<p class="text-sm text-gray-400">You've reached the end!</p>
 			</div>
+			
 			{#if scrolled}
-				<button transition:fly={{y: 400}} on:click={scrollToTop} class="z-50 text-white hover:scale-125 focus:scale-100 transition bg-violet-500/80 backdrop-blur-sm bottom-8 right-8 fixed shadow-lg w-12 h-12 rounded-full flex-center-column">
-					<Icon name="arrow_upward"/>
+				<button
+					transition:fly={{ y: 400 }}
+					on:click={scrollToTop}
+					class="flex-center-column fixed bottom-8 right-8 z-50 h-12 w-12 rounded-full bg-violet-500/80 text-white shadow-lg backdrop-blur-sm transition hover:scale-125 focus:scale-100"
+				>
+					<Icon name="arrow_upward" />
 				</button>
 			{/if}
 		</div>
 	{:else}
-		<div class="flex-center-column w-full h-full gap-2">
-			<Icon name="search" size="6xl" className="text-gray-400"/>
-			<p class="text-gray-400 text-sm">No clubs found</p>
+		<div class="flex-center-column h-full w-full gap-2">
+			<Icon name="search" size="6xl" className="text-gray-400" />
+			<p class="text-sm text-gray-400">No clubs found</p>
 		</div>
 	{/if}
 </main>

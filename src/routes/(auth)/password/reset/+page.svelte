@@ -13,7 +13,7 @@
 	let password = "";
 
 	const handleSubmit = async (): Promise<void> => {
-		if(!sent) {
+		if (!sent) {
 			try {
 				await sendPasswordResetEmail(auth, email);
 				sent = true;
@@ -21,8 +21,7 @@
 				console.log(e);
 				alert("Error sending password reset email");
 			}
-		}
-		else {
+		} else {
 			try {
 				await confirmPasswordReset(auth, code, password);
 				alert("Password reset successfully");
@@ -42,16 +41,16 @@
 		<TextInput required bind:value={email} label="Email" placeholder="C00xxxxxx@itcarlow.ie" />
 		<Button style="primary" type="submit">
 			Send reset link
-			<Icon name="send"/>
+			<Icon name="send" />
 		</Button>
 	{:else}
 		<span class="text text-lg font-medium text-gray-600">Password reset email sent</span>
 		<span class="text text-sm text-gray-600">Check your email ({email}) for a link to reset your password</span>
 		<TextInput bind:value={code} label="Confirmation code" placeholder="123456" />
-		<PasswordInput bind:value={password} label="New password"/>
+		<PasswordInput bind:value={password} label="New password" />
 		<Button style="primary" type="submit">
 			Reset password
-			<Icon name="send"/>
+			<Icon name="send" />
 		</Button>
 	{/if}
 </form>

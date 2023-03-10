@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { auth } from '@fb';
 	import { isEmailUsed, signUp } from "@fb/auth";
 	import { uploadFile } from "@fb/storage";
 	import { windowTitle } from "@stores/globals";
@@ -11,18 +10,15 @@
 	import { blur } from "svelte/transition";
 	import { confirm } from "@features/confirm";
 	import type { Snapshot } from "./$types";
-	import { applyActionCode, sendEmailVerification } from "firebase/auth";
 
 	const enum STAGES {
 		DETAILS,
-		CONFIRM,
 		MEDICAL,
 		FINISHED,
 	}
-	const STAGE_NAMES = ["Details", "Confirm", "Medical", "Finished"];
-	const FORM_GROUP_SECTION = "flex flex-col sm:flex-row w-full gap-2";
 
-	let code = "";
+	const STAGE_NAMES = ["Details", "Medical", "Finished"];
+	const FORM_GROUP_SECTION = "flex flex-col sm:flex-row w-full gap-2";
 
 	const handleSubmit = async () => {
 		switch (currentStage) {
@@ -49,23 +45,11 @@
 					return;
 				}
 
-				// await sendEmailVerification(data.email);
-
-				currentStage++;
-				break;
-			case STAGES.CONFIRM:
-				// try {
-				// 	await applyActionCode(auth, code);
-				// } catch(e) {
-				// 	alert("Incorrect code provided");
-				// 	return;
-				// }
-
 				currentStage++;
 				break;
 			case STAGES.MEDICAL:
 				currentStage++;
-				loading = true;
+				loading.on();
 
 				const signUpResult = await signUp(data);
 
@@ -74,7 +58,7 @@
 					return;
 				}
 
-				loading = false;
+				loading.off();
 
 				setTimeout(async () => await goto("/"), 1000);
 
@@ -124,7 +108,7 @@
 		photo: "",
 	};
 	let currentStage = STAGES.DETAILS;
-	let loading = false;
+	const loading = toggle();
 	let dob = 0;
 
 	$: data.email = data.studentId ? `${data.studentId}@itcarlow.ie` : "";
@@ -136,7 +120,7 @@
 		restore: (snapshot) => {
 			console.log(snapshot);
 			data = snapshot;
-		}
+		},
 	};
 
 	$windowTitle = "Sign up";
@@ -148,7 +132,7 @@
 	class="min-w-96 raised-card relative flex h-fit max-h-[80%] max-w-lg flex-col gap-5 overflow-y-auto overflow-x-hidden"
 	on:submit|preventDefault={handleSubmit}
 >
-	{#if loading}
+	{#if $loading}
 		<div
 			transition:blur
 			class="flex-center-column absolute top-0 left-0 z-50 h-full w-full gap-2 bg-gray-200 bg-opacity-5 backdrop-blur-lg"
@@ -220,12 +204,6 @@
 			</div>
 		</section>
 		<PasswordInput usePattern bind:value={data.password} />
-	{:else if currentStage === STAGES.CONFIRM}
-		<span class="text text-xl font-medium">Confirm your details</span>
-		<span class="text mt-2 text-sm text-gray-500">
-			An email will be sent to your student email address to confirm your details. Please check your email and
-			click the link to confirm your details.
-		</span>
 	{:else if currentStage === STAGES.MEDICAL}
 		<div class="block">
 			<span class="text text-xl font-medium">Medical information</span>
@@ -337,7 +315,7 @@
 			</Button>
 		{/if}
 		{#if currentStage < STAGES.FINISHED}
-			<Button type="submit" style="primary" fillWidth {loading}>
+			<Button type="submit" style="primary" fillWidth loading={$loading}>
 				Continue
 				<Icon name="arrow_forward" />
 			</Button>

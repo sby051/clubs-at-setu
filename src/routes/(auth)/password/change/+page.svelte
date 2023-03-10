@@ -37,12 +37,7 @@
 
 <form class="raised-card w-96" on:submit|preventDefault={handleSubmit}>
 	<PasswordInput bind:value={passwords.old} placeholder="su!perSecure*pAss!12" label="Current password" />
-	<PasswordInput
-		usePattern
-		bind:value={passwords.new}
-		placeholder="NEW!su!perSecure*pAss!12"
-		label="New password"
-	/>
+	<PasswordInput usePattern bind:value={passwords.new} placeholder="NEW!su!perSecure*pAss!12" label="New password" />
 	<Button style="primary" type="submit">Change password</Button>
 </form>
 

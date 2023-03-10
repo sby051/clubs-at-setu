@@ -9,8 +9,8 @@ export const load = (async ({ params, parent }) => {
 
 	const { clubs } = await parent();
 
-	if(clubs[club_id]) return { club: clubs[club_id] }
-	
+	if (clubs[club_id]) return { club: clubs[club_id] };
+
 	const club = await getDocument<Club>("clubs", club_id);
 	if (!club) throw error(404, "Club not found");
 	return { club };

@@ -25,7 +25,7 @@
 	class="flex h-fit w-fit items-center justify-center gap-1 rounded-full p-2 transition marker:flex-shrink-0 hover:bg-neutral-100 active:translate-y-[1px] active:bg-neutral-50 disabled:cursor-not-allowed disabled:opacity-30 {className}"
 >
 	{#if $$slots.default}
-		<slot/>
+		<slot />
 	{:else}
 		<Icon name={icon} {size} {outlined} />
 	{/if}

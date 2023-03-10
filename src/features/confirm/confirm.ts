@@ -32,7 +32,6 @@ export const confirm = (title: string, options?: ConfirmOptions): Promise<boolea
 		confirmationInput: options?.confirmationInput,
 	});
 
-
 	_confirm_promise = new Promise<boolean>((resolve) => {
 		_resolve_confirm = resolve;
 	});

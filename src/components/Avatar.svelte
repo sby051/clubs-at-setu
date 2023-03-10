@@ -11,15 +11,14 @@
 	onMount(async () => {
 		src = (await getFileURL(src)) || src;
 		loading = false;
-	})
+	});
 </script>
 
 {#if loading}
-	<div class="avatar animate-pulse !bg-gray-300" style="--size: {size}"/>
+	<div class="avatar animate-pulse !bg-gray-300" style="--size: {size}" />
 {:else}
 	<button {disabled} style="--src: url({src}); --size: {size}" on:click on:mouseenter on:mouseleave class="avatar" />
 {/if}
-
 
 <style>
 	.avatar {

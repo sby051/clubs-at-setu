@@ -19,7 +19,8 @@
 		"deploy:preview": "vercel --prod --yes",
 		"fmt": "prettier --write --plugin-search-dir=. ./src/**/*.{js,ts,html,css,svelte,json}",
 		"fmt:check": "prettier --check --plugin-search-dir=. ./src/**/*.{js,ts,html,css,svelte,json}",
-		"git:update": "git add -A && git commit -m \"Update\" && git push"
+		"git:update": "git add -A && git commit -m \"Update\" && git push",
+		"removeUnusedImports": "prettier --write --plugin-search-dir=. ./src/**/*.{js,ts,html,css,svelte,json} && eslint --fix ."
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^1.0.2",
@@ -49,10 +50,10 @@
 	"dependencies": {
 		"firebase": "^9.16.0",
 		"material-symbols": "^0.4.3",
-		"svelte-emoji-selector": "^1.0.1",
+		"svelte-machinery": "^1.0.1",
+		"svelte-switch-case": "^2.0.0",
 		"svelte-time": "^0.7.1",
 		"sveltils": "^0.2.0",
-		"vercel": "^28.14.1",
-		"zod": "^3.20.6"
+		"vercel": "^28.14.1"
 	}
 }

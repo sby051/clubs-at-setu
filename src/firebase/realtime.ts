@@ -22,7 +22,8 @@ export const subscribeToRealtimeDatabase = (path: string) => {
 		onChange: (callback: CallbackFunction) => onValue(reference, callback),
 		clear: () => remove(reference),
 		add: (key: string | null, value: unknown) => push(ref(realtime, `${path}/${key}`), value),
-		update: (key: string | null, values: Record<string, unknown>) => update(ref(realtime, `${path}/${key}`), values),
+		update: (key: string | null, values: Record<string, unknown>) =>
+			update(ref(realtime, `${path}/${key}`), values),
 		delete: (key: string) => remove(ref(realtime, `${path}/${key}`)),
 		unsubscribe: () => off(reference),
 	} as const;
