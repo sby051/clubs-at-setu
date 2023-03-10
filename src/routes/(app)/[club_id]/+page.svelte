@@ -41,7 +41,7 @@
 
 		club.members = [...club.members, $user.id];
 
-		await updateDocument("users", $user.id, { clubs: $user.clubs });
+		await updateDocument("clubs", club.id, { members: club.members });
 	};
 
 	const leaveClub = async () => {
@@ -84,7 +84,7 @@
 
 		club.members = club.members.filter((m) => m !== $user.id);
 
-		await updateDocument("users", $user.id, { clubs: $user.clubs });
+		await updateDocument("clubs", club.id, { members: club.members });
 	};
 
 	const createAnnouncement = async () => {
@@ -102,11 +102,10 @@
 
 		postingAnnouncement = true;
 
-		await updateDocument("clubs", club.id, { announcements: club.announcements });
-
-		setTimeout(() => {
+		setTimeout(async () => {
 			postingAnnouncement = false;
 			club.announcements = [fullAnnouncement as Announcement, ...club.announcements];
+			await updateDocument("clubs", club.id, { announcements: club.announcements });
 		}, 500);
 	};
 

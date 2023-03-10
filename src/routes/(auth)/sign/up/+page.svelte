@@ -10,6 +10,7 @@
 	import { blur } from "svelte/transition";
 	import { confirm } from "@features/confirm";
 	import type { Snapshot } from "./$types";
+	import { toggle } from "svelte-machinery";
 
 	const enum STAGES {
 		DETAILS,
@@ -27,10 +28,10 @@
 				if (emailIsUsed) {
 					const goToSignIn = await confirm("This email is already in use. Do you want to signIn?", {
 						message: "Email: " + data.email,
-						icon: "signIn",
+						icon: "login",
 						buttons: {
 							confirm: {
-								text: "Go to signIn",
+								text: "Go to sign in",
 								style: "primary",
 								icon: "arrow_right",
 							},
@@ -81,6 +82,14 @@
 		loading.on();
 		await uploadFile(path, file);
 		loading.off();
+
+		// const encryptedPhotoBlob = await (await fetch("/api/encrypt-file", {
+		// 	method: "POST",
+		// 	body: JSON.stringify({ file: file, password: data.password  }),
+		// })).text();
+
+		// console.log(encryptedPhotoBlob);
+
 		data.photo = path;
 	};
 
@@ -108,6 +117,7 @@
 		photo: "",
 	};
 	let currentStage = STAGES.DETAILS;
+
 	const loading = toggle();
 	let dob = 0;
 

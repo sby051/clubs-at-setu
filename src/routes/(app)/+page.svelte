@@ -5,7 +5,7 @@
 	import ClubCard from "./ClubCard.svelte";
 	import { fly } from "svelte/transition";
 	import { windowTitle } from "@stores/globals";
-
+	
 	export let data: PageData;
 
 	const clubs = Object.values(data.clubs);
