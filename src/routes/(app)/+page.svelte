@@ -91,6 +91,8 @@
 	let currentCategory = 0;
 	let searchQuery = "";
 	$: sortedClubs = clubs.sort((a, b) => a.name.localeCompare(b.name));
+
+	$windowTitle = "";
 </script>
 
 <main class="flex h-full" aria-label="Clubs">
