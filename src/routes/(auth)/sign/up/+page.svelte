@@ -78,9 +78,9 @@
 	const handlePhotoPick = async (e: CustomEvent<{ url: string; file: File }>) => {
 		const { file } = e.detail;
 		const path = `photos/${data.studentId}.${file.type.split("/")[1]}`;
-		loading = true;
+		loading.on();
 		await uploadFile(path, file);
-		loading = false;
+		loading.off();
 		data.photo = path;
 	};
 
